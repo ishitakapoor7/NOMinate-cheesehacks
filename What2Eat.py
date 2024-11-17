@@ -3,13 +3,20 @@ from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
 import os
+from dotenv import load_dotenv
 
-# Initialize Flask app
+# Initializing Flask app
 app = Flask(__name__)
 app.secret_key = 'Jhooti2004*'  # Replace with your own secret key
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
-# OpenAI API Key
+
+
+
+# Loading environment variables from .env file
+load_dotenv()
+
+# Getting the API key from environment variables
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_API_URL = "https://api.openai.com/v1/chat/completions"
 
