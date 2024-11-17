@@ -10,7 +10,7 @@ app.secret_key = 'Jhooti2004*'  # Replace with your own secret key
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # OpenAI API Key
-OPENAI_API_KEY = "key"  
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_API_URL = "https://api.openai.com/v1/chat/completions"
 
 # Mock databases for users
