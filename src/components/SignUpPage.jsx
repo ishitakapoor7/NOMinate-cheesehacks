@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Added axios for making HTTP requests
 
 const SignUpPage = () => {
-    const navigate = useNavigate()
-    const [formData, setFormData] = useState({
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
-  })
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-  }
+  };
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
 
     // Basic validation
@@ -28,9 +29,33 @@ const SignUpPage = () => {
       return;
     }
 
-    // Redirect to ProfileSetUp page
-    navigate('/profilesetup');
-  }
+    try {
+      // Send the signup request to the backend
+      const response = await axios.post('http://localhost:5001/signup', {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+      }, {
+        headers: {
+            'Content-Type': 'application/json'
+          }
+      });
+      
+      // Handle successful signup
+      if (response.status === 201) {
+        alert('Sign-up successful! Redirecting to profile setup...');
+        navigate('/profilesetup'); // Redirect to Profile Setup page
+      }
+    } catch (error) {
+      // Handle errors (e.g., user already exists)
+      if (error.response && error.response.status === 409) {
+        alert('User already exists. Please use a different email.');
+      } else {
+        alert('An error occurred. Please try again later.');
+      }
+      console.error(error.response?.data || error.message);
+    }
+  };
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
@@ -99,4 +124,4 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage
+export default SignUpPage;

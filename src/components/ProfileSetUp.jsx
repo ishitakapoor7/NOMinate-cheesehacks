@@ -14,12 +14,32 @@ const ProfileSetUp = () => {
 
   const navigate = useNavigate();
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      console.log('Profile Data:', profileData);
-      navigate('/generatedresponse'); // Navigate to the next page
+      try {
+        // Send data to the backend
+        const response = await fetch('http://localhost:5001/profilesetup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(profileData),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log('Profile saved:', result);
+          navigate('/generatedresponse'); // Navigate to the next page
+        } else {
+          alert('Failed to save profile. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error saving profile:', error);
+        alert('An error occurred. Please try again later.');
+      }
     }
   };
 
