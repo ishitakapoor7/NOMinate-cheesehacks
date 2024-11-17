@@ -179,7 +179,7 @@ const ProfileSetUp = () => {
           }}
         >
           {steps.map((step, index) => (
-            <div key={index} className="w-full flex-shrink-0">
+            <div key={index} className="min-w-full flex-shrink-0">
               {step}
             </div>
           ))}

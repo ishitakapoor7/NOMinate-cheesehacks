@@ -39,7 +39,7 @@ const LogInPage = () => {
 
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold mb-12 text-blue-600 font-playfair">WHAT 2 EAT</h1>
+      <h1 className="text-4xl font-bold mb-12 text-blue-600 font-playfair">NOMinate</h1>
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">Welcome</h2>
         <form onSubmit={handleLogIn} className="space-y-4">

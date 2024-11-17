@@ -30,7 +30,7 @@ const CookingPage = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       <div className="w-full max-w-3xl bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Ingredients</h2>
+        <h2 className="text-2xl font-bold mb-4">Ingredients needed</h2>
         {isLoading ? (
           <p>Loading...</p>
         ) : (
@@ -46,3 +46,5 @@ const CookingPage = () => {
 };
 
 export default CookingPage;
+
+

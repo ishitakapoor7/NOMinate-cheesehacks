@@ -11,7 +11,7 @@ const Response = () => {
     const fetchRecommendation = async () => {
       try {
         const response = await axios.get('http://localhost:5001/generatedresponse', {
-          withCredentials: true, // Include credentials
+          withCredentials: true, 
         });
         setRecommendation(response.data.recommendation);
       } catch (error) {
