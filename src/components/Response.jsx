@@ -11,7 +11,7 @@ const Response = () => {
     const fetchRecommendation = async () => {
       try {
         const response = await axios.get('http://localhost:5001/generatedresponse', {
-          withCredentials: true, 
+          withCredentials: true,
         });
         setRecommendation(response.data.recommendation);
       } catch (error) {
@@ -24,10 +24,21 @@ const Response = () => {
     fetchRecommendation();
   }, []);
 
+  const handleFeedbackClick = () => {
+    // Navigate to the feedback page
+    navigate('/feedback', { state: { recommendation } });
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       {/* AI Recommendation Box */}
       <div className="relative w-full max-w-3xl bg-blue-500 text-white p-6 rounded-lg shadow-md mb-6 text-center">
+        <button
+          onClick={handleFeedbackClick}
+          className="absolute top-4 right-4 bg-red-500 text-white w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-600 focus:outline-none"
+        >
+          &times;
+        </button>
         <h2 className="text-2xl font-bold mb-2">Our Recommendation</h2>
         <p className="text-lg">{isLoading ? 'Loading...' : recommendation}</p>
       </div>
