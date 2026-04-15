@@ -1,16 +1,18 @@
 from flask import Flask, request, jsonify, session
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime, timedelta
 import requests
 import os
+import json
 from dotenv import load_dotenv
 
 
 
 # Initialize Flask app
 app = Flask(__name__)
-app.secret_key = 'Jhooti2004*'  
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-key-change-me")
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
 
 load_dotenv()
 
@@ -25,6 +27,9 @@ users = {
         "password": generate_password_hash("7969", method="pbkdf2:sha256"),
     }
 }
+
+# In-memory profile storage (keyed by user_id)
+profiles = {}
 
 headers = {"Authorization": f"Bearer {OPENAI_API_KEY}", "Content-Type": "application/json"}
 
@@ -76,8 +81,9 @@ def handle_feedback():
         current_score = user_profile['compatibility_scores'].get(recommendation, 1.0)
         user_profile['compatibility_scores'][recommendation] = max(0, current_score - 0.2)
 
-    # Save the updated profiles to a file (if using persistent storage)
-    save_data(profile.json, profiles)  # Replace `PROFILES_FILE` with the actual JSON file name
+    # Save the updated profiles to a file
+    with open("profile.json", "w") as f:
+        json.dump(profiles, f, default=str)
 
     return jsonify({"message": "Feedback recorded"}), 200
 

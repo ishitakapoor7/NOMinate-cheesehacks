@@ -1,0 +1,596 @@
+dish_id,dish_name,cuisine,category,dietary_tags,difficulty,calorie_tier,cost_tier,ingredients
+0,Adana kebab,Turkish,Lamb,dairy-free,intermediate,medium,expensive,romano pepper|lamb mince|red pepper paste|pul biber|sunflower oil
+1,Air Fryer Egg Rolls,Chinese,Side,dairy-free,advanced,low,expensive,olive oil|ground pork|garlic|ginger|carrots|scallions|cabbage|soy sauce|rice vinegar|egg roll wrappers|oil|duck sauce|plum sauce|soy sauce
+2,Air fryer patatas bravas,Spanish,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,potatoes|olive oil|onion|garlic|paprika|tomato puree|tinned tomatos|basil leaves
+3,Ajo blanco,Spanish,Starter,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,white bread|almonds|extra virgin olive oil|garlic clove|red wine vinegar
+4,Alfajores,Argentinian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,all purpose flour|cornstarch|butter|sugar|egg yolks|lemon zest|dulce de leche|desiccated coconut
+5,Algerian Bouzgene Berber Bread with Roasted Pepper Sauce,Algerian,Side,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,moderate,red pepper|tomato|olive oil|garlic|jalapeno|salt|semolina|salt|water|olive oil|olive oil
+6,Algerian Carrots,Algerian,Side,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,moderate,water|carrots|olive oil|salt|black pepper|ground cinnamon|ground cumin|garlic|thyme|bay leaf|lemon juice
+7,Algerian Flafla (Bell Pepper Salad),Algerian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,green pepper|olive oil|red onions|garlic|salt|pepper|plum tomatoes
+8,Algerian Kefta (Meatballs),Algerian,Beef,dairy-free,intermediate,medium,cheap,ground beef|garlic|onion|salt|pepper|plum tomatoes|parsley|water
+9,Anzac biscuits,Australian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,porridge oats|desiccated coconut|plain flour|caster sugar|butter|golden syrup|bicarbonate of soda
+10,Apam balik,Malaysian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,milk|oil|eggs|flour|baking powder|salt|unsalted butter|sugar|peanut butter
+11,Apple & Blackberry Crumble,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,plain flour|caster sugar|butter|braeburn apples|butter|demerara sugar|blackberries|cinnamon|ice cream
+12,Apple cake,Dutch,Dessert,vegetarian|pescatarian,intermediate,high,cheap,eggs|sugar|self-raising flour|melted butter|vanilla extract|ground cinnamon|apples|salt|ground sugar
+13,Apple Frangipan Tart,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,"digestive biscuits|butter|bramley apples|salted butter|caster sugar|free-range eggs, beaten|ground almonds|almond extract|flaked almonds"
+14,Apricot & Turkish delight mess,Turkish,Dessert,vegetarian|pescatarian,intermediate,high,moderate,mascarpone|greek yogurt|icing sugar|orange blossom water|meringue nests|apricot|turkish delight|almonds|mint
+15,Arepa Pabellón,Venezulan,Beef,vegetarian|pescatarian,intermediate,medium,cheap,corn arepa filled with mozarella cheese|fried ripe bananas|black beans|pico de gallo sauce|shredded meat|tomato|salt|pepper
+16,Arepa pelua,Venezulan,Beef,,intermediate,medium,cheap,beef|onion|red pepper|garlic|cumin|oregano|paprika|beef stock|water|salt|cheese|extra virgin olive oil
+17,Arroz al horno (baked rice),Spanish,Pork,dairy-free,intermediate,medium,cheap,extra virgin olive oil|pork belly slices|black pudding|bacon lardon|onion|red pepper|plum tomatoes|garlic clove|paprika|chilli flakes|dried white beans|chicken stock|thyme|paella rice|lemon juice
+18,Arroz con gambas y calamar,Spanish,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,raw king prawns|olive oil|onion|bay leaf|saffron|paella rice|tomato puree|white wine|seafood stock|squid
+19,Asado,Argentinian,Beef,dairy-free,intermediate,medium,moderate,mixed beef cuts|chorizo|morcilla|salt
+20,Aubergine & hummus grills,Turkish,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,aubergine|vegetable oil|bread|hummus|walnuts|parsley|cherry tomatoes|lemon|extra virgin olive oil
+21,Aubergine couscous salad,Turkish,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,aubergine|olive oil|couscous|vegetable stock|cherry tomatoes|mint|goats cheese|lemon
+22,Aussie Burgers,Australian,Beef,,intermediate,medium,expensive,lean minced steak|cooked beetroot|naan bread|rocket|soured cream and chive dip
+23,Authentic Norwegian Kransekake,Norwegian,Dessert,vegan|vegetarian|dairy-free|pescatarian,intermediate,high,cheap,almonds|egg white|powdered sugar|powdered sugar|egg white|lemon juice
+24,Avocado dip with new potatoes,Australian,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,avocado|natural yoghurt|lime|lemon|baby new potatoes|olive oil|hot chilli powder|cumin seeds|tortillas
+25,Ayam Percik,Malaysian,Chicken,,intermediate,medium,moderate,chicken thighs|challots|ginger|garlic clove|cayenne pepper|turmeric|cumin|coriander|fennel|tamarind paste|coconut milk|sugar|water
+26,Baba Ghanoush,Syrian,Side,vegetarian|pescatarian,intermediate,low,cheap,egg plants|garlic|kosher salt|lemon|tahini|extra virgin olive oil|greek yogurt|cayenne pepper|mint|parsley
+27,Baingan Bharta,Indian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,aubergine|onion|tomatoes|garlic|green chilli|red chilli powder|oil|coriander leaves|salt
+28,Baked salmon with fennel & tomatoes,British,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,fennel|parsley|lemon|cherry tomatoes|olive oil|salmon|black olives
+29,Bakewell tart,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,"plain flour|chilled butter|cold water|raspberry jam|butter|caster sugar|ground almonds|free-range egg, beaten|almond extract|flaked almonds"
+30,"Baklava with spiced nuts, ricotta & chocolate",Turkish,Dessert,vegetarian|pescatarian,advanced,high,moderate,sugar|lemon juice|walnuts|pecan nuts|almonds|ground cinnamon|ground cardomom|ricotta|lemon|orange|vanilla bean paste|unsalted butter|filo pastry|ground pistachios
+31,Banana Pancakes,American,Dessert,vegan|vegetarian|dairy-free|pescatarian,intermediate,high,cheap,banana|eggs|baking powder|vanilla extract|oil|pecan nuts|raspberries
+32,Bang bang prawn salad,Vietnamese,Seafood,pescatarian,intermediate,medium,expensive,rice noodles|peanut butter|coconut milk|sweet chilli sauce|spring onions|cucumber|bean sprouts|prawns
+33,Barbecue pork buns,Vietnamese,Pork,dairy-free,intermediate,medium,cheap,sugar|white bread mix|sunflower oil|bacon|ginger|garlic|soy sauce|clear honey|tomato puree|egg
+34,Barramundi with Moroccan spices,Australian,Seafood,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,moderate,barramundi|ground cumin|coriander|paprika|chili powder|garlic clove|lemon|olive oil|coriander
+35,Battenberg Cake,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,butter|caster sugar|self-raising flour|almonds|baking powder|eggs|vanilla extract|almond extract|butter|caster sugar|self-raising flour|almonds|baking powder|eggs|vanilla extract|almond extract|pink food colouring|apricot|marzipan|icing sugar
+36,BBQ Pork Sloppy Joes,American,Pork,dairy-free,advanced,medium,cheap,potatoes|red onions|garlic|lime|bread|pork|barbeque sauce|hotsauce|tomato ketchup|sugar|vegetable oil|salt|pepper
+37,Bean & Sausage Hotpot,British,Miscellaneous,,beginner,medium,cheap,sausages|tomato sauce|butter beans|black treacle|english mustard
+38,BeaverTails,Canadian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,water|yeast|sugar|milk|butter|eggs|salt|flour|oil|lemon|sugar|cinnamon
+39,Beef and Broccoli Stir-Fry,Chinese,Beef,dairy-free,advanced,medium,expensive,soy sauce|dry sherry|cornstarch|black pepper|sirloin steak|oyster sauce|dry sherry|soy sauce|chicken stock|broccoli|high heat cooking oil|garlic|cornstarch|water
+40,Beef and Mustard Pie,British,Beef,,advanced,medium,cheap,beef|plain flour|rapeseed oil|red wine|beef stock|onion|carrots|thyme|mustard|egg yolks|puff pastry|green beans|butter|salt|pepper
+41,Beef and Oyster pie,British,Beef,,intermediate,medium,cheap,beef|olive oil|shallots|garlic|bacon|thyme|bay leaf|stout|beef stock|corn flour|oysters|plain flour|salt|butter|eggs
+42,Beef Asado,Filipino,Beef,,intermediate,medium,cheap,beef|beef stock concentrate|tomato puree|water|soy sauce|white wine vinegar|pepper|bay leaf|lemon|tomato sauce|butter|olive oil|onion|garlic
+43,"Beef Banh Mi Bowls with Sriracha Mayo, Carrot & Pickled Cucumber",Vietnamese,Beef,dairy-free,intermediate,medium,cheap,rice|onion|lime|garlic clove|cucumber|carrots|ground beef|soy sauce
+44,Beef Bourguignon,French,Beef,dairy-free,intermediate,medium,moderate,goose fat|beef shin|bacon|challots|chestnut mushroom|garlic clove|bouquet garni|tomato puree|red wine|celeriac|olive oil|thyme|rosemary|bay leaf|cardamom
+45,Beef Brisket Pot Roast,American,Beef,dairy-free,advanced,medium,cheap,beef brisket|salt|onion|garlic|thyme|rosemary|bay leaves|beef stock|carrots|mustard|potatoes
+46,Beef Caldereta,Filipino,Beef,,intermediate,medium,cheap,beef|beef stock|soy sauce|water|green pepper|red pepper|potatoes|carrots|tomato puree|peanut butter|chilli powder|onion|garlic|olive oil
+47,Beef Dumpling Stew,British,Beef,,advanced,medium,cheap,olive oil|butter|beef|plain flour|garlic|onions|celery|carrots|leek|swede|red wine|beef stock|bay leaf|thyme|parsley|plain flour|baking powder|suet|water
+48,Beef Empanadas,Uruguayan,Beef,dairy-free,intermediate,medium,expensive,lard|water|salt|all purpose flour|tomato|garlic|red onions|spring onions|sirloin steak|dried oregano|paprika|red pepper flakes|parsley|salt|pepper|egg|egg wash|chimichurri sauce
+49,Beef Lo Mein,Chinese,Beef,dairy-free,advanced,medium,cheap,beef|salt|pepper|sesame seed oil|egg|starch|oil|noodles|onion|minced garlic|ginger|bean sprouts|mushrooms|water|oyster sauce|sugar|soy sauce
+50,Beef Mandi,Indian,Beef,dairy-free,advanced,medium,cheap,basmati rice|beef stock|onion|garlic|green chilli|tomato|salt|oil|turmeric powder|cardamom|cloves|bay leaf
+51,Beef Mechado,Filipino,Beef,dairy-free,intermediate,medium,cheap,garlic|onion|beef|tomato puree|water|olive oil|lemon|potatoes|soy sauce|black pepper|bay leaves|salt
+52,Beef pho,Vietnamese,Beef,dairy-free,intermediate,medium,expensive,beef stock|onion|ginger|cinnamon stick|star anise|coriander seeds|cloves|sirloin steak|palm sugar|fish sauce|soy sauce|rice noodles|spring onions|birds-eye chillies|basil|coriander|lime
+53,Beef Rendang,Malaysian,Beef,,intermediate,medium,moderate,beef|vegetable oil|cinnamon stick|cloves|star anise|cardamom|coconut cream|water|tamarind paste|lime|sugar|challots
+54,Beef stroganoff,Russian,Beef,,intermediate,medium,expensive,olive oil|onions|garlic|butter|mushrooms|beef fillet|plain flour|creme fraiche|english mustard|beef stock|parsley
+55,Beef Sunday Roast,British,Beef,,intermediate,medium,cheap,beef|broccoli|potatoes|carrots|plain flour|eggs|milk|sunflower oil
+56,Beef Wellington,British,Beef,dairy-free,intermediate,medium,expensive,mushrooms|english mustard|olive oil|beef fillet|parma ham|puff pastry|flour|egg yolks
+57,Beetroot & red cabbage sauerkraut,Polish,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,beetroot|red cabbage|onion|caraway seed|sea salt
+58,Beetroot latkes,Ukrainian,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,rapeseed oil|greek yogurt|mint|rocket|cherry tomatoes|beetroot|egg|plain flour|garlic|caraway seed|ground cumin|lemon
+59,Beetroot pancakes,Ukrainian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,beetroot|milk|self-raising flour|baking powder|maple syrup|vanilla extract|egg|butter|frozen mixed berries|blackcurrant jam|greek yogurt
+60,Beetroot Soup (Borscht),Ukrainian,Vegetarian,vegetarian|dairy-free,intermediate,low,cheap,beetroot|olive oil|chicken stock cube|water|potatoes|cannellini beans|dill
+61,Big Mac,American,Beef,,intermediate,medium,cheap,minced beef|olive oil|sesame seed burger buns|onion|iceberg lettuce|cheese|dill pickles|mayonnaise|white wine vinegar|pepper|mustard|onion salt|garlic powder|paprika
+62,Bigos (Hunters Stew),Polish,Pork,dairy-free,intermediate,medium,cheap,bacon|kielbasa|pork|flour|garlic|onion|mushrooms|cabbage|sauerkraut|red wine|bay leaf|basil|marjoram|paprika|caraway seed|hotsauce|beef stock|tomato puree|diced tomatoes|worcestershire sauce
+63,Bigos (Polish hunter's stew),Polish,Beef,dairy-free,intermediate,medium,cheap,white cabbage|beef stock|mushrooms|lard|german sausages|bacon|onion|beef|prunes|bay leaf|cloves|peppercorns|juniper berries|allspice berries|red wine|tomato puree
+64,Bistek,Filipino,Beef,dairy-free,intermediate,medium,cheap,beef|soy sauce|lemon|garlic|onion|olive oil|water|salt
+65,Bitterballen (Dutch meatballs),Dutch,Beef,,intermediate,medium,cheap,butter|flour|beef stock|onion|parsley|beef|salt|pepper|nutmeg|flour|eggs|breadcrumbs
+66,Blackberry Fool,British,Dessert,vegetarian|pescatarian,advanced,high,cheap,hazlenuts|butter|caster sugar|lemon|plain flour|baking powder|blackberries|sugar|caster sugar|lemon juice|double cream|yogurt|mint
+67,Blini Pancakes,Russian,Side,vegetarian|pescatarian,intermediate,low,cheap,buckwheat|flour|salt|yeast|milk|butter|egg
+68,Blueberry & lemon friands,Australian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,unsalted butter|icing sugar|flour|almonds|egg white|unwaxed lemon|blackberries
+69,Borsch,Ukrainian,Beef,dairy-free,intermediate,medium,cheap,beef shin|onion|bay leaf|potatoes|sunflower oil|onion|carrots|beetroot|red pepper|tinned tomatos|prunes|white cabbage|kidney beans|creme fraiche|dill|crusty bread
+70,Boulangère Potatoes,French,Side,vegan|vegetarian|dairy-free|pescatarian,beginner,low,cheap,onions|thyme|olive oil|potatoes|vegetable stock
+71,Boxty Breakfast,Irish,Pork,,intermediate,medium,cheap,potatoes|spring onions|plain flour|egg white|milk|bicarbonate of soda|butter|vegetable oil|cherry tomatoes|bacon|egg
+72,Braised Beef Chilli,Mexican,Beef,dairy-free,intermediate,medium,cheap,beef|onions|garlic|olive oil|chorizo|cumin|allspice|cloves|cinnamon stick|bay leaves|oregano|ancho chillies|balsamic vinegar|plum tomatoes|tomato ketchup|dark brown sugar|borlotti beans
+73,Braised stuffed cabbage,Polish,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,cabbage leaves|olive oil|onion|rosemary|celery|basmati rice|cooked chestnut|cranberry|vegetable stock|balsamic vinegar|clear honey
+74,Bread and Butter Pudding,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,butter|bread|sultanas|cinnamon|milk|double cream|eggs|sugar|nutmeg
+75,Bread omelette,Indian,Breakfast,vegan|vegetarian|dairy-free|pescatarian,beginner,medium,cheap,bread|egg|salt
+76,Breakfast Potatoes,Canadian,Breakfast,dairy-free,intermediate,medium,cheap,potatoes|olive oil|bacon|garlic clove|maple syrup|parsley|salt|pepper|allspice
+77,Brie wrapped in prosciutto & brioche,French,Side,vegetarian|pescatarian,intermediate,low,cheap,plain flour|caster sugar|yeast|milk|eggs|eggs|butter|brie|prosciutto
+78,Broccoli & Stilton soup,British,Starter,vegetarian|pescatarian,intermediate,medium,cheap,rapeseed oil|onion|celery|leek|potatoes|butter|vegetable stock|broccoli|stilton cheese
+79,Brown Stew Chicken,Jamaican,Chicken,,intermediate,medium,cheap,chicken|tomato|onions|garlic clove|red pepper|carrots|lime|thyme|allspice|soy sauce|cornstarch|coconut milk|vegetable oil
+80,Brun Lapskaus (Norwegian Beef Vegetable Stew),Norwegian,Beef,dairy-free,advanced,medium,cheap,olive oil|beef|onion|beef stock|swede|celery|carrots|parsley|potatoes|leek|parsley
+81,Bryndzové Halušky,Slovakian,Pork,,intermediate,medium,cheap,potatoes|plain flour|egg|salt|bryndza cheese|bacon|chives
+82,Budino Di Ricotta,Italian,Dessert,vegan|vegetarian|dairy-free|pescatarian,intermediate,high,cheap,ricotta|eggs|flour|sugar|cinnamon|lemons|dark rum|icing sugar
+83,Burek,Croatian,Side,dairy-free,intermediate,low,cheap,filo pastry|minced beef|onion|oil|salt|pepper
+84,Cabbage Soup (Shchi),Russian,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,unsalted butter|onion|cabbage|carrots|celery|bay leaf|vegetable stock|potatoes|tomatoes|sour cream|dill
+85,Cacik,Turkish,Side,vegetarian|pescatarian,intermediate,low,moderate,natural yoghurt|lemon juice|extra virgin olive oil|dried mint|cucumber|garlic
+86,Cajun spiced fish tacos,Mexican,Seafood,pescatarian,intermediate,medium,cheap,cajun|cayenne pepper|white fish|vegetable oil|flour tortilla|avocado|little gem lettuce|spring onions|salsa|sour cream|lemon|garlic
+87,Callaloo and SaltFish,Jamaican,Side,dairy-free,intermediate,low,cheap,salt cod|bacon|callaloo|onion|spring onions|garlic|scotch bonnet|plum tomatoes|thyme|black pepper
+88,Callaloo Jamaican Style,Jamaican,Miscellaneous,dairy-free,intermediate,medium,cheap,kale|bacon|garlic|onion|paprika|thyme|tomato|red pepper|banana|vegetable oil
+89,Canadian Butter Tarts,Canadian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,shortcrust pastry|eggs|muscovado sugar|raisins|vanilla extract|butter|single cream|walnuts
+90,Carbonada Criolla,Argentinian,Beef,dairy-free,intermediate,medium,cheap,beef|onion|carrots|potatoes|pumpkin|dried apricots|beef stock|salt|pepper
+91,Caribbean Tamarind balls,Jamaican,Dessert,vegan|vegetarian|dairy-free|pescatarian,beginner,high,moderate,tamarind pulp|sugar
+92,Carrot Cake,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,vegetable oil|plain flour|bicarbonate of soda|sugar|eggs|salt|cinnamon|carrots|walnuts|cream cheese|caster sugar|butter
+93,Cashew Ghoriba Biscuits,Tunisian,Dessert,vegan|vegetarian|dairy-free|pescatarian,intermediate,high,cheap,cashew nuts|icing sugar|egg yolks|orange blossom water|icing sugar|almonds
+94,Cassava pizza,Venezulan,Pork,dairy-free,intermediate,medium,moderate,casabe|tomato sauce|chorizo|turkey ham|sweetcorn|green olives|paprika|mozzarella
+95,Cevapi Sausages,Croatian,Beef,dairy-free,intermediate,medium,cheap,minced beef|minced pork|onion|garlic|parsley|paprika|baking powder|breadcrumbs|water|vegetable stock cube|salt|pepper
+96,Chakchouka ,Tunisian,Miscellaneous,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,tomatoes|olive oil|onion|red pepper|green pepper|garlic|cumin|paprika|salt|chili powder|eggs
+97,Challah,Polish,Side,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,strong white bread flour|caster sugar|yeast|egg|sunflower oil|poppy seeds
+98,Cheese Borek,Algerian,Side,vegetarian|pescatarian,intermediate,low,cheap,egg|parsley|garlic|red pepper|gouda cheese|emmentaler cheese|phyllo dough|unsalted butter
+99,Chelsea Buns,British,Dessert,vegetarian|pescatarian,advanced,high,cheap,white flour|salt|yeast|milk|butter|eggs|vegetable oil|butter|brown sugar|cinnamon|dried fruit|milk|caster sugar
+100,Chick-Fil-A Sandwich,American,Chicken,,advanced,medium,cheap,chicken breast|pickle juice|egg|milk|flour|icing sugar|paprika|salt|black pepper|garlic powder|celery salt|cayenne pepper|olive oil|sesame seed burger buns
+101,Chicken & chorizo rice pot,Spanish,Chicken,dairy-free,intermediate,medium,cheap,oil|chicken|onion|red pepper|garlic|chorizo|tomato puree|thyme|white wine|chicken stock|rice|parsley
+102,Chicken & mushroom Hotpot,British,Chicken,,intermediate,medium,cheap,butter|onion|mushrooms|plain flour|chicken stock cube|nutmeg|mustard powder|chicken|sweetcorn|potatoes|butter
+103,Chicken Alfredo Primavera,Italian,Chicken,,intermediate,medium,cheap,butter|olive oil|chicken|salt|squash|broccoli|mushrooms|pepper|onion|garlic|red pepper flakes|white wine|milk|heavy cream|parmesan cheese|bowtie pasta|salt|pepper|parsley
+104,Chicken Basquaise,French,Chicken,,intermediate,medium,cheap,chicken|butter|olive oil|red onions|red pepper|chorizo|sun-dried tomatoes|garlic|basmati rice|tomato puree|paprika|bay leaves|thyme|chicken stock|dry white wine|lemons|black olives|salt|pepper
+105,Chicken Congee,Chinese,Chicken,dairy-free,intermediate,medium,cheap,chicken|salt|pepper|ginger cordial|ginger|spring onions|rice|water|coriander
+106,Chicken Couscous,Moroccan,Chicken,dairy-free,intermediate,medium,cheap,olive oil|onion|chicken breast|ginger|harissa spice|dried apricots|chickpeas|couscous|chicken stock|coriander
+107,Chicken Enchilada Casserole,Mexican,Chicken,,intermediate,medium,moderate,enchilada sauce|shredded monterey jack cheese|corn tortillas|chicken breasts
+108,Chicken Fajita Mac and Cheese,American,Chicken,,intermediate,medium,cheap,macaroni|chicken stock|heavy cream|fajita seasoning|salt|chicken breast|olive oil|onion|red pepper|garlic|cheddar cheese|parsley
+109,Chicken Fried Rice,Chinese,Chicken,dairy-free,advanced,medium,cheap,chicken thighs|salt|canola oil|egg|onion|garlic|ground ginger|carrots|peas|jasmine rice|scallions|chinese five spice powder|soy sauce|sesame seed oil
+110,Chicken Ham and Leek Pie,British,Chicken,,advanced,medium,cheap,"chicken stock|chicken breast|butter|leek|garlic|plain flour|milk|white wine|double cream|ham|sea salt|pepper|plain flour|butter|free-range egg, beaten|cold water|free-range egg, beaten"
+111,Chicken Handi,Indian,Chicken,,advanced,medium,cheap,chicken|onion|tomatoes|garlic|ginger paste|vegetable oil|cumin seeds|coriander seeds|turmeric powder|chilli powder|green chilli|yogurt|cream|fenugreek|garam masala|salt
+112,Chicken Karaage,Japanese,Chicken,dairy-free,intermediate,medium,cheap,chicken|ginger|garlic|soy sauce|sake|granulated sugar|potato starch|vegetable oil|lemon
+113,Chicken Mandi,Indian,Chicken,dairy-free,advanced,medium,cheap,chicken|basmati rice|water|onion|garlic|green chilli|salt|oil|turmeric powder|coriander|cardamom|cloves|cinnamon|pepper|bay leaf
+114,Chicken Marengo,French,Chicken,dairy-free,intermediate,medium,moderate,olive oil|mushrooms|chicken legs|passata|chicken stock cube|black olives|parsley
+115,Chicken Parmentier,French,Chicken,,intermediate,medium,cheap,potatoes|butter|double cream|egg yolks|butter|shallots|carrots|celery|garlic clove|white wine|tomato puree|tinned tomatos|chicken stock|chicken|black olives|parsley|gruyere cheese
+116,Chicken Quinoa Greek Salad,Greek,Chicken,,intermediate,medium,cheap,quinoa|butter|red chilli|garlic|chicken breast|olive oil|black olives|red onions|feta|mint|lemon
+117,Chicken Shawarma with homemade garlic herb yoghurt sauce,Saudi Arabian,Chicken,,advanced,medium,moderate,chicken breast|garlic|ground coriander|ground cumin|ground cardomom|cayenne pepper|smoked paprika|salt|lemon juice|olive oil|greek yogurt|garlic|cumin|lemon juice
+118,"Chicken wings with cumin, lemon & garlic",Turkish,Chicken,dairy-free,intermediate,medium,moderate,chicken wings|garlic|lemon|cumin seeds|olive oil|honey
+119,"Chicken with saffron, raisins & pine nuts",Spanish,Chicken,dairy-free,intermediate,medium,expensive,chicken|olive oil|garlic|saffron|dry sherry|chicken stock|thyme|raisins|pine nuts|parsley
+120,Chickpea Fajitas,Mexican,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,chickpeas|olive oil|paprika|tomatoes|red onions|red wine vinegar|avocado|lime|lime|sour cream|harissa spice|corn tortillas|coriander
+121,"Chickpea, chorizo & spinach stew",Spanish,Pork,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,extra virgin olive oil|onion|carrots|celery|thyme|bay leaves|garlic|chorizo|cinnamon|paprika|chickpeas|sherry vinegar|spinach
+122,Chilli ginger lamb chops,Turkish,Lamb,dairy-free,intermediate,medium,expensive,garlic|ginger|lemon juice|olive oil|chili powder|cumin|lamb loin chops
+123,Chilli prawn linguine,Italian,Pasta,dairy-free|pescatarian,intermediate,high,expensive,linguine pasta|sugar snap peas|olive oil|garlic clove|red chilli|king prawns|cherry tomatoes|basil leaves|lettuce|bread|fromage frais|lime|caster sugar
+124,Chinese Orange Chicken,Chinese,Chicken,dairy-free,advanced,medium,cheap,orange|orange juice|soy sauce|water|rice vinegar|cornstarch|sesame seed oil|sugar|chicken thighs|egg|salt|black pepper|cornstarch|all purpose flour|vegetable oil|garlic|shallots|scallions|sesame seed|rice
+125,Chinese Tomato Egg Stir Fry,Chinese,Vegetarian,vegetarian|dairy-free,intermediate,low,cheap,plum tomatoes|vegetable oil|eggs|sesame seed oil|chicken bouillon powder|sugar|pepper|salt|spring onions|jasmine rice
+126,Chinon Apple Tarts,French,Dessert,vegan|vegetarian|dairy-free|pescatarian,intermediate,high,moderate,puff pastry|dark brown soft sugar|braeburn apples|red wine jelly|creme fraiche|icing sugar|cardamom
+127,Chivito sandwich,Uruguayan,Beef,,advanced,medium,expensive,milk|butter|molasses|water|egg|bread flour|salt|yeast|egg wash|sesame seed|onion|sirloin steak|garlic|bacon|ham|mozzarella|tomato|lettuce|mustard|chimichurri sauce
+128,Chivito uruguayo,Uruguayan,Beef,dairy-free,intermediate,medium,cheap,beef brisket|bread|lettuce|tomato|ham|mozzarella|bacon|egg|onion|pepper
+129,Choc Chip Pecan Pie,American,Dessert,vegetarian|pescatarian,intermediate,high,cheap,plain flour|butter|cream cheese|icing sugar|butter|maple syrup|light brown soft sugar|dark brown soft sugar|eggs|vanilla extract|pecan nuts|dark chocolate chips
+130,Chocolate alfajores,Uruguayan,Dessert,vegetarian|pescatarian,advanced,high,cheap,butter|sugar|egg|honey|all purpose flour|cornstarch|unsweetened cocoa|baking powder|baking powder|dulce de leche|milk chocolate|butter|orange
+131,Chocolate Avocado Mousse,British,Dessert,vegan|vegetarian|dairy-free|pescatarian,intermediate,high,moderate,banana|cacao|avocado|honey|lemon juice|vanilla|water|sea salt
+132,Chocolate Caramel Crispy,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,mars bar|butter|rice krispies|milk chocolate
+133,Chocolate churros with chocolate & salted caramel sauce,Spanish,Dessert,vegetarian|pescatarian,intermediate,high,cheap,sunflower oil|ice cream|muscovado sugar|butter|double cream|dark chocolate|golden caster sugar|cinnamon|plain flour|cocoa powder|baking powder|vanilla extract|melted butter
+134,Chocolate Coconut Squares,Australian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,butter|caster sugar|egg|self-raising flour|baking powder|cocoa powder|milk|plain chocolate|butter|icing sugar|desiccated coconut
+135,Chocolate empanadas,Uruguayan,Dessert,vegetarian|pescatarian,intermediate,high,cheap,condensed milk|all purpose flour|unsweetened cocoa|salt|butter|egg|milk|butter|sugar|cinnamon
+136,Chocolate Gateau,French,Dessert,vegetarian|pescatarian,intermediate,high,cheap,plain chocolate|butter|milk|eggs|granulated sugar|flour
+137,Chocolate Raspberry Brownies,American,Dessert,vegetarian|pescatarian,intermediate,high,cheap,dark chocolate|milk chocolate|salted butter|light brown soft sugar|eggs|plain flour|cocoa|raspberries
+138,Chocolate Souffle,French,Dessert,vegetarian|pescatarian,intermediate,high,cheap,single cream|caster sugar|dark chocolate|butter|butter|caster sugar|dark chocolate|double cream|egg yolks|egg white|double cream|icing sugar
+139,"Chorba Hamra bel Frik (Algerian Lamb, Tomato, and Freekeh Soup)",Algerian,Lamb,dairy-free,intermediate,medium,expensive,freekeh|lamb|onion|black pepper|paprika|ground cinnamon|salt|vegetable oil|cilantro|mint|celery|chickpeas|water|zucchini|carrots|tomato puree|tomato|potatoes
+140,Choripán,Argentinian,Pork,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,chorizo|crusty bread|chimichurri sauce
+141,Chorizo & chickpea soup,Spanish,Pork,dairy-free,intermediate,medium,cheap,tinned tomatos|chorizo|savoy cabbage|chilli flakes|chickpeas|chicken stock|crusty bread
+142,Chorizo & soft-boiled egg salad,Spanish,Pork,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,baby new potatoes|egg|green beans|chorizo|garlic clove|sherry vinegar|parsley
+143,Chorizo & tomato salad,Spanish,Pork,dairy-free,intermediate,medium,cheap,beef tomatoes|red onions|thyme|sherry vinegar|extra virgin olive oil|chorizo
+144,"Chorizo, potato & cheese omelette",Spanish,Pork,vegetarian|pescatarian,intermediate,medium,cheap,potatoes|olive oil|chorizo|egg|parsley|cheddar cheese
+145,Christmas cake,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,butter|muscovado sugar|plain flour|eggs|ground almonds|sherry|candied peel|glace cherry|raisins|currants|pecan nuts|lemon|mixed spice|rose water|vanilla extract|baking powder
+146,Christmas Pudding Flapjack,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,salted butter|dark soft brown sugar|golden syrup|orange|rolled oats|christmas pudding
+147,Christmas Pudding Trifle,British,Dessert,vegetarian|pescatarian,intermediate,high,moderate,orange|demerara sugar|grand marnier|christmas pudding|custard|mascarpone|double cream|flaked almonds|dark chocolate
+148,Chtitha Batata (Algerian Potato Stew),Algerian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,garlic|red chilli|ground cumin|paprika|black pepper|cayenne pepper|salt|olive oil|new potatoes|tomato puree|water|salt
+149,Churros,Spanish,Dessert,vegetarian|pescatarian,advanced,high,cheap,butter|vanilla extract|plain flour|baking powder|sunflower oil|bread|dark chocolate|double cream|milk|golden syrup|vanilla extract|caster sugar|cinnamon
+150,Cinnamon buns,Norwegian,Dessert,vegetarian|pescatarian,advanced,high,cheap,unsalted butter|milk|salt|flour|strong white flour|fast action yeast|cardamom|caster sugar|egg|olive oil|unsalted butter|caster sugar|cinnamon|egg
+151,Clam chowder,American,Starter,,intermediate,medium,cheap,clams|butter|bacon|onion|thyme|bay leaf|plain flour|milk|double cream|potatoes|parsley
+152,"Clam, chorizo & white bean stew",Spanish,Seafood,vegetarian|pescatarian,intermediate,medium,cheap,chorizo|onion|garlic clove|parsley|vegetable stock|tinned tomatos|butter beans|sherry vinegar|clams|crusty bread
+153,Classic Christmas pudding,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,almonds|bramley apples|candied peel|nutmeg|raisins|plain flour|breadcrumbs|muscovado sugar|eggs|brandy|butter
+154,Classic Tourtière,Canadian,Beef,dairy-free,intermediate,medium,cheap,canola oil|onion|garlic|ground beef|ground pork|dried leaves of summer savoury|salt|pepper|ground clove|ground nutmeg|bay leaf|beef stock|russet potato|shortcrust pastry|egg
+155,Coddled pork with cider,Irish,Pork,,intermediate,medium,cheap,butter|pork chops|bacon|potatoes|carrots|swede|cabbage|bay leaf|cider|chicken stock
+156,Coq au vin,French,Chicken,,intermediate,medium,cheap,olive oil|bacon|shallots|chicken legs|chicken thighs|chicken breasts|garlic|brandy|red wine|chicken stock|tomato puree|thyme|rosemary|bay leaves|parsley|chestnut mushroom|plain flour|butter
+157,Corba,Turkish,Side,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,lentils|onion|carrots|tomato puree|cumin|paprika|mint|thyme|black pepper|red pepper flakes|vegetable stock|water|sea salt
+158,Corned Beef and Cabbage,Irish,Beef,dairy-free,intermediate,medium,cheap,beef brisket|small potatoes|carrots|cabbage
+159,Corned Beef and Cabbage – Jamaican Style,Jamaican,Beef,dairy-free,intermediate,medium,cheap,olive oil|cabbage|green pepper|onion|garlic|corned beef|plum tomatoes|thyme|tomato ketchup|salt|pepper
+160,Corned Beef Hash,British,Beef,,intermediate,medium,cheap,unsalted butter|onion|corned beef|potatoes|kosher salt|black pepper|freshly chopped parsley
+161,Cornes de Gazelle (Gazelle Horns),Algerian,Dessert,vegetarian|pescatarian,advanced,high,cheap,almonds|sugar|sugar|ground cinnamon|egg|orange blossom water|all purpose flour|unsalted butter|salt|egg|vegetable oil|orange blossom water|pistachio
+162,Cream Cheese Tart,American,Starter,vegetarian|pescatarian,intermediate,medium,cheap,flour|butter|egg|salt|cheese|milk|eggs|parmesan cheese|plum tomatoes|white vinegar|honey|basil
+163,Creamy Tomato Soup,British,Starter,vegetarian|pescatarian,intermediate,medium,cheap,olive oil|onions|celery|carrots|potatoes|bay leaf|tomato puree|sugar|white vinegar|chopped tomatoes|passata|vegetable stock cube|whole milk
+164,Crema Catalana,Spanish,Dessert,vegetarian|pescatarian,intermediate,high,cheap,milk|double cream|cinnamon stick|orange zest|lemon zest|egg yolks|caster sugar|caster sugar|corn flour
+165,Crispy Eggplant,Filipino,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,egg plants|breadcrumbs|sesame seed|eggs|salt|pepper|vegetable oil
+166,Crispy Sausages and Greens,Irish,Pork,dairy-free,intermediate,medium,cheap,kale|italian fennel sausages|cabbage|garlic clove|onion|shiitake mushrooms|chicken stock|salt|pepper
+167,Croatian Bean Stew,Croatian,Beef,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,cannellini beans|vegetable oil|tomatoes|challots|garlic|parsley|chorizo
+168,Croatian lamb peka,Croatian,Beef,dairy-free,advanced,medium,expensive,potatoes|courgettes|carrots|green pepper|aubergine|onion|lamb shoulder|garlic sauce|tomato puree|olive oil|thyme|white wine|pepper
+169,Crock Pot Chicken Baked Tacos,Mexican,Chicken,,advanced,medium,cheap,chicken breasts|vinaigrette dressing|cumin|smoked paprika|garlic|refried beans|hard taco shells|shredded mexican cheese|grape tomatoes|jalapeno|avocado|green salsa|sour cream|milk
+170,Cucumber & fennel salad,Polish,Vegetarian,vegetarian|pescatarian,intermediate,low,moderate,cucumber|sugar|fennel bulb|sour cream|lemon|white wine vinegar|dill
+171,Cumberland Pie,British,Beef,,advanced,medium,cheap,celery|onion|carrots|bay leaves|thyme|vegetable oil|butter|flour|tomato puree|worcestershire sauce|beef stock cubes|feather blade beef|potatoes|mature cheddar|parmesan cheese
+172,Dal fry,Indian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,moderate,toor dal|water|salt|turmeric|ghee|chopped tomatoes|cumin seeds|mustard seeds|bay leaf|green chilli|ginger|cilantro|red pepper|salt|sugar|garam masala
+173,Date squares,Canadian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,pitted dates|water|vanilla|oats|all purpose flour|brown sugar|baking powder|salt|unsalted butter
+174,Drunken noodles (pad kee mao),Thai,Beef,dairy-free,intermediate,medium,expensive,flat rice noodles|vegetable oil|garlic|birds-eye chillies|sirloin steak|broccoli|basil leaves|soy sauce|oyster sauce|fish sauce|sugar
+175,Duck Confit,French,Miscellaneous,dairy-free,intermediate,medium,expensive,sea salt|bay leaf|garlic|thyme|duck legs|white wine
+176,Dulce de Leche,Argentinian,Dessert,vegetarian|pescatarian,intermediate,high,moderate,milk|sugar|baking powder|vanilla extract
+177,Dundee cake,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,almonds|butter|muscovado sugar|orange|apricot jam|plain flour|baking powder|eggs|ground almonds|milk|dried fruit|glace cherry|milk|caster sugar
+178,Dutch poffertjes (mini pancakes),Dutch,Breakfast,vegetarian|pescatarian,intermediate,medium,cheap,flour|buckwheat flour|eggs|butter|milk|yeast|vanilla sugar|butter|icing sugar
+179,Dutch stroopwafel,Dutch,Dessert,vegetarian|pescatarian,intermediate,high,cheap,milk|instant yeast|all purpose flour|unsalted butter|sugar|egg|salt|dutch stroop|brown sugar|unsalted butter|cinnamon
+180,Dziriat (Algerian Almond Tarts),Algerian,Dessert,vegan|vegetarian|dairy-free|pescatarian,intermediate,high,cheap,sugar|water|lemon juice|orange blossom water|all purpose flour|vegetable oil|egg|lemon juice|salt|orange blossom water|almonds|sugar|egg|baking powder|vanilla|lemon|orange blossom water|cornstarch|pine nuts
+181,Easy Spanish chicken,Spanish,Chicken,,intermediate,medium,cheap,extra virgin olive oil|onion|chorizo|red pepper|yellow pepper|sweet smoked paprika|garlic|tinned tomatos|green olives|butter beans|chicken thighs|parsley
+182,Eccles Cakes,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,butter|plain flour|lemon|butter|currants|mixed peel|muscovado sugar|cinnamon|ginger|allspice|lemon|eggs|sugar
+183,Egg Drop Soup,Chinese,Vegetarian,vegetarian|dairy-free,intermediate,low,cheap,chicken stock|salt|sugar|pepper|sesame seed oil|peas|mushrooms|cornstarch|water|spring onions
+184,Egg Foo Young,Chinese,Seafood,dairy-free,advanced,medium,expensive,unsalted beef stock|soy sauce|shaoxing wine|oyster sauce|pepper|cornstarch|water|cornstarch|water|egg|kosher salt|sugar|spring onions|mung bean sprouts|shrimp|vegetable oil|jasmine rice
+185,Eggplant Adobo,Filipino,Vegetarian,vegetarian|dairy-free,intermediate,low,cheap,egg plants|sugar|salt|pepper|garlic|olive oil|ground pork|rice vinegar|soy sauce|bay leaf
+186,Egyptian Fatteh,Egyptian,Beef,,intermediate,medium,cheap,beef|onion|chicken stock cube|tomatoes|garlic clove|tomato puree|rice|noodles|butter|olive oil|pita bread|cumin|white wine vinegar|salt|pepper
+187,Empanadas,Argentinian,Beef,,intermediate,medium,cheap,all purpose flour|butter|water|salt|ground beef|onion|egg|green olives|cumin|paprika|salt|pepper
+188,English Breakfast,British,Breakfast,dairy-free,intermediate,medium,cheap,sausages|bacon|mushrooms|tomatoes|black pudding|eggs|bread
+189,Ensaimada,Spanish,Dessert,vegan|vegetarian|dairy-free|pescatarian,intermediate,high,cheap,yeast|caster sugar|egg|strong white bread flour|vegetable oil|lard
+190,Escovitch Fish,Jamaican,Seafood,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,red snapper|vegetable oil|garlic|ginger|thyme|bay leaf|red pepper|yellow pepper|onion|carrots|sugar|allspice|worcestershire sauce|scotch bonnet|lime|malt vinegar|pepper
+191,Eton Mess,British,Dessert,vegetarian|pescatarian,beginner,high,moderate,strawberries|double cream|meringue nests|ginger cordial|mint
+192,Ezme,Turkish,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,tomato|romano pepper|green chilli|onion|garlic|parsley|red pepper paste|tomato puree|pomegranate molasses|pul biber|sumac|dried mint|extra virgin olive oil
+193,Fainá,Argentinian,Side,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,chickpea flour|water|olive oil|salt|pepper
+194,Falafel,Turkish,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,sunflower oil|onion|garlic|chickpeas|ground cumin|ground coriander|parsley|egg
+195,Falafel Pita Sandwich with Tahini Sauce,Syrian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,falafel|tahini|water|lemon juice|garlic|paprika|pita bread|lettuce|tomato|cucumber|dill pickles|red onions|harissa spice
+196,Fårikål (Norwegian National Dish),Norwegian,Lamb,dairy-free,intermediate,medium,expensive,lamb|white cabbage|whole black peppercorns|salt|water|flour
+197,Fašírky,Slovakian,Pork,,advanced,medium,cheap,ground pork|onion|garlic|bread|milk|egg|salt|black pepper|marjoram|mustard|parsley|flour|egg|breadcrumbs|vegetable oil
+198,Fasoliyyeh Bi Z-Zayt (Syrian Green Beans with Olive Oil),Syrian,Vegan,vegan|vegetarian|dairy-free|pescatarian,beginner,low,cheap,green beans|olive oil|salt|garlic|cilantro
+199,Fennel Dauphinoise,French,Side,vegetarian|pescatarian,intermediate,low,cheap,potatoes|fennel|garlic|milk|double cream|butter|parmesan cheese
+200,Feteer Meshaltet,Egyptian,Side,vegetarian|pescatarian,intermediate,low,cheap,flour|water|salt|unsalted butter|olive oil
+201,Fettuccine Alfredo,Italian,Pasta,vegetarian|pescatarian,intermediate,high,moderate,fettuccine|heavy cream|butter|parmesan|parsley|black pepper
+202,Fettucine alfredo,Italian,Pasta,vegetarian|pescatarian,intermediate,high,cheap,clotted cream|butter|corn flour|parmesan cheese|nutmeg|fettuccine|parsley
+203,Figgy Duff,Canadian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,all purpose flour|brown sugar|baking powder|ginger|allspice|cinnamon|raisins|melted butter|molasses|water
+204,Fish fofos,Portuguese,Seafood,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,haddock|potatoes|green chilli|coriander|cumin seeds|pepper|garlic|ginger|flour|eggs|breadcrumbs|vegetable oil
+205,Fish pie,British,Seafood,pescatarian,intermediate,medium,expensive,floury potatoes|olive oil|semi-skimmed milk|white fish fillets|plain flour|nutmeg|double cream|jerusalem artichokes|leek|prawns|parsley|dill|lemon|gruyère|lemon
+206,Fish Soup (Ukha),Russian,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,olive oil|onion|carrots|fish stock|water|potatoes|bay leaf|cod|salmon
+207,Fish Stew with Rouille,French,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,prawns|olive oil|dry white wine|fish stock|fennel|onion|garlic|potatoes|orange|star anise|bay leaf|harissa spice|tomato puree|chopped tomatoes|mussels|white fish|thyme|bread
+208,Fiskesuppe (Creamy Norwegian Fish Soup),Norwegian,Seafood,pescatarian,advanced,medium,expensive,fish fillet|garlic|potatoes|carrots|leek|butter|flour|fish stock|milk|creme fraiche|shrimp|chives
+209,Flamiche,French,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,butter|leek|salt|creme fraiche|egg|egg yolks|nutmeg|plain flour|salt|butter|lard|cheddar cheese|water
+210,Flan,Uruguayan,Dessert,vegetarian|pescatarian,intermediate,high,cheap,sugar|milk|sugar|vanilla pod|egg yolks|egg|dulce de leche
+211,Flapper Pie,Canadian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,graham cracker crumbs|melted butter|sugar|ground cinnamon|milk|sugar|cornstarch|egg yolks|vanilla extract|salt|egg white|sugar|cream of tartar
+212,French Lentils With Garlic and Thyme,French,Miscellaneous,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,olive oil|onion|garlic|carrots|french lentils|thyme|bay leaf|salt|celery
+213,French Omelette,French,Miscellaneous,vegetarian|pescatarian,intermediate,medium,cheap,eggs|butter|parmesan|tarragon leaves|parsley|chives|gruyère
+214,French Onion Chicken with Roasted Carrots & Mashed Potatoes,American,Chicken,,advanced,medium,cheap,chicken breasts|carrots|potatoes|onion|beef stock|mozzarella|sour cream|butter|sugar|vegetable oil|salt|pepper
+215,French Onion Soup,French,Side,,intermediate,low,cheap,butter|olive oil|onion|sugar|garlic clove|plain flour|dry white wine|beef stock|bread|gruyère
+216,Fresh sardines,Croatian,Side,vegan|vegetarian|dairy-free|pescatarian,beginner,low,cheap,sardines|vegetable oil|flour|salt
+217,Fried calamari,Spanish,Seafood,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,squid|plain flour|capers|garlic|mayonnaise|vegetable oil|lemon
+218,Fruit and Cream Cheese Breakfast Pastries,American,Breakfast,vegetarian|pescatarian,intermediate,medium,cheap,cream cheese|sugar|vanilla extract|flour|puff pastry|strawberries|raspberries|blackberries
+219,Ful Medames,Egyptian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,broad beans|parsley|olive oil|lemons|garlic clove|cumin
+220,Full English Breakfast,British,Breakfast,dairy-free,intermediate,medium,cheap,sausages|bacon|mushrooms|tomatoes|black pudding|eggs|bread|baked beans
+221,Fyrstekake – Norwegian Prince Cake,Norwegian,Dessert,vegetarian|pescatarian,advanced,high,cheap,granulated sugar|vanilla extract|butter|egg yolks|flour|baking powder|almonds|brown sugar|melted butter|egg|brandy|almond extract|egg
+222,Gambas al ajillo,Spanish,Seafood,dairy-free|pescatarian,beginner,medium,expensive,raw king prawns|garlic clove|olive oil|cayenne pepper|parsley
+223,Garides Saganaki,Greek,Seafood,,intermediate,medium,expensive,raw king prawns|olive oil|chopped onion|freshly chopped parsley|white wine|chopped tomatoes|minced garlic|cubed feta cheese
+224,Garlicky prawns with sherry,Spanish,Seafood,dairy-free|pescatarian,beginner,medium,expensive,olive oil|garlic|prawns|dry sherry|parsley
+225,General Tsos Chicken,Chinese,Chicken,dairy-free,advanced,medium,expensive,chicken breast|plain flour|egg|starch|baking powder|salt|onion salt|garlic powder|water|chicken stock|duck sauce|soy sauce|honey|rice vinegar|sesame seed oil|gochujang|starch|garlic|spring onions|ginger
+226,Gevulde speculaas,Dutch,Dessert,vegetarian|pescatarian,intermediate,high,cheap,self-raising flour|brown sugar|speculaas spice mix|salt|butter|milk|almond paste|egg|milk|almonds
+227,Gigantes Plaki,Greek,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,butter beans|olive oil|onion|garlic clove|tomato puree|tomatoes|sugar|dried oregano|cinnamon|chopped parsley
+228,Golabki (cabbage roll),Polish,Beef,,intermediate,medium,cheap,cabbage|butter|onion|ground beef|ground pork|rice|garlic|salt|black pepper|tomato puree
+229,Grape Nut Ice Cream,Jamaican,Dessert,vegetarian|pescatarian,beginner,high,moderate,heavy cream|condensed milk|vanilla extract|grape nut cereal
+230,Griddled aubergines with sesame dressing,Turkish,Vegetarian,vegetarian|pescatarian,intermediate,low,moderate,aubergine|olive oil|greek yogurt|tahini paste|garlic|lemon|coriander|parsley|mint
+231,Griddled flatbreads,Turkish,Side,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,strong wholemeal flour|strong white bread flour|yeast|sugar|olive oil
+232,Grilled aubergines with spicy chickpeas & walnut sauce,Turkish,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,olive oil|onion|red chilli|ginger|ground cumin|chickpeas|tomato|lemon|aubergine|greek yogurt|garlic clove|walnuts|coriander
+233,Grilled eggplant with coconut milk,Filipino,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,egg plants|coconut milk|lemon juice|salt|red pepper flakes|onions
+234,Grilled Mac and Cheese Sandwich,American,Pasta,vegetarian|pescatarian,advanced,high,cheap,macaroni|plain flour|mustard powder|garlic powder|kosher salt|black pepper|cayenne pepper|butter|whole milk|heavy cream|monterey jack cheese|butter|garlic powder|bread|cheddar cheese|colby jack cheese|butter
+235,Grilled Portuguese sardines,Portuguese,Seafood,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,moderate,sardines|olive oil|garlic|paprika|lemon|rosemary|red chilli
+236,Ham croquetas,Spanish,Pork,vegetarian|pescatarian,advanced,medium,cheap,plain flour|egg|breadcrumbs|sunflower oil|extra virgin olive oil|leek|jamón ibérico|plain flour|vegetable stock|milk|nutmeg
+237,Ham hock colcannon,Irish,Pork,vegetarian|pescatarian,intermediate,medium,cheap,floury potatoes|butter|garlic clove|cabbage|spring onions|double cream|mustard|ham|eggs
+238,Hodge Podge,Canadian,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,new potatoes|carrots|green beans|peas|dill|chives|milk|heavy cream|butter|salt|black pepper
+239,Home-made Mandazi,Kenyan,Breakfast,vegetarian|pescatarian,intermediate,medium,cheap,self-raising flour|sugar|eggs|milk
+240,Honey Balsamic Chicken with Crispy Broccoli & Potatoes,American,Chicken,,intermediate,medium,cheap,potatoes|broccoli|garlic|chicken breast|balsamic vinegar|honey|chicken stock|butter|vegetable oil|olive oil
+241,Honey Teriyaki Salmon,Japanese,Seafood,dairy-free|pescatarian,beginner,medium,expensive,salmon|olive oil|soy sauce|sake|sesame seed
+242,Honey Yogurt Cheesecake,Greek,Dessert,vegetarian|pescatarian,intermediate,high,cheap,digestive biscuits|almonds|butter|greek yogurt|mascarpone|eggs|lemon|orange|honey|fruit mix
+243,Hot and Sour Soup,Chinese,Pork,dairy-free,intermediate,medium,cheap,mushrooms|wood ear mushrooms|tofu|pork|chicken stock|salt|sugar|sesame seed oil|pepper|hotsauce|vinegar|soy sauce|cornstarch|water|spring onions
+244,Hot Chocolate Fudge,American,Dessert,vegetarian|pescatarian,intermediate,high,moderate,chocolate chips|heavy cream|condensed milk|vanilla extract|white chocolate chips|miniature marshmallows
+245,Hot cumin lamb wrap with crunchy slaw & spicy mayo,Turkish,Lamb,dairy-free,intermediate,medium,expensive,lamb leg|olive oil|ground cumin|sugar|white wine vinegar|carrots|spring onions|white cabbage|sweet peppadew peppers|mayonnaise|pita bread
+246,Hummus,Turkish,Side,vegetarian|pescatarian,intermediate,low,moderate,chickpeas|tahini paste|garlic clove|greek yogurt|lemon
+247,Imam bayildi with BBQ lamb & tzatziki,Turkish,Lamb,,advanced,medium,expensive,aubergine|olive oil|onion|garlic|cinnamon|tomato|parsley|lamb loin chops|paprika|lemon|greek yogurt|cucumber|mint
+248,Irish stew,Irish,Beef,dairy-free,intermediate,medium,expensive,whole wheat|lamb loin chops|olive oil|shallots|carrots|turnips|celeriac|charlotte potatoes|white wine|caster sugar|fresh thyme|oregano|chicken stock
+249,Jam jam cookies,Canadian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,egg|butter|sugar|molasses|vanilla|baking powder|water|baking powder|cinnamon|salt|flour|jam
+250,Jam Roly-Poly,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,butter|self-raising flour|vanilla|suet|milk|raspberry jam|custard
+251,Jamaican Banana Fritters,Jamaican,Dessert,vegan|vegetarian|dairy-free|pescatarian,intermediate,high,cheap,banana|vanilla extract|cinnamon|nutmeg|brown sugar|salt|all purpose flour|oil
+252,Jamaican Beef Patties,Jamaican,Beef,,advanced,medium,cheap,plain flour|salt|curry powder|butter|water|minced beef|allspice|black pepper|vegetable oil|onions|red pepper|garlic|thyme|salt|tomato ketchup|water|onions|egg|water|water
+253,Jamaican Boiled Dumplings,Jamaican,Side,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,water|salt|all purpose flour|salt|water
+254,Jamaican Cornmeal Porridge,Jamaican,Breakfast,vegetarian|pescatarian,intermediate,medium,moderate,water|coconut milk|fine yellow cornmeal|vanilla extract|ground cinnamon|ground nutmeg|ground allspice|sweetened condensed milk
+255,Jamaican Curry Chicken Recipe,Jamaican,Chicken,dairy-free,advanced,medium,cheap,chicken thighs|curry powder|all-purpose seasoning|onion|spring onions|green pepper|garlic|scotch bonnet|thyme|olive oil|water|russet potato|salt|pepper
+256,Jamaican Curry Goat,Jamaican,Goat,vegan|vegetarian|dairy-free|pescatarian,advanced,medium,cheap,goat meat|jamaican curry powder|ground ginger|all-purpose seasoning|allspice|onion|garlic|thyme|oil|water|scotch bonnet|russet potato|salt|pepper
+257,Jamaican Curry Shrimp Recipe,Jamaican,Seafood,pescatarian,intermediate,medium,expensive,jumbo shrimp|jamaican curry powder|all-purpose seasoning|olive oil|onion|red pepper|green pepper|scotch bonnet|garlic|unsweetened coconut milk|tomato ketchup|thyme|salt|pepper
+258,Jamaican Festival (Sweet Dumpling),Jamaican,Side,vegetarian|pescatarian,intermediate,low,cheap,all purpose flour|cornmeal|sugar|baking powder|vanilla extract|salt|milk|oil
+259,Jamaican Fried Dumplings,Jamaican,Side,vegetarian|pescatarian,intermediate,low,cheap,all purpose flour|baking powder|salt|milk|oil
+260,Jamaican Instant Pot Rice and Beans,Jamaican,Vegetarian,vegetarian|pescatarian,advanced,low,cheap,olive oil|onion|garlic|spring onions|rice|coconut milk|water|salt|allspice|black pepper|kidney beans|thyme
+261,Jamaican Pepper Shrimp,Jamaican,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,shrimp|scotch bonnet|all-purpose seasoning|ground annatto|allspice|shrimp stock|onion|garlic|white vinegar|thyme|salt
+262,Jamaican Rice and Peas,Jamaican,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,rice|coconut milk|kidney beans|water|kosher salt|ground allspice|black pepper|spring onions|thyme|scotch bonnet
+263,Jamaican Spice Bun Recipe,Jamaican,Dessert,vegetarian|pescatarian,intermediate,high,cheap,all purpose flour|baking powder|ground cinnamon|salt|egg|brown sugar|beer|milk|honey|unsalted butter|molasses|caramelized sugar sauce|vanilla extract|dried cranberries|raisins|dried cherries
+264,Jamaican Steamed Cabbage,Jamaican,Side,vegetarian|pescatarian,intermediate,low,cheap,cabbage|carrots|plum tomatoes|onion|garlic|spring onions|thyme|scotch bonnet|water|olive oil|unsalted butter|kosher salt|black pepper
+265,Jamaican Sweet Potato Pudding,Jamaican,Dessert,vegetarian|pescatarian,intermediate,high,cheap,sweet potatoes|coconut milk|brown sugar|all purpose flour|vanilla extract|allspice|ground cinnamon|ground nutmeg|ground ginger|salt|raisins|coconut milk|brown sugar|ground cinnamon|ground nutmeg
+266,Jamon & wild garlic croquetas,Spanish,Pork,vegetarian|pescatarian,intermediate,medium,cheap,wild garlic leaves|milk|olive oil|flour|manchego|jamón ibérico|egg|breadcrumbs|vegetable oil
+267,Japanese gohan rice,Japanese,Side,vegan|vegetarian|dairy-free|pescatarian,beginner,low,cheap,sushi rice|mirin|pickle juice|spring onions
+268,Japanese Katsudon,Japanese,Pork,dairy-free,intermediate,medium,cheap,vegetable oil|onion|pork|vegetable stock|soy sauce|mirin|sugar|eggs|sushi rice|chives
+269,Jerk chicken with rice & peas,Jamaican,Chicken,,intermediate,medium,cheap,chicken thighs|lime|spring onions|ginger|garlic|onion|red chilli|thyme|lime|soy sauce|vegetable oil|brown sugar|allspice|basmati rice|coconut milk|spring onions|thyme|garlic|allspice|kidney beans
+270,Jiggs Dinner,Canadian,Beef,,intermediate,medium,cheap,beef|yellow split peas|cabbage|carrots|turnips|potatoes|butter|black pepper
+271,kabse,Saudi Arabian,Chicken,dairy-free,intermediate,medium,cheap,chicken|rice|green pepper|red pepper|mushrooms|sweetcorn|carrots|raisins|turmeric|kabse spice|salt|black pepper
+272,Kafteji,Tunisian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,potatoes|olive oil|green pepper|onions|ras el hanout|pumpkin|eggs|salt|pepper
+273,Kapsalon,Dutch,Lamb,vegetarian|pescatarian,intermediate,medium,moderate,fries|doner meat|garlic sauce|hotsauce|lettuce|tomato|cucumber|gouda cheese
+274,Karbonader (Lean Beef Patties) with Caramelized Onions,Norwegian,Beef,,intermediate,medium,cheap,onion|butter|ground beef|salt|pepper|nutmeg|cornstarch|water|butter
+275,Katsu Chicken curry,Japanese,Chicken,dairy-free,intermediate,medium,cheap,chicken breast|plain flour|egg|breadcrumbs|vegetable oil|sunflower oil|onions|garlic|carrot|plain flour|curry powder|chicken stock|honey|soy sauce|bay leaf|garam masala
+276,Kedgeree,British,Seafood,vegetarian|pescatarian,intermediate,medium,cheap,smoked haddock|bay leaves|milk|eggs|parsley|coriander|vegetable oil|onion|coriander|curry powder|rice
+277,Keleya Zaara,Tunisian,Lamb,,intermediate,medium,expensive,olive oil|lamb|saffron|onion|water|parsley|butter|lemon
+278,Kentucky Fried Chicken,American,Chicken,dairy-free,intermediate,medium,cheap,chicken|oil|egg white|flour|brown sugar|salt|paprika|onion salt|chili powder|black pepper|celery salt|sage|garlic powder|allspice|oregano|basil|marjoram
+279,Kenyan Beef Curry,Kenyan,Beef,dairy-free,intermediate,medium,expensive,water|sirloin steak tips|garlic clove|ground ginger|oil|red onions|tomato|paprika|black pepper|curry powder|tomato puree|salt|chilli|cilantro
+280,Key Lime Pie,American,Dessert,vegetarian|pescatarian,intermediate,high,cheap,digestive biscuits|butter|condensed milk|egg yolks|lime|double cream|icing sugar|lime
+281,Khobz el Dar (Algerian Semolina Bread),Algerian,Side,vegetarian|pescatarian,intermediate,low,cheap,semolina flour|semolina flour|sesame seed|sugar|yeast|salt|vegetable oil|egg|egg|milk|all purpose flour|all purpose flour|water
+282,Kidney Bean Curry,Indian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,vegetable oil|onion|garlic|ginger|coriander|cumin|paprika|garam masala|chopped tomatoes|kidney beans|basmati rice
+283,Knafeh,Saudi Arabian,Dessert,vegetarian|pescatarian,advanced,high,cheap,knafeh|unsalted butter|yellow food colouring|mozzarella|cream cheese|milk|sugar|corn flour|sugar|water|rose water|lemon juice
+284,kofta burgers,Turkish,Lamb,,intermediate,medium,expensive,lamb|onion|garlic bulb|garam masala|coriander|chilli sauce|pita bread|tomato|red cabbage|red onions|yogurt
+285,Koshari,Egyptian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,brown lentils|rice|coriander|macaroni|chickpeas|onion|salt|vegetable oil
+286,Krispy Kreme Donut,American,Dessert,vegetarian|pescatarian,intermediate,high,cheap,yeast|water|water|sugar|salt|eggs|shortening|flour|canola oil|milk|sugar|vanilla|boiling water|butter
+287,Kumpir,Turkish,Side,vegetarian|pescatarian,intermediate,low,cheap,potatoes|butter|cheese|onion|red pepper|red chilli flakes
+288,Kung Pao Chicken,Chinese,Chicken,dairy-free,intermediate,medium,cheap,sake|soy sauce|sesame seed oil|corn flour|water|chicken|chilli powder|rice vinegar|brown sugar|spring onions|garlic clove|water chestnut|peanuts
+289,Kung Po Prawns,Chinese,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,prawns|soy sauce|tomato puree|corn flour|caster sugar|sunflower oil|peanuts|chilli|brown sugar|garlic clove|water chestnut|ginger
+290,Kvæfjord Cake “Verdens Beste” (World’s Best Cake),Norwegian,Dessert,vegetarian|pescatarian,advanced,high,cheap,egg yolks|cornstarch|granulated sugar|heavy cream|milk|vanilla pod|butter|granulated sugar|egg yolks|flour|baking powder|milk|egg white|granulated sugar|almonds|whipping cream
+291,Laksa King Prawn Noodles,Malaysian,Seafood,pescatarian,intermediate,medium,expensive,olive oil|red chilli|thai red curry paste|vegetable stock cube|coconut milk|fish sauce|rice noodles|lime|king prawns|coriander
+292,Lamb & apricot meatballs,Turkish,Lamb,dairy-free,intermediate,medium,expensive,olive oil|red onions|garlic|ground cumin|ground coriander|tinned tomatos|sugar|mint|lamb mince|dried apricots|breadcrumbs|pita bread
+293,Lamb and Lemon Souvlaki,Greek,Lamb,dairy-free,intermediate,medium,expensive,garlic|sea salt|olive oil|lemon|dill|lamb leg|pita bread
+294,Lamb and Potato pie,British,Lamb,dairy-free,intermediate,medium,expensive,lamb shoulder|flour|vegetable oil|onion|carrots|vegetable stock|potatoes|shortcrust pastry|eggs
+295,Lamb Biryani,Indian,Lamb,,advanced,medium,expensive,cashew nuts|khus khus|cumin seeds|onions|ginger garlic paste|garlic|mint|cilantro|saffron|ghee|basmati rice|full fat yogurt|cumin seeds|bay leaf|cinnamon|cloves|cardamom|lamb|red chilli powder|biryani masala
+296,Lamb Pilaf (Plov),Russian,Lamb,,intermediate,medium,expensive,lamb|prunes|lemon juice|butter|onion|lamb|garlic|vegetable stock|rice|saffron|parsley
+297,Lamb Rogan josh,Indian,Lamb,,intermediate,medium,expensive,onion|sunflower oil|garlic|ginger|madras paste|paprika|cinnamon stick|cardamom|cloves|bay leaf|tomato purée|lamb|greek yogurt|coriander
+298,Lamb Tagine,Moroccan,Lamb,,intermediate,medium,expensive,olive oil|onion|carrots|lamb leg|garlic|cumin|ginger|saffron|cinnamon|honey|apricot|vegetable stock cube|butternut squash|couscous|parsley
+299,Lamb tomato and sweet spices,Moroccan,Lamb,dairy-free,intermediate,medium,expensive,olive oil|ginger|garlic|tomatoes|lemon juice|caster sugar|vine leaves|fennel bulb|lamb mince|onion|potatoes|basmati rice|chopped parsley|coriander|lemon juice|garlic|clove|cinnamon|tomatoes
+300,Lamb Tzatziki Burgers,Greek,Lamb,,intermediate,medium,expensive,bulgur wheat|lamb mince|cumin|coriander|paprika|garlic|olive oil|bun|cucumber|greek yogurt|mint
+301,Lamingtons,Australian,Dessert,vegetarian|pescatarian,advanced,high,cheap,salted butter|golden caster sugar|egg|self-raising flour|milk|salt|double cream|icing sugar|raspberry jam|desiccated coconut|unsalted butter|milk|cocoa powder|icing sugar
+302,Lancashire hotpot,British,Lamb,,intermediate,medium,expensive,butter|lamb|lamb kidney|onions|carrots|plain flour|worcestershire sauce|chicken stock|bay leaves|potatoes
+303,Lasagna Sandwiches,American,Pasta,,intermediate,high,cheap,sour cream|chopped onion|dried oregano|salt|bread|bacon|tomato|mozzarella|butter
+304,Lasagne,Italian,Pasta,,intermediate,high,cheap,olive oil|bacon|onion|celery|carrots|garlic|minced beef|tomato puree|chopped tomatoes|honey|lasagne sheets|creme fraiche|mozzarella balls|parmesan cheese|basil leaves
+305,Leblebi Soup,Tunisian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,olive oil|onion|chickpeas|vegetable stock|cumin|garlic|salt|harissa spice|pepper|lime
+306,Lemongrass beef stew with noodles,Thai,Beef,dairy-free,intermediate,medium,cheap,ginger|garlic clove|lemongrass stalks|coriander leaves|red chilli|vegetable oil|beef|soy sauce|five spice powder|brown sugar|beef stock|rice noodles|lime
+307,Locro,Argentinian,Miscellaneous,dairy-free,intermediate,medium,cheap,dried white corn|dried white beans|pumpkin|potatoes|beef|pork|chorizo|onion|paprika|salt|pepper
+308,Ma Po Tofu,Chinese,Beef,dairy-free,advanced,medium,cheap,tofu|minced beef|sesame seed oil|doubanjiang|fermented black beans|pepper|salt|sichuan pepper|soy sauce|water|olive oil|scallions|spring onions|garlic|ginger|water|cornstarch
+309,Madeira Cake,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,butter|caster sugar|eggs|self-raising flour|milk|lemon|mixed peel
+310,Mamoul (Eid biscuits),Saudi Arabian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,plain flour|semolina|sunflower oil|unsalted butter|milk|icing sugar
+311,Massaman Beef curry,Thai,Beef,,intermediate,medium,cheap,peanuts|coconut cream|massaman curry paste|beef|potatoes|onion|lime|cinnamon stick|tamarind paste|brown sugar|fish sauce|chilli|jasmine rice
+312,Matambre a la Pizza,Argentinian,Beef,dairy-free,intermediate,medium,expensive,beef flank steak|tomato sauce|mozzarella|oregano|green olives|salt|pepper
+313,Matar Paneer,Indian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,sunflower oil|paneer|ginger|cumin|turmeric|coriander|green chilli|tomato|peas|garam masala|coriander|naan bread
+314,Mazariner – Scandinavian Almond Tartlets,Norwegian,Dessert,vegetarian|pescatarian,advanced,high,cheap,flour|powdered sugar|butter|egg|egg|powdered sugar|butter|vanilla extract|flour|almond flour|almond extract|powdered sugar|heavy cream|almond extract
+315,Mbuzi Choma (Roasted Goat),Kenyan,Goat,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,goat meat|corn flour|tomatoes|salt|onion|green chilli|coriander leaves
+316,McSinghs Scotch pie,British,Lamb,,advanced,medium,expensive,cumin|rapeseed oil|red onions|garlic clove|green chilli|red pepper|nutmeg|coriander|lamb mince|pepper|coriander|plain flour|salt|milk|lard|egg yolks
+317,Mediterranean Pasta Salad,Italian,Seafood,dairy-free|pescatarian,intermediate,medium,moderate,mozzarella balls|baby plum tomatoes|fresh basil|farfalle|extra virgin olive oil|green olives|tuna|salt|pepper
+318,Mee goreng mamak,Malaysian,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,peanuts|chilli|prawns|oil|water|tamarind paste|potatoes|red onions|garlic clove|cabbage|chinese broccoli|tofu|soy sauce|noodles|egg
+319,Migas,Spanish,Miscellaneous,dairy-free,beginner,medium,cheap,bread|olive oil|garlic|pork
+320,Milanesa,Argentinian,Beef,dairy-free,intermediate,medium,cheap,beef cutlet|egg|breadcrumbs|parsley|garlic|salt|pepper
+321,Mince Pies,British,Dessert,,intermediate,high,cheap,butter|plain flour|caster sugar|mincemeat|egg|icing sugar
+322,Minced Beef Pie,British,Beef,dairy-free,intermediate,medium,cheap,vegetable oil|minced beef|onion|tomato puree|plain flour|mushrooms|beef stock|worcestershire sauce|shortcrust pastry|egg yolks
+323,Mini bundt cakes,Polish,Dessert,vegetarian|pescatarian,intermediate,high,cheap,butter|plain flour|caster sugar|egg|baking powder|cocoa powder|milk|icing sugar
+324,Mini chilli beef pies,Australian,Beef,,intermediate,medium,cheap,ready rolled shortcrust pastry|sunflower oil|onion|hot chilli powder|ground cumin|minced beef|tomato puree|beef stock|ground cinnamon|kidney beans|potatoes|sour cream|chopped chive
+325,Molasses Baked Beans,Canadian,Vegetarian,vegetarian|dairy-free,intermediate,low,cheap,dried white navy beans|bacon|onion|molasses|brown sugar|cider vinegar|mustard|salt|pepper
+326,Montreal Smoked Meat,Canadian,Beef,dairy-free,intermediate,medium,cheap,beef brisket|salt|black pepper|coriander|sugar|bay leaf|cloves|black pepper|coriander|paprika|garlic|onion|dill|english mustard|celery salt|red pepper flakes
+327,Moroccan Carrot Soup,Moroccan,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,carrots|onion|garlic clove|cumin|coriander|olive oil|garam masala|lemon juice
+328,Moussaka,Greek,Beef,,intermediate,medium,cheap,beef|aubergine|greek yogurt|egg|parmesan|tomato|tomato puree|potatoes
+329,Mulukhiyah,Egyptian,Beef,dairy-free,intermediate,medium,cheap,mulukhiyah|onion|beef|salt|water|garlic clove|olive oil
+330,Mushroom & Chestnut Rotolo,British,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,expensive,mushrooms|chestnuts|challots|garlic|rosemary|wild mushrooms|soy sauce|white wine|lasagne sheets|breadcrumbs|sage|truffle oil
+331,Mushroom soup with buckwheat,Croatian,Side,vegetarian|pescatarian,intermediate,low,cheap,mushrooms|buckwheat|vegetable oil|onion|garlic|bay leaf|vegetable stock cube|sour cream|white wine vinegar|parsley
+332,Mustard champ,Irish,Side,vegetarian|pescatarian,intermediate,low,cheap,potatoes|milk|butter|mustard|spring onions|spring onions
+333,Mutabbaq,Saudi Arabian,Miscellaneous,,advanced,medium,cheap,mincemeat|garlic|ginger|egg|tomato|spring onions|filo pastry|melted butter|salt|paprika|cumin|allspice|turmeric|black pepper|sugar
+334,Nanaimo Bars,Canadian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,custard|caster sugar|cocoa|egg|digestive biscuits|desiccated coconut|almonds|butter|double cream|custard powder|icing sugar|dark chocolate|butter
+335,Napa Cabbage with Dried Shrimp,Chinese,Seafood,dairy-free|pescatarian,advanced,medium,expensive,dried shrimp|boiling water|napa cabbage|peanut oil|scallions|ginger|soy sauce|water|cornstarch|kosher salt|pepper
+336,Nasi lemak,Malaysian,Seafood,pescatarian,advanced,medium,expensive,coconut milk|water|ginger paste|ginger|bay leaf|rice|eggs|cucumber|peanuts|anchovy fillet|vegetable oil|onion|garlic|shallots|chilli powder|anchovy fillet|sugar|tamarind paste
+337,New York cheesecake,American,Dessert,vegetarian|pescatarian,intermediate,high,cheap,butter|sour cream|sugar|cream cheese|caster sugar|plain flour|lemon juice|eggs|sour cream|sour cream|caster sugar|lemon juice
+338,No-Churn Rum Raisin Ice Cream,Jamaican,Dessert,vegetarian|pescatarian,intermediate,high,moderate,dark rum|raisins|vanilla extract|condensed milk|brown sugar|ground cinnamon|allspice|heavy cream|salt
+339,Noodle bowl salad,Vietnamese,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,rice noodles|sugar snap peas|sesame seed oil|spring onions|coriander|hot smoked flaked salmon|pretzels|soy sauce|clear honey|lemon juice|ground nut oil|garlic|ginger
+340,Nordic smørrebrød with asparagus and horseradish cream,Norwegian,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,creme fraiche|horseradish|lemon juice|salt|pepper|vegetable oil|shallots|salt|white asparagus|asparagus|rye bread|butter|västerbottensost cheese|dill|salt|black pepper
+341,Norwegian Krumkake,Norwegian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,egg|sugar|butter|cardamom|nutmeg|salt|flour|water
+342,Norwegian Potato Lefse,Norwegian,Side,vegetarian|pescatarian,intermediate,low,cheap,potatoes|salt|sugar|melted butter|heavy cream|all purpose flour|flour|butter|granulated sugar|heavy cream
+343,Nutty Chicken Curry,Indian,Chicken,,intermediate,medium,moderate,red chilli|ginger|garlic|coriander|sunflower oil|chicken breasts|peanut butter|chicken stock|greek yogurt
+344,Oatmeal pancakes,Venezulan,Breakfast,vegetarian|pescatarian,intermediate,medium,cheap,egg|milk|sugar|baking powder|salt|vanilla extract|ground oats|butter|sugar syrup|strawberries
+345,Osso Buco alla Milanese,Italian,Miscellaneous,,advanced,medium,cheap,veal|flour|olive oil|butter|onion|carrots|celery|fennel|garlic|orange zest|marjoram|bay leaf|dry white wine|chicken stock|tomatoes|parsley|garlic|lemon zest
+346,Oxtail with broad beans,Jamaican,Beef,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,oxtail|onion|spring onions|garlic|ginger|scotch bonnet|soy sauce|fresh thyme|vegetable oil|water|broad beans|corn flour|water
+347,Pad See Ew,Thai,Chicken,dairy-free,intermediate,medium,cheap,rice stick noodles|dark soy sauce|oyster sauce|soy sauce|white vinegar|sugar|water|peanut oil|garlic|chicken|egg|chinese broccoli
+348,Pad Thai,Thai,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,rice noodles|lime|cayenne pepper|muscovado sugar|fish sauce|vegetable oil|tiger prawns|spring onions|bean sprouts|peanuts|coriander|lime|sweet chilli sauce
+349,Padron peppers,Spanish,Vegan,vegan|vegetarian|dairy-free|pescatarian,beginner,low,moderate,olive oil|padron peppers
+350,Paella,Spanish,Seafood,dairy-free|pescatarian,advanced,medium,expensive,olive oil|raw tiger prawns|parsley|dry sherry|mussels|saffron|chorizo|onion|garlic|squid|tomato|paella rice|broad beans|lemon zest
+351,"Pan-fried hake, white bean & chorizo broth",Spanish,Seafood,dairy-free,intermediate,medium,cheap,dried white beans|garlic|bay leaves|thyme|olive oil|bread|chorizo|onion|paprika|chicken stock|parsley|hake
+352,Panang chicken curry (kaeng panang gai),Thai,Chicken,,intermediate,medium,expensive,coconut milk|panang curry paste|chicken breast|green beans|fish sauce|brown sugar|makrut lime leaves|basil leaves|jasmine rice|red chilli|dried red chillies|shrimp paste|garlic|galangal|lemongrass|lime|ground nutmeg|ground coriander|ground cumin|peanuts
+353,Pancakes,American,Dessert,vegetarian|pescatarian,intermediate,high,cheap,flour|eggs|milk|sunflower oil|sugar|raspberries|blueberries
+354,Parkin Cake,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,butter|egg|milk|golden syrup|black treacle|brown sugar|oatmeal|self-raising flour|ground ginger
+355,Passion fruit mousse,Venezulan,Dessert,vegetarian|pescatarian,intermediate,high,cheap,unflavoured gelatin|passion fruit pulp|sugar|condensed milk|egg white|mint
+356,Paszteciki (Polish Pasties),Polish,Beef,,advanced,medium,cheap,flour|salt|egg|egg|butter|butter|onion|swede|beef brisket|eggs|salt|pepper
+357,Patatas bravas,Spanish,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,olive oil|onion|garlic|tinned tomatos|tomato puree|paprika|chilli powder|sugar|parsley|potatoes|olive oil
+358,Pate Chinois,Canadian,Beef,,intermediate,medium,cheap,potatoes|butter|milk|minced beef|onion|creamed corn|paprika|parsley|salt|pepper
+359,Peach & Blueberry Grunt,American,Dessert,vegetarian|pescatarian,intermediate,high,cheap,corn flour|orange|orange|caster sugar|peaches|blueberries|self-raising flour|butter|muscovado sugar|cinnamon|milk
+360,Peanut Butter Cheesecake,American,Dessert,vegetarian|pescatarian,intermediate,high,moderate,butter|peanut cookies|gelatine leafs|ricotta|peanut butter|golden syrup|milk|double cream|light brown soft sugar|peanut brittle
+361,Peanut Butter Cookies,American,Dessert,vegetarian|pescatarian,intermediate,high,cheap,peanut butter|sugar|egg
+362,Pear Tarte Tatin,French,Dessert,vegetarian|pescatarian,intermediate,high,moderate,pears|caster sugar|butter|star anise|cardamom|cinnamon|brandy|puff pastry
+363,Piernik (Polish gingerbread),Polish,Dessert,vegetarian|pescatarian,intermediate,high,cheap,unsalted butter|clear honey|brown sugar|self-raising flour|ground ginger|ground cinnamon|ground clove|ground nutmeg|pepper|egg|plum jam|double cream|dark chocolate|clear honey
+364,Pierogi (Polish Dumplings),Polish,Side,vegetarian|pescatarian,intermediate,low,cheap,butter|chopped onion|sauerkraut|butter|chopped onion|potatoes|eggs|sour cream|flour|salt|baking powder
+365,Pilchard puttanesca,Italian,Pasta,vegan|vegetarian|dairy-free|pescatarian,intermediate,high,cheap,spaghetti|olive oil|onion|garlic|red chilli|tomato puree|pilchards|black olives|parmesan
+366,Piri-piri chicken and slaw,Portuguese,Chicken,,intermediate,medium,cheap,chicken|red chilli|garlic|ginger|dried oregano|coriander|paprika|red wine vinegar|oil|red onions|carrots|beetroot|cabbage|mayonnaise|greek yogurt|red wine vinegar|cumin seeds
+367,Pistachio cake,Polish,Dessert,vegetarian|pescatarian,intermediate,high,cheap,butter|pistachio|plain flour|baking powder|caster sugar|egg|vanilla extract|icing sugar|mascarpone|double cream|pistachio paste|raspberries|unwaxed lime
+368,Pistachio Kunafa Chocolate Cake and Cupcakes,Saudi Arabian,Dessert,vegetarian|pescatarian,advanced,high,moderate,white chocolate|unsalted pistachio|condensed milk|milk|oreo cream biscuits|milk|baking powder|vinegar|salt|sevaiiya|ghee|dark chocolate|malai
+369,Pisto con huevos,Spanish,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,olive oil|onion|garlic clove|mixed peppers|oregano|thyme|bay leaves|courgettes|aubergine|tomato|egg|parsley
+370,Pizza Express Margherita,Italian,Miscellaneous,vegan|vegetarian|dairy-free|pescatarian,advanced,medium,cheap,water|sugar|yeast|plain flour|salt|olive oil|passata|mozzarella|oregano|basil|black pepper
+371,Polish chocolate & walnut cake,Polish,Dessert,vegetarian|pescatarian,intermediate,high,cheap,plain flour|coco sugar|egg|caster sugar|egg white|caster sugar|walnuts|plain flour|potato starch|double cream|chocolate chips
+372,Polish doughnuts (Pączki),Polish,Dessert,vegetarian|pescatarian,advanced,high,cheap,yeast|caster sugar|flour|milk|egg yolks|sugar|caster sugar|vanilla extract|flour|double cream|butter|jam|ground almonds|oil|icing sugar|lemon|almond essence|almonds
+373,Polish patties (kotlety),Polish,Side,,intermediate,low,cheap,bread rolls|milk|onion|vegetable oil|ground beef|egg|garlic clove|marjoram|breadcrumbs
+374,Pollo en pepitoria,Spanish,Chicken,dairy-free,advanced,medium,expensive,saffron|extra virgin olive oil|garlic clove|almonds|stale bread|parsley|chicken thighs|onion|carrots|celery|dry sherry|chicken stock|cinnamon stick|cloves|bay leaves|egg|almonds
+375,Polskie Nalesniki (Polish Pancakes),Polish,Dessert,vegetarian|pescatarian,intermediate,high,cheap,flour|eggs|milk|water|salt|sugar|butter
+376,Pomegranate salad,Polish,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,olive oil|lemon juice|honey|thyme|baby lettuce leaves|cherry tomatoes|spring onions|red chilli|pomegranate|feta
+377,Pork & sauerkraut goulash,Polish,Pork,,intermediate,medium,cheap,lard|onion|cumin seeds|pork shoulder|garlic|plain flour|paprika|beef stock|bay leaves|white sauerkraut|whipping cream|sour cream
+378,Pork Cassoulet,French,Pork,dairy-free,intermediate,medium,cheap,goose fat|pork|onion|garlic|carrots|fennel seeds|red wine vinegar|vegetable stock|tomato puree|rosemary|parsley|haricot beans|breadcrumbs|oil|bread|broccoli
+379,Pork rib bortsch,Polish,Pork,,intermediate,medium,cheap,pork back ribs|bay leaves|dried white beans|carrots|onion|garlic clove|red pepper|red chilli|beetroot|potatoes|tomato puree|white cabbage|parsley|dill|sour cream
+380,Portuguese barbecued pork (Febras assadas),Portuguese,Pork,dairy-free,intermediate,medium,cheap,pork|white wine|paprika|lemon|lemon juice|olive oil|mayonnaise|potatoes|vegetable oil
+381,Portuguese custard tarts,Portuguese,Dessert,vegetarian|pescatarian,advanced,high,cheap,plain flour|icing sugar|puff pastry|caster sugar|lemon zest|cinnamon|eggs|egg yolks|corn flour|whole milk|vanilla|cinnamon
+382,Portuguese fish stew (Caldeirada de peixe),Portuguese,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,onions|red pepper|coriander|red chilli|garlic|dry white wine|saffron|bay leaf|potatoes|plum tomatoes|cod|squid|tiger prawns|clams|mussels|baguette
+383,Portuguese prego with green piri-piri,Portuguese,Beef,dairy-free,intermediate,medium,expensive,garlic|beef fillet|olive oil|vinegar|parsley|ciabatta|rocket|basil leaves|parsley|jalapeno|vinegar|spring onions|garlic|caster sugar
+384,Postre Chajá,Uruguayan,Dessert,vegetarian|pescatarian,intermediate,high,cheap,egg|sugar|salt|all purpose flour|cornstarch|egg white|sugar|dulce de leche|heavy cream|vanilla extract|sugar|peaches|peach juice|cornstarch
+385,Potato Gratin with Chicken,Italian,Chicken,dairy-free,intermediate,medium,cheap,potatoes|onions|olive oil|chicken stock|creme fraiche|parmesan|chicken breasts|bacon|spinach|peas
+386,Potato Salad (Olivier Salad),Russian,Vegetarian,vegetarian|dairy-free,intermediate,low,cheap,potatoes|carrots|salt|white wine vinegar|eggs|sausages|dill|peas|onions|mayonnaise
+387,Pouding chomeur,Canadian,Dessert,vegetarian|pescatarian,advanced,high,cheap,butter|sugar|eggs|vanilla extract|flour|baking powder|milk|maple syrup|brown sugar|single cream|butter
+388,Poulet Roti a l'Algerienne (Algerian Roast Chicken),Algerian,Chicken,dairy-free,intermediate,medium,cheap,water|onion|olive oil|balsamic vinegar|dijon mustard|garlic|black pepper|cayenne pepper|salt|chicken
+389,Poutine,Canadian,Miscellaneous,,intermediate,medium,cheap,vegetable oil|beef gravy|potatoes|cheese curds
+390,Prawn & Fennel Bisque,French,Side,pescatarian,intermediate,low,expensive,tiger prawns|olive oil|onion|fennel|carrots|dry white wine|brandy|chopped tomatoes|fish stock|paprika|double cream|prawns
+391,Prawn & noodle salad with crispy shallots,Vietnamese,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,rice noodles|prawns|red onions|red chilli|cucumber|coriander|mint|roasted peanut|lime|brown sugar|fish sauce|garlic|shallots|vegetable oil|flour
+392,Prawn stir-fry,Thai,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,raw tiger prawns|green chilli|garlic|coriander|caster sugar|lime|fish sauce|ground nut oil|ginger|spring onions|red pepper|water chestnut|bean sprouts|soy sauce|rice noodles|lime
+393,Prawns with Romesco sauce,Spanish,Seafood,dairy-free|pescatarian,advanced,medium,expensive,red pepper|garlic clove|red chilli|tomato|shelled hazelnuts|almonds|parsley|bread|olive oil|red wine vinegar|tiger prawns
+394,Provençal Omelette Cake,French,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,eggs|olive oil|courgettes|spring onions|red pepper|garlic clove|red chilli|cream cheese|milk|chives|basil|rocket|parmesan
+395,Pumpkin Pie,American,Dessert,vegetarian|pescatarian,intermediate,high,cheap,pumpkin|shortcrust pastry|plain flour|caster sugar|salt|nutmeg|cinnamon|eggs|butter|milk|icing sugar
+396,Purple sprouting broccoli tempura with nuoc cham,Vietnamese,Miscellaneous,dairy-free|pescatarian,intermediate,medium,cheap,corn flour|plain flour|sesame seed|vegetable oil|soda water|purple sprouting broccoli|fish sauce|lime|birds-eye chillies|sugar
+397,Quick gazpacho,Spanish,Starter,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,moderate,passata|red pepper|red chilli|garlic|sherry vinegar|lime
+398,Quick salt & pepper squid,Australian,Seafood,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,moderate,squid|oil|chinese five spice powder|sesame seed oil|coriander|sweet chilli sauce
+399,Ramen Noodles with Boiled Egg,Chinese,Miscellaneous,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,noodles|water|egg|soy sauce|chilli sauce|spring onions|salt|pepper
+400,Rappie Pie,Canadian,Chicken,,intermediate,medium,cheap,butter|onions|chicken stock|chicken breast|potatoes|salt|black pepper
+401,Raspberry mousse,Polish,Dessert,vegetarian|pescatarian,intermediate,high,moderate,gelatine leafs|raspberries|caster sugar|lemon|whipping cream
+402,Raspeballer (Norwegian Potato Dumplings),Norwegian,Pork,,advanced,medium,cheap,pork knuckle|sausages|potatoes|red potatoes|flour|all purpose flour|salt|bouillon cubes|freshly chopped parsley|swede|carrots|cream|butter|nutmeg
+403,Ratatouille,French,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,aubergine|courgettes|yellow pepper|tomato|olive oil|basil|onion|garlic clove|red wine vinegar|sugar
+404,Recheado Masala Fish,Indian,Seafood,vegan|vegetarian|dairy-free|pescatarian,advanced,medium,moderate,mackerel|red chilli|ginger|garlic|pepper|cumin|turmeric|cinnamon stick|cloves|cardamom|sugar|tamarind ball|vinegar|oil
+405,Red curry chicken kebabs,Thai,Chicken,,intermediate,medium,cheap,chicken breasts|thai red curry paste|coconut milk|red pepper|courgettes|red onions|lime
+406,Red onion pickle,Norwegian,Vegan,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,red onions|sea salt|cider vinegar|granulated sugar|black pepper|bay leaves
+407,Red Peas Soup,Jamaican,Beef,,intermediate,medium,cheap,kidney beans|carrots|spring onions|thyme|onion|black pepper|red pepper|garlic clove|allspice|beef|water|potatoes|plain flour|water|coconut milk
+408,Ribollita,Italian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,olive oil|onion|carrots|celery|garlic|cannellini beans|canned tomatoes|water|rosemary|thyme|kale|wholegrain bread|red onions|parmesan
+409,Rice paper dumplings,Vietnamese,Pork,dairy-free,intermediate,medium,cheap,white cabbage|carrots|shiitake mushrooms|ground pork|garlic|ginger|soy sauce|sesame seed oil|spring onions|rice paper sheets|vegetable oil|soy sauce|rice vinegar|sesame seed|spring onions
+410,Rigatoni with fennel sausage sauce,Italian,Lamb,dairy-free,intermediate,medium,expensive,olive oil|italian fennel sausages|onion|fennel bulb|smoky paprika|garlic|fennel seeds|red wine|chopped tomatoes|caster sugar|pitted black olives|rigatoni|pecorino|anchovy fillet|garlic|olive oil|basil leaves
+411,Roast aubergine with goat's cheese & toasted flatbread,Turkish,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,aubergine|extra virgin olive oil|cherry tomatoes|pita bread|balsamic vinegar|mint|shallots|shallots|red chilli|goats cheese|rocket
+412,Roast fennel and aubergine paella,Spanish,Vegan,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,expensive,baby aubergine|fennel|red pepper|courgettes|onion|paella rice|paprika|saffron|white wine|vegetable stock|frozen peas|lemon|parsley|salt|black pepper
+413,Roasted chicken with creamy walnut sauce,Turkish,Chicken,,intermediate,medium,cheap,chicken thighs|cumin|paprika|olive oil|pita bread|chicken stock|walnuts|onion|garlic|single cream|lemon|coriander
+414,"Roasted Eggplant With Tahini, Pine Nuts, and Lentils",American,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,olive oil|carrots|celery|onion|garlic|brown lentils|bay leaves|water|salt|apple cider vinegar|pepper|egg plants|rosemary|pine nuts|parsley
+415,Rock Cakes,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,self-raising flour|caster sugar|baking powder|butter|dried fruit|eggs|milk|vanilla extract
+416,Rocky Road Fudge,American,Dessert,vegetarian|pescatarian,intermediate,high,moderate,miniature marshmallows|chocolate chips|peanut butter|vanilla extract|peanuts
+417,Rogaliki (Polish Croissant Cookies),Polish,Dessert,vegetarian|pescatarian,intermediate,high,cheap,butter|egg yolks|cream cheese|baking powder|flour|jam
+418,Rømmegrøt – Norwegian Sour Cream Porridge,Norwegian,Breakfast,vegetarian|pescatarian,intermediate,medium,cheap,full fat sour cream|flour|milk|salt|sugar|cinnamon|butter
+419,Rosemary braised red cabbage with kabanos,Ukrainian,Pork,,intermediate,medium,cheap,red cabbage|olive oil|butter|red onions|red wine vinegar|brown sugar|red chilli|rosemary|bramley apples|kabanos sausages
+420,Rosol (Polish Chicken Soup),Polish,Chicken,dairy-free,advanced,medium,cheap,chicken legs|onions|carrots|leek|celery|cabbage|cloves|allspice|bay leaf|parsley|dill|pepper|salt
+421,Roti john,Malaysian,Beef,dairy-free,intermediate,medium,cheap,minced beef|onion|eggs|chilli|baguette|salt|pepper|mayonnaise
+422,Rye bread,Polish,Side,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,rye|strong white bread flour|yeast|salt|honey|caraway seed
+423,Salmon Avocado Salad,British,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,salmon|avocado|cucumber|spinach|mint|lime|honey|olive oil
+424,Salmon Eggs Eggs Benedict,American,Breakfast,pescatarian,intermediate,medium,expensive,eggs|white wine vinegar|english muffins|butter|smoked salmon|lemon juice|white wine vinegar|egg|unsalted butter
+425,Salmon noodle soup,Vietnamese,Seafood,dairy-free,intermediate,medium,expensive,chicken stock|thai red curry paste|rice noodles|shiitake mushrooms|sweetcorn|salmon|lime|soy sauce|brown sugar|coriander
+426,Salmon noodle wraps,Vietnamese,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,rice noodles|spring onions|petit pois|chilli|coriander|lime|salmon
+427,Salmon Prawn Risotto,Italian,Seafood,pescatarian,intermediate,medium,expensive,butter|onion|rice|white wine|vegetable stock|lemon|king prawns|salmon|asparagus|black pepper|parmesan
+428,Salt & pepper squid,Vietnamese,Seafood,dairy-free|pescatarian,intermediate,medium,cheap,corn flour|plain flour|black pepper|szechuan peppercorns|sunflower oil|squid|spring onions|green chilli|red chilli|cucumber|red onions|rice vinegar|caster sugar|fish sauce
+429,Salt cod tortilla,Spanish,Seafood,dairy-free|pescatarian,intermediate,medium,cheap,olive oil|onion|jersey royal potatoes|garlic|egg|parsley|salt cod
+430,Salted Caramel Cheescake,American,Dessert,vegetarian|pescatarian,intermediate,high,moderate,digestive biscuits|pretzels|butter|cream cheese|vanilla extract|icing sugar|caramel|sea salt|double cream|caramel sauce|toffee popcorn|pretzels
+431,Saltfish and Ackee,Jamaican,Seafood,dairy-free|pescatarian,advanced,medium,cheap,salt cod|ackee|onion|paprika|curry powder|jerusalem artichokes|hotsauce|red pepper|yellow pepper|tomatoes|salt|pepper|self-raising flour|suet|salt|olive oil
+432,Saskatoon Pie,Canadian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,all purpose flour|salt|unsalted butter|vegetable shortening|egg|vinegar|water|saskatoon berries|sugar|sugar|cornstarch|unsalted butter|egg|water
+433,Sauerkraut pierogi,Polish,Vegetarian,vegetarian|pescatarian,advanced,low,cheap,sunflower oil|shallots|sauerkraut|hispi (sweetheart) cabbage|egg|vegetable oil|plain flour|vegetable oil|shallots|plain flour|butter|sour cream
+434,Sauerkraut pierogii,Ukrainian,Vegetarian,vegetarian|pescatarian,advanced,low,cheap,sunflower oil|shallots|sauerkraut|hispi (sweetheart) cabbage|egg|vegetable oil|plain flour|vegetable oil|shallots|plain flour|butter|sour cream
+435,"Sea bass with sizzled ginger, chilli & spring onions",Vietnamese,Seafood,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,expensive,sea bass fillets|sunflower oil|ginger|garlic clove|red chilli|spring onions|soy sauce
+436,Seafood fideuà,Spanish,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,mussels|prawns|saffron|vermicelli pasta|olive oil|onions|garlic|paprika|monkfish|baby squid|fish stock|tomatoes|lemon|parsley
+437,Seafood rice,Spanish,Seafood,dairy-free|pescatarian,intermediate,medium,cheap,olive oil|leek|chorizo|turmeric|rice|fish stock|peas|frozen seafood mix
+438,Seri muka kuih,Malaysian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,rice|coconut milk|water|salt|corn flour|flour|eggs|coconut cream|sugar
+439,Sesame Cucumber Salad,Chinese,Side,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,cucumber|salt|sesame seed oil|rice vinegar|basil leaves|red chilli flakes|sesame seed
+440,Shakshouka,Saudi Arabian,Miscellaneous,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,tomato|extra virgin olive oil|egg|garlic clove|black pepper|salt
+441,Shakshuka,Egyptian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,olive oil|red onions|red chilli|garlic|coriander|cherry tomatoes|caster sugar|eggs|feta
+442,Shakshuka Feta Cheese,Saudi Arabian,Miscellaneous,vegan|vegetarian|dairy-free|pescatarian,advanced,medium,cheap,egg|tomato sauce|olive oil|shallots|celery|garlic|spinach|feta|red pepper|ground cumin|salt|black pepper
+443,Shawarma,Egyptian,Chicken,,advanced,medium,cheap,chicken thighs|coriander|cumin|cardamom|cayenne pepper|paprika|lemon juice|olive oil|greek yogurt|garlic clove|cumin|lemon juice|lettuce|tomato|pita bread
+444,Shawarma bread,Saudi Arabian,Side,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,flour|salt|sugar|baking powder|oil|water
+445,Shawarma chuck roast wrap,Saudi Arabian,Beef,dairy-free,advanced,medium,moderate,chuck roast|beef stock|lemon juice|ground cumin|paprika|salt|ground ginger|turmeric|cayenne pepper|ground cinnamon|ground coriander|ground clove
+446,Shrimp Chow Fun,Chinese,Seafood,dairy-free,advanced,medium,expensive,rice stick noodles|prawns|egg|pepper|sesame seed oil|cornstarch|oil|minced garlic|ginger|onion|bean sprouts|spring onions|cooking wine|oyster sauce|sugar|vinegar|soy sauce
+447,Shrimp With Snow Peas,Chinese,Seafood,dairy-free,advanced,medium,expensive,cornstarch|dry sherry|kosher salt|shrimp|peanut oil|ground ginger|garlic|snow peas|soy sauce|chicken stock|scallions|sesame seed oil
+448,Sichuan Eggplant,Chinese,Vegetarian,vegetarian|dairy-free,advanced,low,cheap,egg plants|peanut oil|chicken stock|sugar|soy sauce|chilli bean paste|sichuan pepper|ginger|garlic|cornstarch|apple cider vinegar|scallions|cilantro
+449,Sichuan Style Stir-Fried Chinese Long Beans,Chinese,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,chinese long beans|peanut oil|dried chillies|sichuan pepper|salt|sugar|sesame seed oil|soy sauce
+450,Silken Tofu with Sesame Soy Sauce,Chinese,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,moderate,silken tofu|soy sauce|chinese sesame sauce|scallions|sesame seed
+451,Singapore Noodles with Shrimp,Chinese,Seafood,dairy-free|pescatarian,advanced,medium,expensive,sesame seed oil|soy sauce|seasoned rice vinegar|vermicelli rice noodles|egg|ground ginger|garlic|carrots|jalapeno|onion|salt|ham|napa cabbage|scallions|red pepper|curry powder|shrimp|cilantro leaves
+452,Skillet Apple Pork Chops with Roasted Sweet Potatoes & Zucchini,American,Pork,,intermediate,medium,cheap,potatoes|apples|garlic|lemon|pork|zucchini|chicken stock|vegetable oil|sugar|butter
+453,Sledz w Oleju (Polish Herrings),Polish,Seafood,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,herring|onion|olive oil|allspice|pepper|bay leaf
+454,"Slow-roast lamb with cinnamon, fennel & citrus",Turkish,Lamb,dairy-free,intermediate,medium,expensive,lamb leg|lemon|olive oil|clear honey|cinnamon|fennel seeds|ground cumin|garlic
+455,"Slow-roasted ham with lemon, garlic & sage",Polish,Pork,dairy-free,intermediate,medium,moderate,garlic|lemon|salt|black pepper|vegetable oil|pork shoulder|dry white wine
+456,Smoked aubergine purée,Turkish,Side,vegetarian|pescatarian,beginner,low,moderate,aubergine|lemon|garlic|yogurt|dill
+457,Smoked Haddock Kedgeree,Indian,Breakfast,,advanced,medium,cheap,butter|onion|cardamom|turmeric|cinnamon stick|bay leaf|basmati rice|chicken stock|smoked haddock|eggs|parsley|lemon
+458,Smoky chicken skewers,Turkish,Chicken,dairy-free,intermediate,medium,moderate,chicken thighs|olive oil|fennel seeds|ground cumin|sweet smoked paprika|garlic|red wine vinegar|smoky aïoli
+459,Smoky Lentil Chili with Squash,British,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,advanced,low,cheap,olive oil|onion|leek|garlic|cumin|coriander|smoked paprika|cinnamon|chili powder|cocoa|dried oregano|diced tomatoes|water|carrots|brown lentils|sea salt|squash|cashews|apple cider vinegar
+460,Snert (Dutch Split Pea Soup),Dutch,Side,dairy-free,intermediate,low,cheap,water|peas|pork|vegetable stock cube|celery|carrots|potatoes|onion|leek|celeriac|sausages
+461,Soy-Glazed Meatloaves with Wasabi Mashed Potatoes & Roasted Carrots,American,Beef,,advanced,medium,cheap,potatoes|carrots|scallions|garlic|bread|garlic powder|soy sauce|ground beef|vegetable oil|sugar|butter
+462,Spaghetti alla Carbonara,Italian,Pasta,dairy-free,intermediate,high,cheap,spaghetti|egg yolks|salt|bacon|pecorino|black pepper
+463,Spaghetti Bolognese,Italian,Beef,dairy-free,intermediate,medium,cheap,onions|olive oil|garlic|lean minced beef|mushrooms|dried oregano|tomatoes|hot beef stock|tomato puree|worcestershire sauce|spaghetti|parmesan
+464,Spaghetti with Spanish flavours,Spanish,Pork,vegetarian|pescatarian,intermediate,medium,moderate,chorizo|spaghetti|parsley|red pepper|olive oil|parmesan cheese
+465,Spanish beans with chicken & chorizo,Spanish,Chicken,dairy-free,intermediate,medium,cheap,pinto beans|onion|paprika|thyme|bay leaves|parsley|chicken thighs|jersey royal potatoes|chorizo|spinach
+466,Spanish Chicken,Spanish,Chicken,dairy-free,intermediate,medium,cheap,chicken thighs|onion|paprika|lemon|parsley|chicken stock|olive oil
+467,Spanish chicken pie,Spanish,Chicken,dairy-free,intermediate,medium,cheap,potatoes|paprika|olive oil|onion|garlic|tinned tomatos|chicken|roasted pepper|green olives
+468,Spanish fig & almond balls,Spanish,Dessert,vegan|vegetarian|dairy-free|pescatarian,intermediate,high,moderate,almonds|figs|dried apricots|dried cranberries|brandy|clear honey|cloves|sesame seed
+469,"Spanish meatballs with clams, chorizo & squid",Spanish,Miscellaneous,,intermediate,medium,cheap,butter|shallots|smoked paprika|garlic|garlic|dry sherry|breadcrumbs|pork|egg yolks|olive oil|chorizo|squid|white wine|tomato|clams|parsley|extra virgin olive oil
+470,Spanish rice & prawn one-pot,Spanish,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,onion|red pepper|green pepper|chorizo|garlic|olive oil|basmati rice|tinned tomatos|prawns
+471,Spanish seafood rice,Spanish,Seafood,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,expensive,olive oil|onion|red pepper|yellow pepper|garlic clove|paella rice|vegetable stock|saffron|frozen seafood mix|lemon|parsley
+472,Spanish tomato bread with jamón Serrano,Spanish,Pork,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,moderate,tomato|garlic|olive oil|salt|pepper|baguette|serrano ham
+473,Spanish Tortilla,Spanish,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,onion|olive oil|butter|potatoes|garlic|eggs|parsley|baguette|vine tomatoes|olive oil
+474,Spanish-style slow-cooked lamb shoulder & beans,Spanish,Lamb,,intermediate,medium,expensive,lamb shoulder|olive oil|onion|carrots|garlic bulb|chicken stock|butter beans|roasted pepper|black olives|parsley|garlic|hot smoked paprika|olive oil|rosemary
+475,Spiced smoky barbecued chicken,Australian,Chicken,dairy-free,intermediate,medium,moderate,garlic|lemon|curry powder|chilli flakes|olive oil|chicken thighs|rosemary|rosemary|thyme|thyme|bay leaves
+476,Spiced tortilla,Spanish,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,sunflower oil|onion|red chilli|curry powder|cherry tomatoes|potatoes|coriander|egg
+477,Spicy Arrabiata Penne,Italian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,penne rigate|olive oil|garlic|chopped tomatoes|red chilli flakes|italian seasoning|basil|parmigiano-reggiano
+478,Spicy North African Potato Salad,Moroccan,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,small potatoes|harissa spice|olive oil|lemon|spring onions|rocket|feta|mint|pine nuts|salt|pepper
+479,Spicy Thai prawn noodles,Thai,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,rice noodles|sesame seed oil|egg|red chilli|ginger|prawns|soy sauce|coriander|mint|lime|peanuts
+480,Spinach & Ricotta Cannelloni,Italian,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,olive oil|garlic|caster sugar|red wine vinegar|chopped tomatoes|basil leaves|mascarpone|milk|parmesan|mozzarella|spinach|parmesan|ricotta|nutmeg|cannellini beans
+481,Split Pea Soup,Canadian,Side,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,ham|peas|onions|carrots|bay leaves|celery|frozen peas|bread
+482,Spotted Dick,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,self-raising flour|salt|suet|currants|caster sugar|lemon|orange|milk|custard
+483,Spring onion and prawn empanadas,Portuguese,Seafood,pescatarian,intermediate,medium,expensive,spring onions|olive oil|red chilli|garlic|prawns|feta|butter|plain flour|egg|white wine vinegar
+484,Squash linguine,Italian,Vegetarian,vegetarian|pescatarian,beginner,low,cheap,butternut squash|garlic|olive oil|linguine pasta|sage
+485,"Squid, chickpea & chorizo salad",Australian,Seafood,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,moderate,red pepper|can of chickpeas|parsley|red chilli|garlic clove|olive oil|squid|chorizo|lemon
+486,Stamppot,Dutch,Pork,,intermediate,medium,cheap,potatoes|bay leaf|shallots|butter|kale|sausages|milk|nutmeg|salt|pepper
+487,Steak & Vietnamese noodle salad,Vietnamese,Beef,dairy-free,intermediate,medium,expensive,brown rice noodle|rapeseed oil|fillet of steak|carrots|chinese cabbage|spring onions|coriander|red chilli|lime|brown sugar|rice vinegar|garlic clove|fish sauce
+488,Steak and Kidney Pie,British,Beef,dairy-free,advanced,medium,expensive,puff pastry|egg white|egg yolks|vegetable oil|beef|lamb kidney|onions|plain flour|beef stock|salt|pepper|worcestershire sauce
+489,Steak Diane,French,Beef,,intermediate,medium,expensive,canola oil|beef fillet|beef stock|butter|garlic|challots|mushrooms|brandy|heavy cream|dijon mustard|worcestershire sauce|tabasco sauce|parsley|chives|salt|pepper
+490,Sticky Chicken,Australian,Chicken,dairy-free,intermediate,medium,moderate,chicken drumsticks|soy sauce|honey|olive oil|tomato puree|dijon mustard
+491,Sticky Toffee Pudding,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,butter|muscovado sugar|eggs|self-raising flour|baking powder|bicarbonate of soda|black treacle|milk|double cream|butter|muscovado sugar|black treacle|double cream|vanilla extract
+492,Sticky Toffee Pudding Ultimate,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,medjool dates|water|vanilla extract|self-raising flour|bicarbonate of soda|eggs|butter|demerara sugar|black treacle|milk|ice cream|muscovado sugar|butter|double cream|black treacle
+493,Stir-fried chicken with chillies & basil,Thai,Chicken,dairy-free,intermediate,medium,moderate,vegetable oil|chicken|garlic|shallots|red chilli|fish sauce|soy sauce|sugar|basil leaves
+494,"Stovetop Eggplant With Harissa, Chickpeas, and Cumin Yogurt",American,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,olive oil|egg plants|harissa spice|chickpeas|cherry tomatoes|greek yogurt|ground cumin|parsley
+495,Strawberries Romanoff,Russian,Dessert,vegetarian|pescatarian,beginner,high,moderate,strawberries|sugar|grand marnier|cream|sour cream
+496,Strawberry Rhubarb Pie,British,Dessert,vegetarian|pescatarian,advanced,high,cheap,flour|salt|sugar|butter|water|rhubarb|strawberries|cornstarch|sugar|cinnamon|lemon juice|unsalted butter|milk|sugar
+497,Stuffed Bell Peppers with Quinoa and Black Beans,Mexican,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,green pepper|olive oil|onion|garlic|quinoa|black beans|sweetcorn|diced tomatoes|cumin|chili powder|smoked paprika|salt|pepper|shredded mexican cheese|cilantro
+498,Stuffed Lamb Tomatoes,Greek,Lamb,dairy-free,intermediate,medium,expensive,tomatoes|sugar|olive oil|onion|garlic clove|lamb|cinnamon|tomato puree|rice|chicken stock|dill|chopped parsley|mint
+499,Sugar Pie,Canadian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,brown sugar|butter|eggs|vanilla extract|salt|plain flour|milk
+500,Suksessterte (Norwegian almond “success cake”),Norwegian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,almonds|egg|granulated sugar|flour|baking powder|egg yolks|heavy cream|granulated sugar|vanilla extract|butter
+501,Sukuma Wiki,Kenyan,Vegetarian,vegetarian|pescatarian,beginner,low,cheap,oil|red onions|kale|salt|double cream
+502,Šúĺlance s Makom,Slovakian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,potatoes|all purpose flour|semolina|salt|ground poppy seeds|powdered sugar|butter
+503,Summer Pistou,French,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,rapeseed oil|leek|courgettes|vegetable stock|cannellini beans|green beans|tomatoes|garlic clove|basil|parmesan
+504,Summer Pudding,British,Dessert,vegan|vegetarian|dairy-free|pescatarian,intermediate,high,cheap,strawberries|blackberries|redcurrants|raspberries|caster sugar|bread
+505,Sushi,Japanese,Seafood,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,sushi rice|rice wine|caster sugar|mayonnaise|rice wine|soy sauce|cucumber
+506,Sweet and Sour Chicken,Chinese,Chicken,dairy-free,advanced,medium,cheap,chicken thighs|egg white|kosher salt|cornstarch|pineapple chunks|pineapple juice|white vinegar|tomato ketchup|brown sugar|oil|red pepper|yellow pepper|ginger
+507,Sweet and Sour Pork,Chinese,Pork,dairy-free,intermediate,medium,cheap,pork|egg|water|salt|sugar|soy sauce|starch|tomato puree|vinegar|coriander
+508,Sweet potato salad,Turkish,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,sweet potatoes|olive oil|shallots|spring onions|chives|sherry vinegar|extra virgin olive oil|honey
+509,Syrian Bread,Syrian,Miscellaneous,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,cheap,water|vegetable oil|sugar|salt|flour|yeast
+510,Syrian Rice with Meat,Syrian,Miscellaneous,,intermediate,medium,cheap,butter|ground beef|salt|allspice|cinnamon|black pepper|chicken stock|rice|butter|pine nuts
+511,Syrian Spaghetti,Syrian,Pasta,vegan|vegetarian|dairy-free|pescatarian,intermediate,high,moderate,spaghetti|tomato sauce|tomato puree|cinnamon|vegetable oil|salt|pepper
+512,Szechuan Beef,Chinese,Beef,dairy-free,advanced,medium,cheap,beef|salt|sesame seed oil|pepper|egg white|starch|oil|ginger|garlic|onion|carrots|green pepper|celery|mushrooms|cooking wine|water|oyster sauce|hotsauce|sugar|soy sauce
+513,Tahini Lentils,Moroccan,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,tahini|lemon|olive oil|red onions|garlic|yellow pepper|green beans|courgettes|kale|lentils
+514,Tajine de Poulet aux Carottes et Patates Douces (Chicken and Sweet Potato Tagine),Algerian,Chicken,dairy-free,intermediate,medium,cheap,onion|celery|cilantro|parsley|turmeric|ground cumin|paprika|ground ginger|cayenne pepper|salt|black pepper|chicken thighs|olive oil|raisins|chicken stock|sweet potatoes|carrots|prunes
+515,Tall Skoleboller,Norwegian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,milk|instant yeast|granulated sugar|cardamom|vanilla extract|flour|butter|milk|granulated sugar|egg yolks|cornstarch|vanilla pod|powdered sugar|water|shredded coconut
+516,Tamiya,Egyptian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,broad beans|spring onions|garlic clove|parsley|cumin|baking powder|cayenne pepper|flour|vegetable oil
+517,Tandoori chicken,Indian,Chicken,,intermediate,medium,cheap,lemons|paprika|red onions|chicken thighs|vegetable oil|greek yogurt|ginger|garlic clove|garam masala|ground cumin|chilli powder|turmeric
+518,Tangy cabbage slaw,Ukrainian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,mayonnaise|lemon|cider vinegar|wholegrain mustard|celery salt|white cabbage|red cabbage|carrots|onion|celery
+519,"Tangy carrot, cabbage & onion salad",Vietnamese,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,carrots|red cabbage|red onions|mint|coriander leaves|roasted peanut|lime|ground nut oil|red chilli|brown sugar
+520,Tarte Tatin,French,Dessert,vegetarian|pescatarian,intermediate,high,cheap,puff pastry|plain flour|braeburn apples|caster sugar|butter|creme fraiche
+521,Teriyaki Chicken Casserole,Japanese,Chicken,dairy-free,intermediate,medium,cheap,soy sauce|water|brown sugar|ground ginger|minced garlic|cornstarch|chicken breasts|stir-fry vegetables|brown rice
+522,Thai beef stir-fry,Thai,Beef,dairy-free,beginner,medium,moderate,vegetable oil|beef|red chilli|oyster sauce|basil leaves
+523,Thai chicken cakes with sweet chilli sauce,Thai,Chicken,dairy-free,intermediate,medium,cheap,chicken breast|garlic|ginger|onion|coriander|green chilli|olive oil|sweet chilli sauce|lime|spring onions|red chilli
+524,Thai coconut & veg broth,Thai,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,thai red curry paste|vegetable oil|vegetable stock|coconut milk|brown sugar|egg noodles|carrots|chinese leaf|bean sprouts|cherry tomatoes|lime|spring onions|coriander
+525,Thai curry noodle soup,Thai,Seafood,pescatarian,intermediate,medium,expensive,vegetable oil|thai green curry paste|stir-fry vegetables|raw king prawns|coconut milk|vegetable stock|udon noodles|coriander|basil|red chilli|spring onions
+526,Thai drumsticks,Thai,Chicken,dairy-free,intermediate,medium,moderate,sweet chilli sauce|orange|orange|garlic|thai red curry paste|chicken drumsticks
+527,Thai fried rice with prawns & peas,Thai,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,vegetable oil|red onions|garlic clove|red chilli|raw king prawns|brown rice|frozen peas|soy sauce|fish sauce|coriander|egg|hotsauce
+528,Thai green chicken soup,Thai,Chicken,,intermediate,medium,cheap,sunflower oil|onion|chicken thighs|garlic clove|thai green curry paste|coconut milk|chicken stock|lime leaves|fish sauce|spring onions|green beans|bamboo shoot|lime|basil
+529,Thai Green Curry,Thai,Chicken,,intermediate,medium,cheap,potatoes|green beans|sunflower oil|garlic|thai green curry paste|coconut milk|thai fish sauce|sugar|chicken|lime|basil|rice
+530,Thai pork & peanut curry,Thai,Pork,,intermediate,medium,cheap,vegetable oil|spring onions|coriander|pork tenderloin|thai red curry paste|peanut butter|brown sugar|soy sauce|coconut milk|sweetcorn|lime|jasmine rice
+531,Thai prawn curry,Thai,Seafood,pescatarian,intermediate,medium,expensive,vegetable oil|onion|ginger|thai red curry paste|tinned tomatos|coconut cream|raw frozen prawns|coriander
+532,Thai pumpkin soup,Thai,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,pumpkin|sunflower oil|onion|ginger|lemongrass|thai red curry paste|coconut milk|vegetable stock|lime juice|sugar|red chilli
+533,Thai rice noodle salad,Thai,Vegetarian,vegetarian|dairy-free,intermediate,low,expensive,vermicelli rice noodles|bean sprouts|lime|fish sauce|muscovado sugar|red onions|lettuce|minced pork|ginger|cayenne pepper|sunflower oil|sesame seed|oil|sirloin steak|red chilli
+534,Thai-style fish broth with greens,Thai,Seafood,dairy-free,intermediate,medium,expensive,brown rice noodle|chicken stock|thai red curry paste|lime leaves|fish sauce|white fish|raw king prawns|pak choi|coriander leaves
+535,Thai-style steamed fish,Thai,Seafood,vegan|vegetarian|dairy-free|pescatarian,intermediate,medium,moderate,trout|ginger|garlic clove|red chilli|lime|baby pak koi|soy sauce
+536,Three Fish Pie,British,Seafood,pescatarian,intermediate,medium,expensive,potatoes|butter|milk|gruyere|butter|leek|plain flour|white wine|milk|parsley|salmon|haddock|smoked haddock|eggs
+537,Three-cheese souffles,French,Miscellaneous,vegetarian|pescatarian,intermediate,medium,cheap,butter|parmesan|milk|bay leaves|plain flour|english mustard|cayenne pepper|gruyère|eggs|goats cheese|double cream|spinach
+538,Timbits,Canadian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,flour|sugar|baking powder|salt|egg|milk|oil|oil|icing sugar
+539,Toad In The Hole,British,Pork,,intermediate,medium,cheap,sausages|vegetable oil|plain flour|eggs|horseradish|milk|cherry tomatoes
+540,"Tofu, greens & cashew stir-fry",Vietnamese,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,vegetable oil|broccoli|garlic clove|red chilli|spring onions|soya bean|pak choi|marinated tofu|hoisin sauce|soy sauce|cashew nuts
+541,Tom kha gai,Thai,Chicken,,intermediate,medium,cheap,chicken stock|coconut milk|galangal paste|lemongrass stalks|lime leaves|chicken thighs|oyster mushrooms|birds-eye chillies|caster sugar|fish sauce|lime|coriander leaves|rice
+542,Tom yum (hot & sour) soup with prawns,Thai,Seafood,dairy-free,intermediate,medium,expensive,chicken stock|lemongrass|galangal|coriander|makrut lime leaves|king prawns|fish sauce|green chilli|lime juice
+543,Tom yum soup with prawns,Thai,Seafood,,intermediate,medium,expensive,onion|tomato|red chilli|galangal|lemongrass stalks|raw king prawns|chicken stock cube|oyster mushrooms|makrut lime leaves|fish sauce|lime juice|coconut milk|thai chilli jam|coriander
+544,Tonkatsu pork,Japanese,Pork,dairy-free,intermediate,medium,cheap,pork chops|flour|eggs|breadcrumbs|vegetable oil|tomato ketchup|worcestershire sauce|oyster sauce|caster sugar
+545,Torrijas with sherry,Spanish,Breakfast,vegetarian|pescatarian,intermediate,medium,cheap,egg|double cream|milk|golden caster sugar|sweet sherry|bread|olive oil|icing sugar|creme fraiche
+546,Torta de fiambre,Uruguayan,Pork,vegetarian|pescatarian,intermediate,medium,cheap,cheddar cheese|ham|egg|vegetable oil|milk|all purpose flour|baking powder|salt|dried oregano
+547,Tortang Talong,Filipino,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,egg plants|eggs|salt|olive oil
+548,Tourtiere,Canadian,Pork,dairy-free,intermediate,medium,cheap,potatoes|sunflower oil|minced pork|onion|garlic clove|cinnamon|allspice|nutmeg|vegetable stock|shortcrust pastry|egg
+549,Traditional Croatian Goulash,Croatian,Beef,dairy-free,intermediate,medium,cheap,beef|onions|carrots|garlic|bay leaf|red wine|water|mustard|salt|pepper|paprika|vegetable oil
+550,Treacle Tart,British,Dessert,vegetarian|pescatarian,intermediate,high,cheap,plain flour|butter|golden syrup|breadcrumbs|lemons|eggs
+551,Tuna and Egg Briks,Tunisian,Seafood,dairy-free|pescatarian,intermediate,medium,cheap,olive oil|spring onions|spinach|filo pastry|tuna|eggs|hotsauce|tomatoes|cucumber|lemon juice|apricot jam
+552,Tuna Nicoise,French,Seafood,dairy-free|pescatarian,intermediate,medium,cheap,potatoes|olive oil|eggs|red wine vinegar|capers|sunflower oil|red onions|spinach|tuna
+553,Tunisian Lamb Soup,Tunisian,Lamb,dairy-free,intermediate,medium,expensive,lamb mince|garlic|onion|spinach|tomato puree|cumin|chicken stock|harissa spice|chickpeas|lemon juice|macaroni|salt|pepper
+554,Tunisian Orange Cake,Tunisian,Dessert,vegan|vegetarian|dairy-free|pescatarian,intermediate,high,cheap,orange|caster sugar|olive oil|flour|baking powder|eggs|vanilla extract
+555,Turkey Bánh mì,Vietnamese,Miscellaneous,dairy-free,intermediate,medium,cheap,baguette|chicken liver|cucumber|turkey|mayonnaise|red chilli|mint|carrots|red cabbage|ground ginger|rice vinegar|golden caster sugar
+556,Turkey Meatloaf,British,Miscellaneous,dairy-free,intermediate,medium,cheap,olive oil|onion|garlic|worcestershire sauce|tomato puree|turkey mince|eggs|breadcrumbs|barbeque sauce|cannellini beans|parsley
+557,Turkish lahmacun,Vietnamese,Beef,dairy-free,advanced,medium,cheap,strong white bread flour|fast action yeast|corn flour|tomato|green chilli|spring onions|parsley|ground beef|chilli flakes|ground cumin|allspice|olive oil|lemon|red onions
+558,Turkish lamb pilau,Turkish,Lamb,dairy-free,intermediate,medium,expensive,pine nuts|olive oil|onion|cinnamon|lamb|basmati rice|lamb stock|dried apricots|mint
+559,Turkish rice (vermicelli rice),Turkish,Miscellaneous,,intermediate,medium,cheap,rice|vegetable oil|vermicelli pasta|unsalted butter|chicken stock
+560,Turkish-style lamb,Turkish,Lamb,,intermediate,medium,expensive,lamb leg|seasoning|dried oregano|mint|yogurt|pita bread|iceberg lettuce|red onions|lemon
+561,Ugali – Kenyan cornmeal,Kenyan,Breakfast,vegan|vegetarian|dairy-free|pescatarian,beginner,medium,moderate,water|white cornmeal
+562,Vanilla alfajores,Uruguayan,Dessert,vegetarian|pescatarian,intermediate,high,cheap,dulce de leche|coconut flakes|butter|sugar|egg|egg yolks|cornstarch|all purpose flour|baking powder|vanilla extract|dulce de leche|coconut flakes
+563,Vegan banh mi,Vietnamese,Vegan,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,moderate,raw vegetables|vegan white wine vinegar|golden caster sugar|baguette|hummus|tempeh|coriander|mint|hotsauce
+564,Vegan Chocolate Cake,American,Vegan,vegan|vegetarian|pescatarian,intermediate,low,cheap,self-raising flour|coco sugar|cacao|baking powder|flax eggs|almond milk|vanilla|water
+565,Vegan Lasagna,Italian,Vegan,vegan|vegetarian|pescatarian,intermediate,low,cheap,green red lentils|carrots|onion|zucchini|coriander|spinach|lasagne sheets|vegan butter|flour|soya milk|mustard|vinegar
+566,Vegetable Shepherds Pie,Irish,Beef,vegetarian|pescatarian,advanced,medium,cheap,potatoes|small potatoes|salted butter|mushrooms|brown lentils|garlic|kosher salt|onion|tomato puree|bay leaves|olive oil|dry white wine|vegetable stock|cornstarch|soy sauce|rosemary|parsley|sage|chives
+567,Vegetarian Casserole,British,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,rapeseed oil|onion|garlic|paprika|cumin|thyme|carrots|celery|red pepper|yellow pepper|tomato|vegetable stock cube|courgettes|thyme|lentils
+568,Vegetarian Chilli,British,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,beginner,low,cheap,roasted vegetables|kidney beans|chopped tomatoes|mixed grain
+569,Vegetarian Shakshuka,Saudi Arabian,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,advanced,low,cheap,red onions|red pepper|tomato|cumin|garlic granules|cayenne pepper|paprika|egg|parsley|chilli flakes|toast
+570,Venetian Duck Ragu,Italian,Pasta,,intermediate,high,expensive,olive oil|duck legs|onions|garlic|cinnamon|plain flour|red wine|chopped tomatoes|chicken stock cube|rosemary|bay leaves|sugar|milk|paccheri pasta|parmesan cheese
+571,Venezuelan Arepas,Venezulan,Side,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,moderate,cornmeal|water|salt|vegetable oil
+572,Venezuelan Coconut Chicken,Venezulan,Chicken,,intermediate,medium,cheap,chicken breasts|onion|garlic|bay leaves|black pepper|turmeric|cumin|salt|sugar|tomato|ginger paste|olive oil|coconut milk|water
+573,Venezuelan Sancocho,Venezulan,Beef,,intermediate,medium,cheap,hind shank|onion|pepper|garlic|garlic|leek|beef stock|sweet red peppers|scallions|sweetcorn|cassaba|yautia|white yam|butternut squash|salt|pepper|cilantro
+574,Venezuelan Shredded Beef,Venezulan,Beef,dairy-free,advanced,medium,expensive,skirty steak|garlic|onion|onion|red pepper|tomato|beef stock|worcestershire sauce|tomato puree|cumin|tomato ketchup|salt|pepper|olive oil
+575,Venezuelan turnovers,Venezulan,Side,dairy-free,intermediate,low,cheap,ground beef|pepper|ground cumin|vegetable oil|onion|green pepper|red pepper|garlic powder|capers|tomato sauce|sazon|yellow masarepa|vegetable oil
+576,Vietnamese caramel trout,Vietnamese,Seafood,dairy-free|pescatarian,intermediate,medium,cheap,golden caster sugar|fish sauce|red chilli|ginger|rainbow trout|bok choi|lemon|coriander|rice
+577,Vietnamese chicken salad,Vietnamese,Chicken,dairy-free,intermediate,medium,cheap,rice noodles|carrots|cucumber|chicken breasts|radish|red onions|mint|peanuts|red chilli|lime|fish sauce|soy sauce|sesame seed oil
+578,Vietnamese Grilled Pork (bun-thit-nuong),Vietnamese,Pork,dairy-free,intermediate,medium,cheap,pork|rice vermicelli|egg rolls|challots|garlic|sugar|fish sauce|soy sauce|pepper|olive oil|cucumber|mint|peanuts
+579,Vietnamese lamb shanks with sweet potatoes,Vietnamese,Lamb,dairy-free,intermediate,medium,expensive,ground nut oil|lamb shanks|onion|ginger|garlic clove|red chilli|red chilli|brown sugar|brown sugar|star anise|lemongrass stalks|lamb stock|tomato puree|sweet potatoes|fish sauce|lime|mint|basil leaves
+580,Vietnamese pork salad,Vietnamese,Pork,dairy-free,intermediate,medium,cheap,golden caster sugar|lime|red chilli|coriander|sesame seed oil|fish sauce|soy sauce|pork tenderloin|vegetable oil|white cabbage|cucumber|celery|spring onions|red chilli|lemongrass stalks|lime|coriander|mint
+581,Vietnamese prawn spiralized rolls,Vietnamese,Seafood,dairy-free|pescatarian,intermediate,medium,expensive,lime|rice vinegar|palm sugar|fish sauce|birds-eye chillies|rice paper sheets|mint|coriander|king prawns|carrots|courgettes
+582,Vietnamese veg parcels,Vietnamese,Vegetarian,vegetarian|dairy-free,intermediate,low,cheap,rice flour pancakes|rice noodles|chicken breast|carrots|cucumber|red pepper|lettuce|coriander|mint|fish sauce|rice vinegar|lime|red chilli
+583,Vietnamese-style caramel pork,Vietnamese,Pork,dairy-free,intermediate,medium,expensive,ground nut oil|pork shoulder steaks|shallots|ground ginger|red chilli|brown sugar|fish sauce|chilli sauce|spring onions|rice|pak choi
+584,Vietnamese-style veggie hotpot,Vietnamese,Vegetarian,vegetarian|pescatarian,intermediate,low,cheap,vegetable oil|ginger|garlic clove|butternut squash|soy sauce|brown sugar|vegetable stock|green beans|spring onions|coriander leaves|jasmine rice
+585,Walnut Roll Gužvara,Croatian,Dessert,vegetarian|pescatarian,intermediate,high,cheap,flour|caster sugar|yeast|salt|milk|eggs|butter|walnuts|butter|brown sugar|cinnamon|milk|icing sugar
+586,"Walnut, date & honey cake",Turkish,Dessert,vegetarian|pescatarian,intermediate,high,cheap,self-raising flour|ground cinnamon|butter|muscovado sugar|clear honey|egg|banana|stoned dates|walnuts
+587,Warm roast asparagus salad,Australian,Pork,dairy-free,intermediate,medium,cheap,asparagus|red wine vinegar|tomato|extra virgin olive oil|streaky bacon|clear honey|jersey royal potatoes|extra virgin olive oil|dijon mustard|rocket
+588,White chocolate creme brulee,French,Dessert,vegetarian|pescatarian,intermediate,high,cheap,double cream|white chocolate chips|vanilla|egg yolks|caster sugar|caster sugar
+589,Wontons,Chinese,Pork,dairy-free,intermediate,medium,cheap,pork|garlic clove|ginger|soy sauce|sesame seed oil|carrots|celery|spring onions|wonton skin|oil|water
+590,Yaki Udon,Japanese,Vegetarian,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,udon noodles|sesame seed oil|onion|cabbage|shiitake mushrooms|spring onions|mirin|soy sauce|caster sugar|worcestershire sauce
+591,Yemeni Lahsa (Elite Shakshuka),Saudi Arabian,Breakfast,vegetarian|pescatarian,intermediate,medium,cheap,egg|onion|tomato|olive oil|allspice|black pepper|liquid cheese
+592,Yorkshire Puddings,British,Miscellaneous,vegetarian|pescatarian,intermediate,medium,cheap,flour|egg|milk|sunflower oil
+593,Zapiekanki,Polish,Pork,vegetarian|pescatarian,intermediate,medium,cheap,baguette|butter|vegetable oil|onion|mushrooms|garlic|mayonnaise|cheddar cheese|ham|polish kabanos|mozzarella|dill|chives|tomato ketchup
+594,Zemiakové Placky,Slovakian,Side,vegan|vegetarian|dairy-free|pescatarian,intermediate,low,cheap,potatoes|onion|garlic|egg|all purpose flour|marjoram|salt|black pepper|oil
