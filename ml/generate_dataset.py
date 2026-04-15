@@ -2,6 +2,22 @@ import requests
 import csv
 import string
 import time
+import random
+import numpy as np
+
+CUISINES = [
+    "American", "British", "Canadian", "Chinese", "Croatian", "Dutch",
+    "Egyptian", "Filipino", "French", "Greek", "Indian", "Irish",
+    "Italian", "Jamaican", "Japanese", "Kenyan", "Malaysian", "Mexican",
+    "Moroccan", "Polish", "Portuguese", "Russian", "Spanish", "Thai",
+    "Tunisian", "Turkish", "Ukrainian", "Vietnamese"
+]
+
+SKILLS = ["beginner", "intermediate", "advanced"]
+HEALTH_GOALS = ["weight_loss", "maintain", "weight_gain"]
+BUDGETS = ["<$50", "$50-$100", "$100-$200", "$200+"]
+DIETARY_OPTIONS = ["vegetarian", "vegan", "dairy-free", "pescatarian"]
+
 
 def fetch_all_dishes():
     """
@@ -168,6 +184,151 @@ def build_dish_catalog():
     print(f"Wrote {len(rows)} dishes to ml/data/dishes.csv")
     return rows
 
+import random
+import numpy as np
+
+
+CUISINES = [
+    "American", "British", "Canadian", "Chinese", "Croatian", "Dutch",
+    "Egyptian", "Filipino", "French", "Greek", "Indian", "Irish",
+    "Italian", "Jamaican", "Japanese", "Kenyan", "Malaysian", "Mexican",
+    "Moroccan", "Polish", "Portuguese", "Russian", "Spanish", "Thai",
+    "Tunisian", "Turkish", "Ukrainian", "Vietnamese"
+]
+
+SKILLS = ["beginner", "intermediate", "advanced"]
+HEALTH_GOALS = ["weight_loss", "maintain", "weight_gain"]
+BUDGETS = ["<$50", "$50-$100", "$100-$200", "$200+"]
+DIETARY_OPTIONS = ["vegetarian", "vegan", "dairy-free", "pescatarian"]
+
+
+def generate_users(num_users=500):
+    """
+    Generate synthetic user profiles with random but realistic preferences.
+    """
+    users = []
+    for user_id in range(num_users):
+        preferred_cuisines = random.sample(CUISINES, 5)
+        skill = random.choice(SKILLS)
+        goal = random.choice(HEALTH_GOALS)
+        budget = random.choice(BUDGETS)
+
+        if random.random() < 0.6:
+            restrictions = []
+        else:
+            restrictions = random.sample(DIETARY_OPTIONS, k=random.randint(1, 2))
+
+        users.append({
+            "user_id": user_id,
+            "preferred_cuisines": "|".join(preferred_cuisines),
+            "skill": skill,
+            "health_goal": goal,
+            "budget": budget,
+            "dietary_restrictions": "|".join(restrictions),
+        })
+
+    fieldnames = [
+        "user_id", "preferred_cuisines", "skill",
+        "health_goal", "budget", "dietary_restrictions"
+    ]
+    with open("ml/data/users.csv", "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(users)
+
+    print(f"Wrote {len(users)} users to ml/data/users.csv")
+    return users
+
+def compute_rating(user, dish):
+    """
+    Compute a synthetic rating (1-5) based on how well a dish
+    matches a user's preferences. This formula is what teaches
+    the model what "good" recommendations look like.
+    """
+    score = 2.5  # start neutral
+
+    # Cuisine match: higher bonus for higher-ranked preferences
+    user_cuisines = user["preferred_cuisines"].split("|")
+    dish_cuisine = dish["cuisine"]
+    if dish_cuisine in user_cuisines:
+        rank = user_cuisines.index(dish_cuisine)
+        # rank 0 (top choice) = +1.5, rank 4 = +0.3
+        score += 1.5 - (rank * 0.3)
+
+    # Skill match: penalize dishes too hard for the user
+    skill_levels = {"beginner": 0, "intermediate": 1, "advanced": 2}
+    user_skill = skill_levels[user["skill"]]
+    dish_skill = skill_levels[dish["difficulty"]]
+    if dish_skill > user_skill:
+        score -= 1.0  # too hard
+    elif dish_skill == user_skill:
+        score += 0.3  # good match
+
+    # Dietary restriction violations: heavy penalty
+    user_restrictions = user["dietary_restrictions"].split("|") if user["dietary_restrictions"] else []
+    dish_tags = dish["dietary_tags"].split("|") if dish["dietary_tags"] else []
+    for restriction in user_restrictions:
+        if restriction and restriction not in dish_tags:
+            score -= 2.0 
+
+    goal_calorie_map = {
+        "weight_loss": "low",
+        "maintain": "medium",
+        "weight_gain": "high",
+    }
+    preferred_calorie = goal_calorie_map[user["health_goal"]]
+    if dish["calorie_tier"] == preferred_calorie:
+        score += 0.5
+
+    budget_cost_map = {
+        "<$50": "cheap",
+        "$50-$100": "moderate",
+        "$100-$200": "moderate",
+        "$200+": "expensive",
+    }
+    preferred_cost = budget_cost_map[user["budget"]]
+    if dish["cost_tier"] == preferred_cost:
+        score += 0.5
+    elif dish["cost_tier"] == "expensive" and user["budget"] == "<$50":
+        score -= 0.5 
+
+    score = np.clip(score, 1.0, 5.0)
+    score += np.random.normal(0, 0.3) 
+    score = np.clip(score, 1.0, 5.0)
+
+    return round(score, 2)
+
+def generate_ratings(users, dishes, sparsity=0.3):
+    """
+    For each user, only rate ~30% of dishes (randomly selected).
+    The sparsity is what makes collaborative filtering meaningful —
+    the model learns to predict the missing ratings.
+    """
+    ratings = []
+
+    for user in users:
+        num_to_rate = int(len(dishes) * sparsity)
+        dishes_to_rate = random.sample(dishes, num_to_rate)
+
+        for dish in dishes_to_rate:
+            rating = compute_rating(user, dish)
+            ratings.append({
+                "user_id": user["user_id"],
+                "dish_id": dish["dish_id"],
+                "rating": rating,
+            })
+
+    with open("ml/data/ratings.csv", "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["user_id", "dish_id", "rating"])
+        writer.writeheader()
+        writer.writerows(ratings)
+
+    print(f"Wrote {len(ratings)} ratings to ml/data/ratings.csv")
+    return ratings
+
+
 
 if __name__ == "__main__":
-    build_dish_catalog()
+    dishes = build_dish_catalog()
+    users = generate_users(500)
+    ratings = generate_ratings(users, dishes, sparsity=0.3)
