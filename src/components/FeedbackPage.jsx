@@ -1,32 +1,50 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+// Map friendly UI labels to the reason strings the backend acts on.
+const REASON_MAP = {
+  "I ate this recently": "Recently Eaten",
+  "I do not like this dish": "I just don't like it",
+};
 
 const FeedbackPage = () => {
-  const [selectedOption, setSelectedOption] = useState(""); // Track selected feedback option
-  const [otherFeedback, setOtherFeedback] = useState(""); // Track "Other" feedback text
-  const navigate = useNavigate(); // For navigation
+  const [selectedOption, setSelectedOption] = useState("");
+  const [otherFeedback, setOtherFeedback] = useState("");
+  const navigate = useNavigate();
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
     if (e.target.value !== "Other") {
-      setOtherFeedback(""); // Clear "Other" feedback if another option is selected
+      setOtherFeedback("");
     }
   };
 
-  const handleNextRecommendation = () => {
-    const feedback = selectedOption === "Other" ? otherFeedback : selectedOption;
-    console.log("User Feedback:", feedback); // Send this to backend when integrated
-    navigate("/generatedresponse"); // Navigate to the next recommendation page
+  const handleNextRecommendation = async () => {
+    const reason =
+      selectedOption === "Other"
+        ? otherFeedback
+        : REASON_MAP[selectedOption] || selectedOption;
+
+    try {
+      await axios.post(
+        "http://localhost:5001/feedback",
+        { feedback_reason: reason },
+        { withCredentials: true }
+      );
+    } catch (error) {
+      console.error("Error sending feedback:", error);
+    }
+
+    navigate("/generatedresponse");
   };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      {/* Feedback Box */}
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md text-center">
         <h2 className="text-xl font-semibold mb-4">
           Help us improve our recommendations for you!
         </h2>
-        {/* Radio Options */}
         {["I ate this recently", "I do not like this dish", "Other"].map((option) => (
           <label key={option} className="block mb-2 text-left">
             <input
@@ -41,7 +59,6 @@ const FeedbackPage = () => {
           </label>
         ))}
 
-        {/* Textarea for "Other" Option */}
         {selectedOption === "Other" && (
           <textarea
             value={otherFeedback}
@@ -51,12 +68,11 @@ const FeedbackPage = () => {
           ></textarea>
         )}
 
-        {/* Next Recommendation Button */}
         <button
           onClick={handleNextRecommendation}
-          disabled={selectedOption === "Other" && !otherFeedback} // Disable if "Other" is selected but no input
+          disabled={!selectedOption || (selectedOption === "Other" && !otherFeedback)}
           className={`mt-4 px-6 py-2 text-white rounded-lg shadow-md ${
-            selectedOption === "Other" && !otherFeedback
+            !selectedOption || (selectedOption === "Other" && !otherFeedback)
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-blue-500 hover:bg-blue-600"
           }`}

@@ -16,10 +16,14 @@ const LogInPage = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5001/', {
-        email: username,
-        password: password,
-      });
+      const response = await axios.post(
+        'http://localhost:5001/login',
+        {
+          email: username,
+          password: password,
+        },
+        { withCredentials: true }
+      );
 
       if (response.status === 200) {
         // Login successful, redirect to Profile Setup

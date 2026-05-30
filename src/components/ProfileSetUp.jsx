@@ -1,15 +1,42 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// The ML model was trained on specific canonical values. The UI shows
+// friendly labels, so we map them to what the model/encoders expect
+// before sending to the backend.
+const SKILL_MAP = {
+  Beginner: 'beginner',
+  Intermediate: 'intermediate',
+  Advanced: 'advanced',
+};
+
+const GOAL_MAP = {
+  'Weight Gain': 'weight_gain',
+  'Weight Loss': 'weight_loss',
+  'Maintain Current Weight': 'maintain',
+};
+
+const DIET_MAP = {
+  Vegetarian: 'vegetarian',
+  Pescatarian: 'pescatarian',
+  Vegan: 'vegan',
+  'Dairy-Free': 'dairy-free',
+};
+
+const COMMON_INGREDIENTS = ['Rice', 'Eggs', 'Chicken', 'Onion', 'Garlic', 'Olive Oil', 'Tomato', 'Pasta'];
+
 const ProfileSetUp = () => {
-  const [currentStep, setCurrentStep] = useState(0); // Track the current step
+  const [currentStep, setCurrentStep] = useState(0);
+  const [ingredientInput, setIngredientInput] = useState('');
   const [profileData, setProfileData] = useState({
-    cuisines: ['', '', '', '', ''], // Step 1: Ranking cuisines
-    cookingSkill: '', // Step 2: Cooking skill level
-    dietaryRestrictions: [], // Step 3: Dietary restrictions
-    allergies: '', // Step 3: Other dietary inputs
-    healthGoal: '', // Step 4: Health goal
-    budget: '', // Step 5: Budget per week
+    cuisines: ['', '', '', '', ''],
+    cookingSkill: '',
+    dietaryRestrictions: [],
+    allergies: '',
+    healthGoal: '',
+    budget: '',
+    availableIngredients: [],
+    location: '',
   });
 
   const navigate = useNavigate();
@@ -18,21 +45,29 @@ const ProfileSetUp = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
+      // Normalize values to the canonical forms the model was trained on
+      const payload = {
+        ...profileData,
+        cuisines: profileData.cuisines
+          .filter((c) => c.trim())
+          .map((c) => c.trim().replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())),
+        cookingSkill: SKILL_MAP[profileData.cookingSkill] || 'beginner',
+        healthGoal: GOAL_MAP[profileData.healthGoal] || 'maintain',
+        dietaryRestrictions: profileData.dietaryRestrictions
+          .map((d) => DIET_MAP[d])
+          .filter(Boolean),
+      };
+
       try {
-        // Send data to the backend
         const response = await fetch('http://localhost:5001/profilesetup', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
-          body: JSON.stringify(profileData),
+          body: JSON.stringify(payload),
         });
 
         if (response.ok) {
-          const result = await response.json();
-          console.log('Profile saved:', result);
-          navigate('/generatedresponse'); // Navigate to the next page
+          navigate('/generatedresponse');
         } else {
           alert('Failed to save profile. Please try again.');
         }
@@ -44,9 +79,7 @@ const ProfileSetUp = () => {
   };
 
   const handlePrevious = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
-    }
+    if (currentStep > 0) setCurrentStep(currentStep - 1);
   };
 
   const handleChange = (key, value) => {
@@ -62,6 +95,24 @@ const ProfileSetUp = () => {
     }));
   };
 
+  const addIngredient = (value) => {
+    const ing = value.trim();
+    if (ing && !profileData.availableIngredients.includes(ing)) {
+      setProfileData((prev) => ({
+        ...prev,
+        availableIngredients: [...prev.availableIngredients, ing],
+      }));
+    }
+    setIngredientInput('');
+  };
+
+  const removeIngredient = (value) => {
+    setProfileData((prev) => ({
+      ...prev,
+      availableIngredients: prev.availableIngredients.filter((i) => i !== value),
+    }));
+  };
+
   const steps = [
     // Step 1: Ranking cuisines
     <div key="cuisines" className="w-full">
@@ -72,13 +123,12 @@ const ProfileSetUp = () => {
           <input
             type="text"
             placeholder={`Enter cuisine for rank ${rank}`}
-            value={profileData.cuisines[index] || ''} // Ensure it's a string
+            value={profileData.cuisines[index] || ''}
             onChange={(e) => {
               const newCuisines = [...profileData.cuisines];
               newCuisines[index] = e.target.value;
               handleChange('cuisines', newCuisines);
             }}
-            required
             className="w-full h-10 px-4 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -106,7 +156,7 @@ const ProfileSetUp = () => {
     // Step 3: Dietary restrictions
     <div key="dietaryRestrictions" className="w-full">
       <h2 className="text-xl font-semibold mb-4">Do you have any dietary restrictions?</h2>
-      {['Vegetarian', 'Pescatarian', 'Vegan', 'Gluten-Free', 'Dairy-Free'].map((restriction) => (
+      {['Vegetarian', 'Pescatarian', 'Vegan', 'Dairy-Free'].map((restriction) => (
         <label key={restriction} className="block mb-2">
           <input
             type="checkbox"
@@ -123,7 +173,7 @@ const ProfileSetUp = () => {
         <input
           type="text"
           placeholder="Enter other dietary restrictions"
-          value={profileData.allergies || ''} // Ensure it's a string
+          value={profileData.allergies || ''}
           onChange={(e) => handleChange('allergies', e.target.value)}
           className="w-full h-10 px-4 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
@@ -165,12 +215,87 @@ const ProfileSetUp = () => {
         </label>
       ))}
     </div>,
+
+    // Step 6: Available ingredients
+    <div key="ingredients" className="w-full">
+      <h2 className="text-xl font-semibold mb-4">What ingredients do you have at home?</h2>
+      <p className="text-sm text-gray-500 mb-3">
+        We'll prioritize dishes you can already make. (Optional)
+      </p>
+      <div className="flex gap-2 mb-3">
+        <input
+          type="text"
+          placeholder="e.g., chicken"
+          value={ingredientInput}
+          onChange={(e) => setIngredientInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              addIngredient(ingredientInput);
+            }
+          }}
+          className="flex-1 h-10 px-4 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          type="button"
+          onClick={() => addIngredient(ingredientInput)}
+          className="px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+        >
+          Add
+        </button>
+      </div>
+
+      <div className="flex flex-wrap gap-2 mb-4">
+        {COMMON_INGREDIENTS.map((ing) => (
+          <button
+            key={ing}
+            type="button"
+            onClick={() => addIngredient(ing)}
+            className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-full"
+          >
+            + {ing}
+          </button>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {profileData.availableIngredients.map((ing) => (
+          <span
+            key={ing}
+            className="px-3 py-1 text-sm bg-green-100 text-green-800 rounded-full flex items-center gap-1"
+          >
+            {ing}
+            <button
+              type="button"
+              onClick={() => removeIngredient(ing)}
+              className="text-green-600 hover:text-green-900 font-bold"
+            >
+              ×
+            </button>
+          </span>
+        ))}
+      </div>
+    </div>,
+
+    // Step 7: Location
+    <div key="location" className="w-full">
+      <h2 className="text-xl font-semibold mb-4">Where are you located?</h2>
+      <p className="text-sm text-gray-500 mb-3">
+        Used to find nearby restaurants when you choose takeout.
+      </p>
+      <input
+        type="text"
+        placeholder="e.g., Madison, WI or 53703"
+        value={profileData.location}
+        onChange={(e) => handleChange('location', e.target.value)}
+        className="w-full h-10 px-4 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>,
   ];
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100 overflow-hidden">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg relative overflow-hidden">
-        {/* Sliding Container */}
         <div
           className="flex transition-transform duration-500"
           style={{
@@ -185,7 +310,6 @@ const ProfileSetUp = () => {
           ))}
         </div>
 
-        {/* Left and Right Arrows */}
         {currentStep > 0 && (
           <button
             onClick={handlePrevious}

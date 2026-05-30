@@ -11,9 +11,7 @@ const CookingPage = () => {
         const response = await axios.post(
           'http://localhost:5001/cooking',
           {},
-          {
-            withCredentials: true, // Include credentials
-          }
+          { withCredentials: true }
         );
         setIngredients(response.data.ingredients || []);
       } catch (error) {
@@ -27,16 +25,32 @@ const CookingPage = () => {
     fetchIngredients();
   }, []);
 
+  const haveCount = ingredients.filter((i) => i.available).length;
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       <div className="w-full max-w-3xl bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Ingredients needed</h2>
+        <h2 className="text-2xl font-bold mb-1">Ingredients needed</h2>
+        {!isLoading && ingredients.length > 0 && (
+          <p className="text-sm text-gray-500 mb-4">
+            You already have {haveCount} of {ingredients.length} ingredients.
+          </p>
+        )}
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          <ul className="list-disc pl-5">
+          <ul className="space-y-2">
             {ingredients.map((ingredient, index) => (
-              <li key={index}>{ingredient}</li>
+              <li key={index} className="flex items-center gap-2">
+                {ingredient.available ? (
+                  <span className="text-green-600">✓</span>
+                ) : (
+                  <span className="text-gray-400">🛒</span>
+                )}
+                <span className={ingredient.available ? 'text-green-700' : 'text-gray-700'}>
+                  {ingredient.name}
+                </span>
+              </li>
             ))}
           </ul>
         )}
@@ -46,5 +60,3 @@ const CookingPage = () => {
 };
 
 export default CookingPage;
-
-

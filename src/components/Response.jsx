@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const Response = () => {
   const [recommendation, setRecommendation] = useState('');
+  const [cuisine, setCuisine] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -14,6 +15,7 @@ const Response = () => {
           withCredentials: true,
         });
         setRecommendation(response.data.recommendation);
+        setCuisine(response.data.cuisine || '');
       } catch (error) {
         console.error('Error fetching recommendation:', error);
         setRecommendation('No recommendation available.');
@@ -41,6 +43,9 @@ const Response = () => {
         </button>
         <h2 className="text-2xl font-bold mb-2">Our Recommendation</h2>
         <p className="text-lg">{isLoading ? 'Loading...' : recommendation}</p>
+        {!isLoading && cuisine && (
+          <p className="text-sm text-blue-100 mt-1">{cuisine} cuisine</p>
+        )}
       </div>
 
       {/* Buttons */}
