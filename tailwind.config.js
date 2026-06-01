@@ -8,6 +8,7 @@ export default {
     extend: {
       fontFamily: {
         playfair: ['"Playfair Display"', 'serif'],
+        sans: ['Nunito', 'sans-serif'],
     },
   },
 },
