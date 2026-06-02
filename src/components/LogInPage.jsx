@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios for API requests
+import axios from 'axios';
 
 const LogInPage = () => {
   const navigate = useNavigate();
@@ -18,21 +18,15 @@ const LogInPage = () => {
     try {
       const response = await axios.post(
         'http://localhost:5001/login',
-        {
-          email: username,
-          password: password,
-        },
+        { email: username, password: password },
         { withCredentials: true }
       );
 
       if (response.status === 200) {
-        // Login successful, redirect to Profile Setup
-        alert('Login successful!');
         navigate('/profilesetup');
       }
     } catch (error) {
       console.error('Login error:', error);
-      // Handle login failure
       if (error.response && error.response.status === 401) {
         alert('Invalid credentials. Please try again.');
       } else {
@@ -42,47 +36,43 @@ const LogInPage = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold mb-12 text-blue-600 font-playfair">NOMinate</h1>
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Welcome</h2>
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-orange-50 via-amber-50 to-rose-50 p-4">
+      <div className="text-center mb-8 animate-fade-in-up">
+        <h1 className="text-5xl font-playfair font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">
+          NOMinate
+        </h1>
+        <p className="text-gray-500 mt-2 font-semibold">Your next favorite meal, picked for you 🍽️</p>
+      </div>
+
+      <div className="bg-white/80 backdrop-blur p-8 rounded-3xl shadow-xl w-full max-w-md animate-fade-in-up">
+        <h2 className="text-2xl font-extrabold text-center mb-6 text-gray-800">Welcome back</h2>
         <form onSubmit={handleLogIn} className="space-y-4">
-          <div>
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+          <input
+            type="text"
+            name="username"
+            placeholder="Email"
+            required
+            className="w-full px-4 h-12 rounded-xl border-2 border-gray-200 focus:outline-none focus:border-orange-400 transition-colors"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+            className="w-full px-4 h-12 rounded-xl border-2 border-gray-200 focus:outline-none focus:border-orange-400 transition-colors"
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full h-12 bg-gradient-to-r from-orange-500 to-rose-500 text-white font-bold rounded-xl hover:opacity-90 shadow-md transition-all"
           >
             Log In
           </button>
-          <a
-            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-            href="#"
-          >
-            Forgot Password?
-          </a>
         </form>
-        <div className="text-center mt-4 text-gray-600">
+        <div className="text-center mt-6 text-gray-600 font-semibold">
           Don't have an account?{' '}
-          <Link to="/signup" className="text-blue-500 hover:underline">
+          <Link to="/signup" className="text-orange-500 hover:underline">
             Sign Up
           </Link>
         </div>
