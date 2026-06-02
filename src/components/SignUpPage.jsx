@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Added axios for making HTTP requests
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -19,7 +19,6 @@ const SignUpPage = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    // Basic validation
     if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
       alert('Please fill in all fields.');
       return;
@@ -30,25 +29,23 @@ const SignUpPage = () => {
     }
 
     try {
-      // Send the signup request to the backend
-      const response = await axios.post('http://localhost:5001/signup', {
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-      }, {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        withCredentials: true
-      });
-      
-      // Handle successful signup
+      const response = await axios.post(
+        'http://localhost:5001/signup',
+        {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+        }
+      );
+
       if (response.status === 201) {
-        alert('Sign-up successful! Redirecting to profile setup...');
-        navigate('/profilesetup'); // Redirect to Profile Setup page
+        navigate('/profilesetup');
       }
     } catch (error) {
-      // Handle errors (e.g., user already exists)
       if (error.response && error.response.status === 409) {
         alert('User already exists. Please use a different email.');
       } else {
@@ -59,66 +56,65 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-6">Create an Account</h1>
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-orange-50 via-amber-50 to-rose-50 p-4">
+      <div className="text-center mb-8 animate-fade-in-up">
+        <h1 className="text-5xl font-playfair font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">
+          NOMinate
+        </h1>
+        <p className="text-gray-500 mt-2 font-semibold">Let's find your perfect meal 🍳</p>
+      </div>
+
+      <div className="bg-white/80 backdrop-blur p-8 rounded-3xl shadow-xl w-full max-w-md animate-fade-in-up">
+        <h2 className="text-2xl font-extrabold text-center mb-6 text-gray-800">Create an account</h2>
         <form onSubmit={handleSignUp} className="space-y-4">
-          <div>
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+            className="w-full px-4 h-12 rounded-xl border-2 border-gray-200 focus:outline-none focus:border-orange-400 transition-colors"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full px-4 h-12 rounded-xl border-2 border-gray-200 focus:outline-none focus:border-orange-400 transition-colors"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className="w-full px-4 h-12 rounded-xl border-2 border-gray-200 focus:outline-none focus:border-orange-400 transition-colors"
+          />
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+            className="w-full px-4 h-12 rounded-xl border-2 border-gray-200 focus:outline-none focus:border-orange-400 transition-colors"
+          />
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full h-12 bg-gradient-to-r from-orange-500 to-rose-500 text-white font-bold rounded-xl hover:opacity-90 shadow-md transition-all"
           >
             Sign Up
           </button>
         </form>
-        <div className="text-center mt-4 text-gray-600">
+        <div className="text-center mt-6 text-gray-600 font-semibold">
           Already have an account?{' '}
-          <a href="/" className="text-blue-500 hover:underline">
+          <Link to="/" className="text-orange-500 hover:underline">
             Log In
-          </a>
+          </Link>
         </div>
       </div>
     </div>
