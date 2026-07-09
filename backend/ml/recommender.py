@@ -8,6 +8,41 @@ except ImportError:
     from model import DishRecommender  # run as a script from inside ml/ (train.py)
 
 
+def matches_allergen(ingredient: str, allergen: str) -> bool:
+    """True if an ingredient contains an allergen, tolerant of plural forms
+    ("peanuts" matches "peanut butter"). Deliberately eager: for a safety
+    filter, a false positive costs a dish; a false negative costs a reaction.
+    """
+    ing = ingredient.strip().lower()
+    allergen = allergen.strip().lower()
+    if not ing or not allergen:
+        return False
+    forms = {allergen}
+    forms.add(allergen[:-1] if allergen.endswith("s") else allergen + "s")
+    return any(form in ing for form in forms)
+
+
+def allergy_conflict(ingredients_str: str, allergies) -> bool:
+    """True if any of the dish's pipe-delimited ingredients matches any allergen."""
+    ingredients = [i for i in (ingredients_str or "").split("|") if i.strip()]
+    return any(
+        matches_allergen(ing, allergen) for ing in ingredients for allergen in allergies or []
+    )
+
+
+def sample_top_k(scores: np.ndarray, k: int = 5, rng: np.random.Generator | None = None) -> int:
+    """Pick an index from the k highest-scoring valid entries, weighted by a
+    softmax over their scores — variety without recommending bad matches."""
+    valid = np.flatnonzero(scores > -np.inf)
+    if valid.size == 0:
+        raise ValueError("No dishes available after filtering")
+    top = valid[np.argsort(scores[valid])[::-1][:k]]
+    weights = np.exp(scores[top] - scores[top].max())
+    weights /= weights.sum()
+    rng = rng or np.random.default_rng()
+    return int(rng.choice(top, p=weights))
+
+
 class RecommendationEngine:
     def __init__(self, model_path, encoders_path, dishes_path, users_path):
         # ── Load encoders and vocabularies ────────────────────────────────────
@@ -51,6 +86,10 @@ class RecommendationEngine:
         self.dish_id_tensor = torch.tensor(
             self.dish_enc.transform(self.all_dish_ids), dtype=torch.long
         )
+
+        # Users the model actually trained on ("real_<id>" for real users).
+        # Anyone not in here goes through nearest-neighbor cold start.
+        self.known_users = set(self.user_enc.classes_)
 
     # ── Cold-start: map a new user to the embedding space ────────────────────
     def _find_nearest_user_embedding(self, user_profile):
@@ -114,15 +153,27 @@ class RecommendationEngine:
         return vec
 
     # ── Main recommendation function ──────────────────────────────────────────
-    def recommend(self, user_profile, available_ingredients=None, excluded_dishes=None):
+    def recommend(
+        self,
+        user_profile,
+        available_ingredients=None,
+        excluded_dishes=None,
+        user_id=None,
+        top_k=5,
+        rng=None,
+    ):
         """
-        Score every dish for the given user profile and return the best match.
+        Score every dish for the given user profile and return a top match.
 
         Args:
             user_profile: dict with keys cuisines, skill_level, weight_goal,
-                          budget, dietary_restrictions
+                          budget, dietary_restrictions, allergies
             available_ingredients: list of ingredient strings the user has at home
             excluded_dishes: list of dish names to skip (recently eaten, disliked)
+            user_id: real DB user id; if this user was in the last retrain they
+                     get their learned embedding instead of cold start
+            top_k: sample among this many top-scored dishes for variety
+            rng: numpy Generator, injectable for deterministic tests
 
         Returns:
             dict with dish_name, cuisine, ingredients, score
@@ -151,9 +202,17 @@ class RecommendationEngine:
             dtype=torch.float,
         )
 
-        # ── Get user embedding via cold-start ─────────────────────────────────
-        user_emb = self._find_nearest_user_embedding(user_profile)  # (1, 64)
-        user_emb_expanded = user_emb.expand(n, -1)                  # (n, 64)
+        # ── Get user embedding: learned if this user was in training, else
+        # cold-start via nearest synthetic neighbors ──────────────────────────
+        trained_key = f"real_{user_id}" if user_id is not None else None
+        if trained_key is not None and trained_key in self.known_users:
+            idx = self.user_enc.transform([trained_key])[0]
+            user_emb = self.model.user_embedding(
+                torch.tensor([idx], dtype=torch.long)
+            )  # (1, 64)
+        else:
+            user_emb = self._find_nearest_user_embedding(user_profile)  # (1, 64)
+        user_emb_expanded = user_emb.expand(n, -1)                      # (n, 64)
 
         # ── Score all dishes ──────────────────────────────────────────────────
         with torch.no_grad():
@@ -177,12 +236,20 @@ class RecommendationEngine:
 
         # ── Hard filters ─────────────────────────────────────────────────────
         user_diet = set(user_profile.get("dietary_restrictions", []))
+        allergies = user_profile.get("allergies") or []
+        if isinstance(allergies, str):
+            allergies = [a.strip() for a in allergies.split(",") if a.strip()]
         skill_rank = {"beginner": 0, "intermediate": 1, "advanced": 2}
         user_skill_rank = skill_rank.get(skill, 0)
 
         for i, dish_id in enumerate(self.all_dish_ids):
             dish = self.dish_lookup[dish_id]
             dish_name = dish.get("dish_name", "")
+
+            # Safety: unconditionally remove any dish containing an allergen
+            if allergy_conflict(dish.get("ingredients", ""), allergies):
+                scores[i] = -np.inf
+                continue
 
             # Remove excluded dishes (recently eaten / disliked)
             if dish_name in excluded_dishes:
@@ -220,8 +287,8 @@ class RecommendationEngine:
                     # Boost score by up to 0.5 points if they have all ingredients
                     scores[i] += 0.5 * fraction
 
-        # ── Return top dish ───────────────────────────────────────────────────
-        best_idx  = int(np.argmax(scores))
+        # ── Sample from the top K so repeat requests feel fresh ──────────────
+        best_idx  = sample_top_k(scores, k=top_k, rng=rng)
         best_id   = self.all_dish_ids[best_idx]
         best_dish = self.dish_lookup[best_id]
 

@@ -46,11 +46,14 @@ class FakeEngine:
         self.dishes = dishes
         self.last_call = None
 
-    def recommend(self, user_profile, available_ingredients=None, excluded_dishes=None):
+    def recommend(
+        self, user_profile, available_ingredients=None, excluded_dishes=None, user_id=None, **kwargs
+    ):
         self.last_call = {
             "user_profile": user_profile,
             "available_ingredients": available_ingredients,
             "excluded_dishes": list(excluded_dishes or []),
+            "user_id": user_id,
         }
         excluded = set(excluded_dishes or [])
         for dish in self.dishes:

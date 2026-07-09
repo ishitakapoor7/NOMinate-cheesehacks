@@ -61,6 +61,7 @@ def recommend():
             user_profile=_engine_profile(profile),
             available_ingredients=profile.available_ingredients,
             excluded_dishes=_excluded_dish_names(user_id),
+            user_id=user_id,
         )
     except Exception as exc:  # engine can fail on unseen categories, missing files
         return jsonify({"error": f"Recommendation failed: {exc}"}), 500

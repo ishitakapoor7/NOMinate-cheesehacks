@@ -31,3 +31,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 instance/
+
+# Retrained model versions (base checkpoints stay committed)
+backend/ml/checkpoints/v*/
+backend/ml/checkpoints/latest

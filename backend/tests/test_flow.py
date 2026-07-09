@@ -35,8 +35,10 @@ def test_recommend_returns_and_logs_dish(client, auth_headers, fake_engine, db):
     rec = Recommendation.query.one()
     assert rec.dish.dish_name == "Chicken Tikka Masala"
     assert rec.action is None
-    # the engine received the profile and the user's pantry
+    # the engine received the profile, the user's pantry, and their identity
+    # (so retrained embeddings can be used for returning users)
     assert fake_engine.last_call["available_ingredients"] == ["chicken", "tomato"]
+    assert fake_engine.last_call["user_id"] is not None
 
 
 def test_consecutive_recommends_vary(client, auth_headers, fake_engine):

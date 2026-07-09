@@ -45,4 +45,9 @@ def create_app(config_class: type[Config] | None = None) -> Flask:
     app.register_blueprint(takeout_bp)
     app.register_blueprint(feedback_bp)
 
+    # CLI commands (flask retrain)
+    from app import cli
+
+    cli.register(app)
+
     return app
