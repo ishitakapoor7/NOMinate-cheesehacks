@@ -1,7 +1,11 @@
 import pickle
 import numpy as np
 import torch
-from model import DishRecommender
+
+try:
+    from ml.model import DishRecommender  # imported as a package (backend app)
+except ImportError:
+    from model import DishRecommender  # run as a script from inside ml/ (train.py)
 
 
 class RecommendationEngine:
