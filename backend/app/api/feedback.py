@@ -15,6 +15,12 @@ bp = Blueprint("feedback", __name__, url_prefix="/api")
 
 # reason -> (rating value, rating source)
 REASON_SIGNAL = {
+    # comment-card ratings from the feedback screen
+    "Loved it": (5.0, "explicit_feedback"),
+    "It was fine": (3.0, "explicit_feedback"),
+    "Not my thing": (2.0, "disliked"),
+    "Never again": (1.0, "disliked"),
+    # legacy reasons kept so old clients and tests stay valid
     "I just don't like it": (1.0, "disliked"),
     "Recently Eaten": (3.0, "explicit_feedback"),
 }
@@ -33,7 +39,10 @@ def feedback():
     reason = (data.get("feedback_reason") or "").strip()
     value, source = REASON_SIGNAL.get(reason, DEFAULT_SIGNAL)
 
-    rec.action = "rejected"
+    # A comment card after cooking/ordering shouldn't overwrite that action;
+    # "rejected" only applies when the dish was skipped outright.
+    if rec.action is None:
+        rec.action = "rejected"
     db.session.add(
         Rating(user_id=user_id, dish_id=rec.dish_id, value=value, source=source)
     )

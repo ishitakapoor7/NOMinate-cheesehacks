@@ -87,6 +87,20 @@ def recommend():
     )
 
 
+@bp.route("/recommend/latest", methods=["GET"])
+@jwt_required()
+def latest():
+    """The current dish without generating a new one — lets the takeout and
+    feedback screens name the dish they're acting on."""
+    rec = latest_recommendation(int(get_jwt_identity()))
+    if not rec:
+        return jsonify({"error": "No recommendation yet"}), 404
+    return (
+        jsonify({"recommendation": rec.dish.dish_name, "cuisine": rec.dish.cuisine}),
+        200,
+    )
+
+
 def latest_recommendation(user_id: int) -> Recommendation | None:
     """The most recent dish shown to this user — shared by cooking/takeout/feedback."""
     return (

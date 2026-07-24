@@ -2,7 +2,12 @@
 import numpy as np
 import pytest
 
-from ml.recommender import allergy_conflict, matches_allergen, sample_top_k
+from ml.recommender import (
+    allergy_conflict,
+    cuisine_affinity,
+    matches_allergen,
+    sample_top_k,
+)
 
 
 class TestAllergenMatching:
@@ -41,6 +46,27 @@ class TestAllergyConflict:
     def test_empty_allergies(self):
         assert not allergy_conflict("peanut|shrimp", [])
         assert not allergy_conflict("peanut|shrimp", None)
+
+
+class TestCuisineAffinity:
+    PREFS = ["Greek", "Thai", "Indian"]
+
+    def test_top_cuisine_outscores_lower_ranked(self):
+        assert cuisine_affinity("Greek", self.PREFS) > cuisine_affinity("Indian", self.PREFS)
+
+    def test_off_preference_cuisine_gets_nothing(self):
+        # the exact bug: a Greek/Thai/Indian eater should not be nudged toward Polish
+        assert cuisine_affinity("Polish", self.PREFS) == 0.0
+
+    def test_case_insensitive(self):
+        assert cuisine_affinity("greek", ["Greek"]) > 0
+
+    def test_lower_ranked_cuisine_keeps_a_floor(self):
+        assert cuisine_affinity("Indian", self.PREFS) >= 0.8
+
+    def test_no_preferences_or_blank(self):
+        assert cuisine_affinity("Greek", []) == 0.0
+        assert cuisine_affinity("", self.PREFS) == 0.0
 
 
 class TestSampleTopK:

@@ -71,17 +71,18 @@ def test_cooking_without_recommendation_is_404(client, auth_headers, fake_engine
     assert client.post("/api/cooking", headers=auth_headers).status_code == 404
 
 
-def test_takeout_returns_restaurants(client, auth_headers, fake_engine, db, monkeypatch):
+def test_takeout_returns_restaurants(app, client, auth_headers, fake_engine, db, monkeypatch):
     _setup(client, auth_headers)
     client.get("/api/recommend", headers=auth_headers)
 
     seen = {}
 
-    def fake_scrape(dish, location, budget):
+    def fake_search(dish, location, budget):
         seen.update(dish=dish, location=location, budget=budget)
-        return [{"name": "Curry House", "rating": "4.5", "price": "$$", "address": "123 State St"}]
+        return [{"name": "Curry House", "rating": 4.5, "price": "$$", "address": "123 State St"}]
 
-    monkeypatch.setattr(takeout_module, "scrape_yelp_restaurants", fake_scrape)
+    app.config["GOOGLE_PLACES_API_KEY"] = "test-key"
+    monkeypatch.setattr(takeout_module, "search_restaurants", fake_search)
 
     resp = client.post("/api/takeout", headers=auth_headers)
     assert resp.status_code == 200
@@ -93,6 +94,18 @@ def test_takeout_returns_restaurants(client, auth_headers, fake_engine, db, monk
     }
     assert Recommendation.query.one().action == "takeout"
     assert Rating.query.one().source == "takeout"
+
+
+def test_takeout_without_places_key_is_503(app, client, auth_headers, fake_engine, db):
+    _setup(client, auth_headers)
+    client.get("/api/recommend", headers=auth_headers)
+
+    app.config["GOOGLE_PLACES_API_KEY"] = ""
+    resp = client.post("/api/takeout", headers=auth_headers)
+    assert resp.status_code == 503
+    # an unconfigured search must not record a takeout signal
+    assert Rating.query.count() == 0
+    assert Recommendation.query.one().action is None
 
 
 def test_takeout_requires_location(client, auth_headers, fake_engine):
@@ -141,3 +154,33 @@ def test_feedback_without_recommendation_is_404(client, auth_headers, fake_engin
         "/api/feedback", json={"feedback_reason": "Recently Eaten"}, headers=auth_headers
     )
     assert resp.status_code == 404
+
+
+def test_latest_returns_current_dish_without_generating(client, auth_headers, fake_engine, db):
+    _setup(client, auth_headers)
+    assert client.get("/api/recommend/latest", headers=auth_headers).status_code == 404
+
+    client.get("/api/recommend", headers=auth_headers)
+    resp = client.get("/api/recommend/latest", headers=auth_headers)
+    assert resp.status_code == 200
+    assert resp.get_json()["recommendation"] == "Chicken Tikka Masala"
+    # reading the latest dish must not log a new recommendation
+    assert Recommendation.query.count() == 1
+
+
+def test_comment_card_loved_it_is_strong_positive(client, auth_headers, fake_engine, db):
+    _setup(client, auth_headers)
+    client.get("/api/recommend", headers=auth_headers)
+
+    client.post("/api/feedback", json={"feedback_reason": "Loved it"}, headers=auth_headers)
+    rating = Rating.query.one()
+    assert rating.source == "explicit_feedback" and rating.value == 5.0
+
+
+def test_feedback_after_cooking_keeps_cooked_action(client, auth_headers, fake_engine, db):
+    _setup(client, auth_headers)
+    client.get("/api/recommend", headers=auth_headers)
+    client.post("/api/cooking", headers=auth_headers)
+
+    client.post("/api/feedback", json={"feedback_reason": "Loved it"}, headers=auth_headers)
+    assert Recommendation.query.one().action == "cooked"

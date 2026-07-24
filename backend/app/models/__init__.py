@@ -6,7 +6,8 @@ Flask-Migrate can autogenerate migrations.
 from app.models.dish import Dish
 from app.models.profile import Profile
 from app.models.rating import Rating
+from app.models.recipe import Recipe
 from app.models.recommendation import Recommendation
 from app.models.user import User
 
-__all__ = ["User", "Profile", "Dish", "Rating", "Recommendation"]
+__all__ = ["User", "Profile", "Dish", "Rating", "Recipe", "Recommendation"]

@@ -33,6 +33,7 @@ class Config:
     GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
     GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "")
     GOOGLE_PLACES_API_KEY = os.getenv("GOOGLE_PLACES_API_KEY", "")
+    SPOONACULAR_API_KEY = os.getenv("SPOONACULAR_API_KEY", "")
 
 
 class TestConfig(Config):

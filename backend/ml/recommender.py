@@ -43,6 +43,30 @@ def sample_top_k(scores: np.ndarray, k: int = 5, rng: np.random.Generator | None
     return int(rng.choice(top, p=weights))
 
 
+# Preference boosts applied on top of the model's score for each dish. Model
+# scores sit on a roughly 1–5 rating scale, so these are deliberately large
+# enough to steer the top-K pick toward the user's tastes while still letting
+# the hard filters (allergen/diet/skill) have the final say. Tune here.
+CUISINE_TOP_BONUS = 2.0     # bonus for a dish in the user's #1 cuisine
+CUISINE_RANK_DECAY = 0.3    # each lower-ranked cuisine earns a little less
+CUISINE_MIN_BONUS = 0.8     # ...but a listed cuisine never drops below this
+INGREDIENT_MAX_BONUS = 1.5  # full bonus when the user already has every ingredient
+
+
+def cuisine_affinity(dish_cuisine: str, user_cuisines) -> float:
+    """Bonus for a dish whose cuisine the user prefers, larger for the cuisines
+    they listed first. Off-preference cuisines earn nothing, so the top-K pick
+    lands on their stated tastes instead of whatever the model scored highest
+    (this is what keeps a Greek/Thai/Indian eater from being served Polish)."""
+    target = (dish_cuisine or "").strip().lower()
+    if not target:
+        return 0.0
+    for rank, cuisine in enumerate(user_cuisines or []):
+        if target == (cuisine or "").strip().lower():
+            return max(CUISINE_TOP_BONUS - rank * CUISINE_RANK_DECAY, CUISINE_MIN_BONUS)
+    return 0.0
+
+
 class RecommendationEngine:
     def __init__(self, model_path, encoders_path, dishes_path, users_path):
         # ── Load encoders and vocabularies ────────────────────────────────────
@@ -268,15 +292,20 @@ class RecommendationEngine:
             if skill_rank.get(dish_difficulty, 0) > user_skill_rank:
                 scores[i] = -np.inf
 
-        # ── Ingredient availability boost ─────────────────────────────────────
-        # If the user told us what ingredients they have, boost dishes
-        # where they already have a high fraction of the required ingredients.
-        if available_ingredients:
-            available = {ing.strip().lower() for ing in available_ingredients}
-            for i, dish_id in enumerate(self.all_dish_ids):
-                if scores[i] == -np.inf:
-                    continue
-                dish = self.dish_lookup[dish_id]
+        # ── Preference boosts: cuisine affinity + ingredient availability ─────
+        # With no ratings yet, these boosts are what make a pick feel personal.
+        # Cuisine uses every cuisine the user listed (not just their first), and
+        # the pantry boost rewards dishes they can mostly make right now.
+        user_cuisines = user_profile.get("cuisines", []) or []
+        available = {ing.strip().lower() for ing in (available_ingredients or [])}
+        for i, dish_id in enumerate(self.all_dish_ids):
+            if scores[i] == -np.inf:
+                continue
+            dish = self.dish_lookup[dish_id]
+
+            scores[i] += cuisine_affinity(dish.get("cuisine", ""), user_cuisines)
+
+            if available:
                 dish_ings = [
                     ing.strip().lower()
                     for ing in dish.get("ingredients", "").split("|")
@@ -284,8 +313,7 @@ class RecommendationEngine:
                 ]
                 if dish_ings:
                     fraction = len(available & set(dish_ings)) / len(dish_ings)
-                    # Boost score by up to 0.5 points if they have all ingredients
-                    scores[i] += 0.5 * fraction
+                    scores[i] += INGREDIENT_MAX_BONUS * fraction
 
         # ── Sample from the top K so repeat requests feel fresh ──────────────
         best_idx  = sample_top_k(scores, k=top_k, rng=rng)

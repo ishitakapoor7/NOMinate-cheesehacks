@@ -10,6 +10,10 @@ from app.services import recommender as recommender_service
 @pytest.fixture()
 def app():
     app = create_app(TestConfig)
+    # Never let real keys from .env leak into tests — external calls must be
+    # mocked, and tests opt in by setting these explicitly.
+    app.config["SPOONACULAR_API_KEY"] = ""
+    app.config["GOOGLE_PLACES_API_KEY"] = ""
     with app.app_context():
         _db.create_all()
         yield app
