@@ -1,35 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Instrument Sans', sans-serif;
+  color: #111111;
+  background: #ffffff;
 }
 
-/* Fun entrance animation used across steps and cards */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Diner-signage outlined display text ("TONIGHT ?") */
+.text-outline {
+  color: #ffffff;
+  -webkit-text-stroke: 3px #111111;
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.4s ease-out;
+:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 2px;
 }
 
-@keyframes pop {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.08); }
-  100% { transform: scale(1); }
-}
-
-.animate-pop {
-  animation: pop 0.25s ease-out;
+::selection {
+  background: #ffc700;
+  color: #111111;
 }
