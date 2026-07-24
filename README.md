@@ -1,5 +1,7 @@
 # NOMinate
 
+[![CI](https://github.com/ishitakapoor7/NOMinate-cheesehacks/actions/workflows/ci.yml/badge.svg)](https://github.com/ishitakapoor7/NOMinate-cheesehacks/actions/workflows/ci.yml)
+
 **One dish a day, nominated for you.** NOMinate learns what you like to eat, nominates a single dish each day, and then helps you follow through — pull up a real recipe to cook it, or find restaurants nearby that serve it. No endless scrolling, no decision fatigue: one good idea, then the resources to act on it.
 
 Originally a CheeseHacks project, since rebuilt into a full-stack app with persistent accounts, a trained recommender, and live recipe and restaurant data.
@@ -120,6 +122,19 @@ Frontend (`frontend/.env.local`): `VITE_API_URL`, `VITE_GOOGLE_CLIENT_ID`.
 cd backend
 pytest
 ```
+
+CI (GitHub Actions, `.github/workflows/ci.yml`) runs the backend test suite against a Postgres service and builds the frontend on every push and pull request to `main`.
+
+---
+
+## Deployment
+
+`render.yaml` is a [Render blueprint](https://render.com/docs/blueprint-spec) that provisions the Postgres database, the Flask API (gunicorn), and the React static site in one go. Point a new Render Blueprint at this repo, then after the first deploy set the cross-service URLs and API keys in the dashboard:
+
+- **API** (`nominate-api`): `CORS_ORIGINS` → the frontend URL, plus `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`, `GOOGLE_PLACES_API_KEY`, and `SPOONACULAR_API_KEY`. `SECRET_KEY` and `JWT_SECRET_KEY` are generated automatically; `DATABASE_URL` is wired from the database.
+- **Web** (`nominate-web`): `VITE_API_URL` → the API URL, and `VITE_GOOGLE_CLIENT_ID` if using Google Sign-In.
+
+Database migrations and catalog seeding run automatically on each deploy (both are idempotent). Note that the API pulls in PyTorch, so it needs an instance with enough memory to load the model.
 
 ---
 
