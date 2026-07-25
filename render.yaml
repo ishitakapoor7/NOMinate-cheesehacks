@@ -16,9 +16,13 @@ services:
     runtime: python
     rootDir: backend
     plan: free
-    buildCommand: pip install -r requirements.txt
+    # Install the CPU-only torch (far smaller / less memory than the default
+    # CUDA build) before the rest of the requirements.
+    buildCommand: pip install torch==2.12.0 --index-url https://download.pytorch.org/whl/cpu && pip install -r requirements.txt
     # Migrate + seed run at startup so they have DB access; both are idempotent.
-    startCommand: flask --app wsgi db upgrade && python seed.py && gunicorn wsgi:app --bind 0.0.0.0:$PORT
+    # One worker keeps memory down; the long timeout covers the first request's
+    # model load and free-tier cold starts.
+    startCommand: flask --app wsgi db upgrade && python seed.py && gunicorn wsgi:app --workers 1 --timeout 120 --bind 0.0.0.0:$PORT
     healthCheckPath: /health
     envVars:
       - key: PYTHON_VERSION
