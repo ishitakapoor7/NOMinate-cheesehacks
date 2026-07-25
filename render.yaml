@@ -20,9 +20,8 @@ services:
     # CUDA build) before the rest of the requirements.
     buildCommand: pip install torch==2.12.0 --index-url https://download.pytorch.org/whl/cpu && pip install -r requirements.txt
     # Migrate + seed run at startup so they have DB access; both are idempotent.
-    # One worker keeps memory down; the long timeout covers the first request's
-    # model load and free-tier cold starts.
-    startCommand: flask --app wsgi db upgrade && python seed.py && gunicorn wsgi:app --workers 1 --timeout 120 --bind 0.0.0.0:$PORT
+    # gunicorn.conf.py sets workers/timeout/bind and warms the model at boot.
+    startCommand: flask --app wsgi db upgrade && python seed.py && gunicorn wsgi:app -c gunicorn.conf.py
     healthCheckPath: /health
     envVars:
       - key: PYTHON_VERSION

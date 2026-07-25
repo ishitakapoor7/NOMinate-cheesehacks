@@ -13,7 +13,7 @@ from flask_jwt_extended import get_jwt_identity, jwt_required
 from sqlalchemy import func
 
 from app.extensions import db
-from app.models import Dish, Profile, Rating, Recommendation
+from app.models import Dish, Profile, Rating, Recipe, Recommendation
 from app.services import recommender
 
 bp = Blueprint("recommend", __name__, url_prefix="/api")
@@ -48,6 +48,17 @@ def _excluded_dish_names(user_id: int) -> list[str]:
     return sorted({name for (name,) in disliked.union(recently_shown).all()})
 
 
+def _dishes_with_recipes() -> list[str]:
+    """Dish names that already have a real cached recipe (not a lookup miss),
+    so the engine can prefer dishes we can actually show a recipe for."""
+    rows = (
+        db.session.query(Recipe, Dish.dish_name)
+        .join(Dish, Dish.id == Recipe.dish_id)
+        .all()
+    )
+    return [name for (recipe, name) in rows if recipe.found]
+
+
 @bp.route("/recommend", methods=["GET"])
 @jwt_required()
 def recommend():
@@ -61,6 +72,7 @@ def recommend():
             user_profile=_engine_profile(profile),
             available_ingredients=profile.available_ingredients,
             excluded_dishes=_excluded_dish_names(user_id),
+            preferred_dishes=_dishes_with_recipes(),
             user_id=user_id,
         )
     except Exception as exc:  # engine can fail on unseen categories, missing files

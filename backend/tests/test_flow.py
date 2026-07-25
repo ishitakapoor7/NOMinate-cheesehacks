@@ -41,6 +41,23 @@ def test_recommend_returns_and_logs_dish(client, auth_headers, fake_engine, db):
     assert fake_engine.last_call["user_id"] is not None
 
 
+def test_recommend_prefers_dishes_with_a_recipe(client, auth_headers, fake_engine, db):
+    from app.models import Dish, Recipe
+
+    _setup(client, auth_headers)
+    pad_thai = Dish.query.filter_by(dish_name="Pad Thai").one()
+    db.session.add(Recipe(dish_id=pad_thai.id, title="Pad Thai", steps=["Boil noodles."]))
+    # a lookup miss (no steps) must NOT count as having a recipe
+    pizza = Dish.query.filter_by(dish_name="Margherita Pizza").one()
+    db.session.add(Recipe(dish_id=pizza.id, title="", steps=[]))
+    db.session.commit()
+
+    client.get("/api/recommend", headers=auth_headers)
+    preferred = fake_engine.last_call["preferred_dishes"]
+    assert "Pad Thai" in preferred
+    assert "Margherita Pizza" not in preferred
+
+
 def test_consecutive_recommends_vary(client, auth_headers, fake_engine):
     _setup(client, auth_headers)
     first = client.get("/api/recommend", headers=auth_headers).get_json()

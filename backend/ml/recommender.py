@@ -51,6 +51,7 @@ CUISINE_TOP_BONUS = 2.0     # bonus for a dish in the user's #1 cuisine
 CUISINE_RANK_DECAY = 0.3    # each lower-ranked cuisine earns a little less
 CUISINE_MIN_BONUS = 0.8     # ...but a listed cuisine never drops below this
 INGREDIENT_MAX_BONUS = 1.5  # full bonus when the user already has every ingredient
+RECIPE_BONUS = 1.0          # nudge toward dishes we can show a real recipe for
 
 
 def cuisine_affinity(dish_cuisine: str, user_cuisines) -> float:
@@ -105,11 +106,33 @@ class RecommendationEngine:
         self.model.load_state_dict(torch.load(model_path, map_location="cpu"))
         self.model.eval()   # disable dropout for inference
 
+        # A fractional-CPU host thrashes if torch spawns many threads for these
+        # small ops; one thread is faster here.
+        torch.set_num_threads(1)
+
         # Pre-encode all dish IDs so we can score them all at once
         self.all_dish_ids = sorted(self.dish_lookup.keys())
         self.dish_id_tensor = torch.tensor(
             self.dish_enc.transform(self.all_dish_ids), dtype=torch.long
         )
+
+        # Precompute everything about the catalog that never changes between
+        # requests: the ingredient multi-hot matrix and per-dish lookup sets.
+        # Rebuilding these per request was the bulk of recommendation latency.
+        skill_rank = {"beginner": 0, "intermediate": 1, "advanced": 2}
+        self._names, self._cuisines = [], []
+        self._ingredient_sets, self._tag_sets, self._difficulty_ranks = [], [], []
+        rows = []
+        for did in self.all_dish_ids:
+            dish = self.dish_lookup[did]
+            self._names.append(dish.get("dish_name", ""))
+            self._cuisines.append(dish.get("cuisine", ""))
+            ings = [i.strip().lower() for i in dish.get("ingredients", "").split("|") if i.strip()]
+            self._ingredient_sets.append(set(ings))
+            self._tag_sets.append({t for t in dish.get("dietary_tags", "").split("|") if t})
+            self._difficulty_ranks.append(skill_rank.get(dish.get("difficulty", "beginner"), 0))
+            rows.append(self._dish_ingredient_vec(did))
+        self.ingredient_matrix = torch.tensor(np.stack(rows), dtype=torch.float)
 
         # Users the model actually trained on ("real_<id>" for real users).
         # Anyone not in here goes through nearest-neighbor cold start.
@@ -183,6 +206,7 @@ class RecommendationEngine:
         available_ingredients=None,
         excluded_dishes=None,
         user_id=None,
+        preferred_dishes=None,
         top_k=5,
         rng=None,
     ):
@@ -203,6 +227,7 @@ class RecommendationEngine:
             dict with dish_name, cuisine, ingredients, score
         """
         excluded_dishes = set(excluded_dishes or [])
+        preferred_dishes = set(preferred_dishes or [])
 
         # ── Encode profile side features ──────────────────────────────────────
         top_cuisine = user_profile.get("cuisines", [self.all_cuisines[0]])[0]
@@ -220,11 +245,8 @@ class RecommendationEngine:
         goal_ids    = torch.tensor([self.goal_enc.transform([goal])[0]]            * n, dtype=torch.long)
         budget_ids  = torch.tensor([self.budget_enc.transform([budget])[0]]        * n, dtype=torch.long)
 
-        # Build ingredient multi-hot for every dish
-        ing_matrix = torch.tensor(
-            np.stack([self._dish_ingredient_vec(did) for did in self.all_dish_ids]),
-            dtype=torch.float,
-        )
+        # Ingredient multi-hot is precomputed once at load (see __init__).
+        ing_matrix = self.ingredient_matrix
 
         # ── Get user embedding: learned if this user was in training, else
         # cold-start via nearest synthetic neighbors ──────────────────────────
@@ -258,62 +280,47 @@ class RecommendationEngine:
 
         scores = scores.numpy()
 
-        # ── Hard filters ─────────────────────────────────────────────────────
+        # ── Hard filters + preference boosts (one pass over precomputed data) ──
         user_diet = set(user_profile.get("dietary_restrictions", []))
         allergies = user_profile.get("allergies") or []
         if isinstance(allergies, str):
             allergies = [a.strip() for a in allergies.split(",") if a.strip()]
         skill_rank = {"beginner": 0, "intermediate": 1, "advanced": 2}
         user_skill_rank = skill_rank.get(skill, 0)
-
-        for i, dish_id in enumerate(self.all_dish_ids):
-            dish = self.dish_lookup[dish_id]
-            dish_name = dish.get("dish_name", "")
-
-            # Safety: unconditionally remove any dish containing an allergen
-            if allergy_conflict(dish.get("ingredients", ""), allergies):
-                scores[i] = -np.inf
-                continue
-
-            # Remove excluded dishes (recently eaten / disliked)
-            if dish_name in excluded_dishes:
-                scores[i] = -np.inf
-                continue
-
-            # Remove dishes that violate dietary restrictions
-            dish_tags = set(dish.get("dietary_tags", "").split("|")) - {""}
-            for restriction in user_diet:
-                if restriction and restriction not in dish_tags:
-                    scores[i] = -np.inf
-                    break
-
-            # Remove dishes too advanced for the user's skill level
-            dish_difficulty = dish.get("difficulty", "beginner")
-            if skill_rank.get(dish_difficulty, 0) > user_skill_rank:
-                scores[i] = -np.inf
-
-        # ── Preference boosts: cuisine affinity + ingredient availability ─────
-        # With no ratings yet, these boosts are what make a pick feel personal.
-        # Cuisine uses every cuisine the user listed (not just their first), and
-        # the pantry boost rewards dishes they can mostly make right now.
         user_cuisines = user_profile.get("cuisines", []) or []
         available = {ing.strip().lower() for ing in (available_ingredients or [])}
-        for i, dish_id in enumerate(self.all_dish_ids):
-            if scores[i] == -np.inf:
+
+        for i in range(n):
+            name = self._names[i]
+            ing_set = self._ingredient_sets[i]
+
+            # ── Hard filters ──────────────────────────────────────────────────
+            # Safety: unconditionally remove any dish containing an allergen
+            if allergies and any(
+                matches_allergen(ing, a) for ing in ing_set for a in allergies
+            ):
+                scores[i] = -np.inf
                 continue
-            dish = self.dish_lookup[dish_id]
+            # Remove excluded dishes (recently eaten / disliked)
+            if name in excluded_dishes:
+                scores[i] = -np.inf
+                continue
+            # Remove dishes that violate dietary restrictions
+            if user_diet and any(r and r not in self._tag_sets[i] for r in user_diet):
+                scores[i] = -np.inf
+                continue
+            # Remove dishes too advanced for the user's skill level
+            if self._difficulty_ranks[i] > user_skill_rank:
+                scores[i] = -np.inf
+                continue
 
-            scores[i] += cuisine_affinity(dish.get("cuisine", ""), user_cuisines)
-
-            if available:
-                dish_ings = [
-                    ing.strip().lower()
-                    for ing in dish.get("ingredients", "").split("|")
-                    if ing.strip()
-                ]
-                if dish_ings:
-                    fraction = len(available & set(dish_ings)) / len(dish_ings)
-                    scores[i] += INGREDIENT_MAX_BONUS * fraction
+            # ── Preference boosts (make the pick feel personal pre-ratings) ───
+            scores[i] += cuisine_affinity(self._cuisines[i], user_cuisines)
+            if available and ing_set:
+                scores[i] += INGREDIENT_MAX_BONUS * (len(available & ing_set) / len(ing_set))
+            # Favor dishes we can show a real recipe for (better than a fallback)
+            if name in preferred_dishes:
+                scores[i] += RECIPE_BONUS
 
         # ── Sample from the top K so repeat requests feel fresh ──────────────
         best_idx  = sample_top_k(scores, k=top_k, rng=rng)
