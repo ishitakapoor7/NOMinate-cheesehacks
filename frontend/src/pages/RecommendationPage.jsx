@@ -86,7 +86,6 @@ export default function RecommendationPage() {
 
             <div className="mt-10 rounded-full border-2 border-ink px-8 py-3 font-mono text-sm tracking-caps text-ink">
               {dish.cuisine?.toUpperCase()}
-              {dish.score != null && <>&ensp;/&ensp;MATCH {Number(dish.score).toFixed(1)}</>}
             </div>
 
             <p className="mt-6 max-w-[460px] text-lg text-gray">

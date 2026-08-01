@@ -174,6 +174,24 @@ export default function TakeoutPage() {
           </p>
         )}
 
+        {restaurants && restaurants.length > 0 && visible.length === 0 && (
+          <div className="mt-16 flex flex-col items-start gap-4">
+            <p className="text-lg text-gray">
+              None of the {restaurants.length} spots match those filters right now.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setOpenOnly(false);
+                setAffordableOnly(false);
+              }}
+              className="border-2 border-ink px-8 py-3 font-semibold text-ink shadow-sticker transition-transform hover:bg-wash active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+            >
+              Clear filters
+            </button>
+          </div>
+        )}
+
         {visible.length > 0 && (
           <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
             {visible.map((r, index) => (

@@ -165,6 +165,20 @@ def test_recently_eaten_feedback_is_neutral_signal(client, auth_headers, fake_en
     assert rating.source == "explicit_feedback" and rating.value == 3.0
 
 
+def test_show_me_something_else_is_neutral_not_a_dislike(client, auth_headers, fake_engine, db):
+    _setup(client, auth_headers)
+    client.get("/api/recommend", headers=auth_headers)
+
+    # Asking for variety must not train the model against the skipped dish.
+    client.post(
+        "/api/feedback",
+        json={"feedback_reason": "Show me something else"},
+        headers=auth_headers,
+    )
+    rating = Rating.query.one()
+    assert rating.source == "explicit_feedback" and rating.value == 3.0
+
+
 def test_feedback_without_recommendation_is_404(client, auth_headers, fake_engine):
     _setup(client, auth_headers)
     resp = client.post(
@@ -192,6 +206,18 @@ def test_comment_card_loved_it_is_strong_positive(client, auth_headers, fake_eng
     client.post("/api/feedback", json={"feedback_reason": "Loved it"}, headers=auth_headers)
     rating = Rating.query.one()
     assert rating.source == "explicit_feedback" and rating.value == 5.0
+
+
+def test_pantry_match_is_whole_word_not_substring():
+    from app.api.cooking import _is_available
+
+    pantry = {"egg", "rice", "olive oil"}
+    assert _is_available("egg", pantry) is True
+    assert _is_available("chicken breast", {"chicken"}) is True
+    assert _is_available("olive oil", pantry) is True
+    # substrings of a longer word must not count as on-hand
+    assert _is_available("eggplant", pantry) is False
+    assert _is_available("brown rice noodles", {"noodle"}) is False
 
 
 def test_feedback_after_cooking_keeps_cooked_action(client, auth_headers, fake_engine, db):

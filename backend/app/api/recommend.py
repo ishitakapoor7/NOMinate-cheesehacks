@@ -8,7 +8,7 @@ Every recommendation shown is logged to the recommendations table.
 """
 from datetime import datetime, timedelta
 
-from flask import Blueprint, jsonify
+from flask import Blueprint, current_app, jsonify
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from sqlalchemy import func
 
@@ -75,8 +75,9 @@ def recommend():
             preferred_dishes=_dishes_with_recipes(),
             user_id=user_id,
         )
-    except Exception as exc:  # engine can fail on unseen categories, missing files
-        return jsonify({"error": f"Recommendation failed: {exc}"}), 500
+    except Exception:  # engine can fail on unseen categories, missing files
+        current_app.logger.exception("Recommendation failed for user %s", user_id)
+        return jsonify({"error": "Could not pick a dish. Please try again."}), 500
 
     dish = Dish.query.filter(
         func.lower(Dish.dish_name) == result["dish_name"].lower()

@@ -20,9 +20,17 @@ RECIPES_JSON = os.path.join(BASE, "ml", "data", "recipes_seed.json")
 
 
 def seed_dishes(csv_path: str = DISHES_CSV) -> int:
-    """Load/refresh dishes from the CSV. Returns the number of rows processed."""
+    """Load/refresh dishes from the CSV. Returns the number of rows processed.
+
+    On Render's free tier the whole start command re-runs every time the
+    instance wakes from spin-down, so short-circuit when the catalog is already
+    fully loaded — otherwise every cold visit re-upserts hundreds of rows into a
+    cold database and adds minutes to the first page load."""
     with open(csv_path, newline="") as f:
         rows = list(csv.DictReader(f))
+
+    if db.session.query(Dish).count() >= len(rows):
+        return len(rows)
 
     for row in rows:
         dish_id = int(row["dish_id"])
@@ -51,6 +59,9 @@ def seed_recipes(json_path: str = RECIPES_JSON) -> int:
         return 0
     with open(json_path) as f:
         entries = json.load(f)
+
+    if Recipe.query.count() >= len(entries):
+        return len(entries)
 
     count = 0
     for entry in entries:

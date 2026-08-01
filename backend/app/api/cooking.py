@@ -3,6 +3,8 @@
 Choosing to cook a dish is a strong positive signal, so it also marks the
 recommendation and writes a rating for retraining.
 """
+import re
+
 from flask import Blueprint, jsonify
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
@@ -17,8 +19,22 @@ COOKED_RATING = 5.0
 
 
 def _is_available(name: str, pantry: set[str]) -> bool:
+    """Match a recipe ingredient against the user's pantry. Single-word pantry
+    items must match a whole word in the ingredient (so "egg" doesn't claim
+    "eggplant"); multi-word items ("olive oil") fall back to substring."""
     lowered = name.lower()
-    return lowered in pantry or any(item and item in lowered for item in pantry)
+    if lowered in pantry:
+        return True
+    words = set(re.findall(r"[a-z]+", lowered))
+    for item in pantry:
+        if not item:
+            continue
+        if " " in item:
+            if item in lowered:
+                return True
+        elif item in words:
+            return True
+    return False
 
 
 @bp.route("/cooking", methods=["POST"])

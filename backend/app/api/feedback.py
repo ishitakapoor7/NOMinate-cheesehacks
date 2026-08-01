@@ -20,6 +20,9 @@ REASON_SIGNAL = {
     "It was fine": (3.0, "explicit_feedback"),
     "Not my thing": (2.0, "disliked"),
     "Never again": (1.0, "disliked"),
+    # "Show me something else" is a variety request, not a complaint — record it
+    # as neutral so skipping a dish never trains the model against it.
+    "Show me something else": (3.0, "explicit_feedback"),
     # legacy reasons kept so old clients and tests stay valid
     "I just don't like it": (1.0, "disliked"),
     "Recently Eaten": (3.0, "explicit_feedback"),
