@@ -1,7 +1,7 @@
-"""Boundary between the web layer and the PyTorch recommendation engine.
+"""Boundary between the web layer and the NumPy recommendation engine.
 
-The engine loads lazily on first use (fast app start, no torch for tests or
-CLI commands) from the newest checkpoint: if ``checkpoints/latest`` names a
+The engine loads lazily on first use (fast app start — serving needs only NumPy,
+never torch) from the newest checkpoint: if ``checkpoints/latest`` names a
 versioned retrain directory, that wins; otherwise the base checkpoints ship
 with the repo. The pointer is re-checked on every call, so a retrain done in
 another process is hot-swapped in without a server restart.
@@ -40,7 +40,7 @@ def get_engine():
         from ml.recommender import RecommendationEngine
 
         _engine = RecommendationEngine(
-            model_path=os.path.join(target, "model.pt"),
+            weights_path=os.path.join(target, "model_weights.npz"),
             encoders_path=os.path.join(target, "encoders.pkl"),
             dishes_path=os.path.join(target, "dishes.pkl"),
             users_path=os.path.join(target, "users.pkl"),

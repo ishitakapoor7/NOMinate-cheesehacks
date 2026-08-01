@@ -1,11 +1,23 @@
-import pickle
-import numpy as np
-import torch
+"""NumPy inference engine for the dish recommender.
 
-try:
-    from ml.model import DishRecommender  # imported as a package (backend app)
-except ImportError:
-    from model import DishRecommender  # run as a script from inside ml/ (train.py)
+The model is trained in PyTorch (ml/train.py), but serving only needs embedding
+lookups, a couple of matmuls, and ReLUs — so we run it in pure NumPy from weights
+exported to model_weights.npz (see ml/export_weights.py). Keeping torch out of the
+serving path is what makes cold starts fast and the footprint small enough for a
+tiny always-on host.
+
+The forward pass here matches the trained model's serving path exactly (verified
+against torch to ~1e-6): mlp([user, dish, user*dish, cuisine, skill, goal, budget,
+ingredient_proj]) + global_bias. The per-user/per-dish bias terms are intentionally
+not added at serving time, mirroring the original engine.
+"""
+import pickle
+
+import numpy as np
+
+
+def _relu(x: np.ndarray) -> np.ndarray:
+    return np.maximum(x, 0.0)
 
 
 def matches_allergen(ingredient: str, allergen: str) -> bool:
@@ -69,7 +81,7 @@ def cuisine_affinity(dish_cuisine: str, user_cuisines) -> float:
 
 
 class RecommendationEngine:
-    def __init__(self, model_path, encoders_path, dishes_path, users_path):
+    def __init__(self, weights_path, encoders_path, dishes_path, users_path):
         # ── Load encoders and vocabularies ────────────────────────────────────
         with open(encoders_path, "rb") as f:
             enc = pickle.load(f)
@@ -84,41 +96,29 @@ class RecommendationEngine:
         self.num_ingredients  = enc["num_ingredients"]
         self.all_cuisines     = enc["all_cuisines"]
 
-        # ── Load dish catalog ─────────────────────────────────────────────────
+        # ── Load dish catalog and synthetic user profiles ─────────────────────
         with open(dishes_path, "rb") as f:
             self.dish_lookup = pickle.load(f)   # dict: dish_id -> dish metadata
-
-        # ── Load user profiles (synthetic) ────────────────────────────────────
         with open(users_path, "rb") as f:
             self.user_lookup = pickle.load(f)   # dict: user_id -> user metadata
 
-        # ── Load trained model ────────────────────────────────────────────────
-        self.model = DishRecommender(
-            num_users       = len(self.user_enc.classes_),
-            num_dishes      = len(self.dish_enc.classes_),
-            num_cuisines    = len(self.cuisine_enc.classes_),
-            num_skills      = len(self.skill_enc.classes_),
-            num_goals       = len(self.goal_enc.classes_),
-            num_budgets     = len(self.budget_enc.classes_),
-            num_ingredients = self.num_ingredients,
-            embedding_dim   = 64,
-        )
-        self.model.load_state_dict(torch.load(model_path, map_location="cpu"))
-        self.model.eval()   # disable dropout for inference
+        # ── Load trained weights (exported from torch to NumPy) ───────────────
+        npz = np.load(weights_path)
+        self.w = {k: npz[k].astype(np.float32) for k in npz.files}
+        self.global_bias = float(self.w["global_bias"][0])
 
-        # A fractional-CPU host thrashes if torch spawns many threads for these
-        # small ops; one thread is faster here.
-        torch.set_num_threads(1)
+        # Users the model actually trained on ("real_<id>" for real users).
+        # Anyone not in here goes through nearest-neighbor cold start.
+        self.known_users = set(self.user_enc.classes_)
 
-        # Pre-encode all dish IDs so we can score them all at once
+        # ── Precompute everything that never changes between requests ──────────
+        # dish embeddings, the ingredient projection, and the per-dish lookup
+        # sets. Rebuilding these per request was the bulk of recommendation
+        # latency; now a request only recomputes the user/profile-dependent parts.
         self.all_dish_ids = sorted(self.dish_lookup.keys())
-        self.dish_id_tensor = torch.tensor(
-            self.dish_enc.transform(self.all_dish_ids), dtype=torch.long
-        )
+        dish_idx = self.dish_enc.transform(self.all_dish_ids)
+        self.dish_embs = self.w["dish_embedding.weight"][dish_idx]  # (n, 64)
 
-        # Precompute everything about the catalog that never changes between
-        # requests: the ingredient multi-hot matrix and per-dish lookup sets.
-        # Rebuilding these per request was the bulk of recommendation latency.
         skill_rank = {"beginner": 0, "intermediate": 1, "advanced": 2}
         self._names, self._cuisines = [], []
         self._ingredient_sets, self._tag_sets, self._difficulty_ranks = [], [], []
@@ -132,25 +132,20 @@ class RecommendationEngine:
             self._tag_sets.append({t for t in dish.get("dietary_tags", "").split("|") if t})
             self._difficulty_ranks.append(skill_rank.get(dish.get("difficulty", "beginner"), 0))
             rows.append(self._dish_ingredient_vec(did))
-        self.ingredient_matrix = torch.tensor(np.stack(rows), dtype=torch.float)
-
-        # Users the model actually trained on ("real_<id>" for real users).
-        # Anyone not in here goes through nearest-neighbor cold start.
-        self.known_users = set(self.user_enc.classes_)
+        ingredient_matrix = np.stack(rows).astype(np.float32)          # (n, num_ingredients)
+        # The ingredient projection depends only on the (fixed) catalog, so the
+        # projected features are constant across requests — project once.
+        self.i_proj = _relu(
+            ingredient_matrix @ self.w["ingredient_proj.weight"].T
+            + self.w["ingredient_proj.bias"]
+        )                                                              # (n, 32)
 
     # ── Cold-start: map a new user to the embedding space ────────────────────
-    def _find_nearest_user_embedding(self, user_profile):
+    def _find_nearest_user_embedding(self, user_profile) -> np.ndarray:
         """
         A real user has no learned embedding because they weren't in the
-        training set. We solve this by finding the K most similar synthetic
-        users and averaging their embeddings.
-
-        Similarity is scored by comparing profile attributes:
-        - Cuisine overlap (weighted by rank)
-        - Same skill level
-        - Same health goal
-        - Same budget
-        - Dietary restriction overlap
+        training set. We find the K most similar synthetic users (by profile
+        overlap) and average their learned embeddings as a proxy.
         """
         user_cuisines  = user_profile.get("cuisines", [])
         user_skill     = user_profile.get("skill_level", "beginner")
@@ -162,32 +157,20 @@ class RecommendationEngine:
         for uid, u in self.user_lookup.items():
             score = 0.0
             syn_cuisines = u.get("preferred_cuisines", "").split("|")
-
-            # Cuisine overlap — higher bonus for matching higher-ranked preferences
             for rank, cuisine in enumerate(user_cuisines[:5]):
                 if cuisine in syn_cuisines:
                     score += 1.5 - rank * 0.2
-
             if u.get("skill")        == user_skill:  score += 1.0
             if u.get("health_goal")  == user_goal:   score += 1.0
             if u.get("budget")       == user_budget:  score += 1.0
-
             syn_diet = set(u.get("dietary_restrictions", "").split("|")) - {""}
             if user_diet:
-                overlap = len(user_diet & syn_diet) / len(user_diet)
-                score += overlap * 1.0
-
+                score += len(user_diet & syn_diet) / len(user_diet)
             scores[uid] = score
 
-        # Take the top 5 most similar synthetic users
         top_k = sorted(scores, key=scores.get, reverse=True)[:5]
-
-        # Average their learned embeddings to create a proxy for the new user
         top_k_encoded = self.user_enc.transform(top_k)
-        embeddings = self.model.user_embedding(
-            torch.tensor(top_k_encoded, dtype=torch.long)
-        )
-        return embeddings.mean(dim=0, keepdim=True)  # shape: (1, embedding_dim)
+        return self.w["user_embedding.weight"][top_k_encoded].mean(axis=0)  # (64,)
 
     # ── Ingredient multi-hot for a dish ──────────────────────────────────────
     def _dish_ingredient_vec(self, dish_id):
@@ -198,6 +181,34 @@ class RecommendationEngine:
             if ing in self.ingredient_to_idx:
                 vec[self.ingredient_to_idx[ing]] = 1.0
         return vec
+
+    def _user_embedding(self, user_profile, user_id) -> np.ndarray:
+        """Learned embedding if this user was in the last retrain, else cold start."""
+        trained_key = f"real_{user_id}" if user_id is not None else None
+        if trained_key is not None and trained_key in self.known_users:
+            idx = self.user_enc.transform([trained_key])[0]
+            return self.w["user_embedding.weight"][idx]
+        return self._find_nearest_user_embedding(user_profile)
+
+    def _score_all_dishes(self, user_emb, cuisine_id, skill_id, goal_id, budget_id) -> np.ndarray:
+        """NumPy forward pass over the whole catalog. Mirrors the trained model's
+        serving forward exactly (see module docstring)."""
+        n = len(self.all_dish_ids)
+        u = np.broadcast_to(user_emb.astype(np.float32), (n, user_emb.shape[0]))
+        interaction = self.dish_embs * user_emb.astype(np.float32)
+        c = np.broadcast_to(self.w["cuisine_embedding.weight"][cuisine_id], (n, 16))
+        s = np.broadcast_to(self.w["skill_embedding.weight"][skill_id], (n, 8))
+        g = np.broadcast_to(self.w["goal_embedding.weight"][goal_id], (n, 8))
+        b = np.broadcast_to(self.w["budget_embedding.weight"][budget_id], (n, 8))
+
+        combined = np.concatenate(
+            [u, self.dish_embs, interaction, c, s, g, b, self.i_proj], axis=1
+        ).astype(np.float32)                                            # (n, 264)
+
+        h = _relu(combined @ self.w["mlp.0.weight"].T + self.w["mlp.0.bias"])
+        h = _relu(h @ self.w["mlp.3.weight"].T + self.w["mlp.3.bias"])
+        out = (h @ self.w["mlp.6.weight"].T + self.w["mlp.6.bias"]).squeeze(-1)
+        return out + self.global_bias
 
     # ── Main recommendation function ──────────────────────────────────────────
     def recommend(
@@ -213,72 +224,27 @@ class RecommendationEngine:
         """
         Score every dish for the given user profile and return a top match.
 
-        Args:
-            user_profile: dict with keys cuisines, skill_level, weight_goal,
-                          budget, dietary_restrictions, allergies
-            available_ingredients: list of ingredient strings the user has at home
-            excluded_dishes: list of dish names to skip (recently eaten, disliked)
-            user_id: real DB user id; if this user was in the last retrain they
-                     get their learned embedding instead of cold start
-            top_k: sample among this many top-scored dishes for variety
-            rng: numpy Generator, injectable for deterministic tests
-
-        Returns:
-            dict with dish_name, cuisine, ingredients, score
+        Returns a dict with dish_name, cuisine, ingredients, score.
         """
         excluded_dishes = set(excluded_dishes or [])
         preferred_dishes = set(preferred_dishes or [])
 
         # ── Encode profile side features ──────────────────────────────────────
         top_cuisine = user_profile.get("cuisines", [self.all_cuisines[0]])[0]
-        # Fallback to first known cuisine if user's top pick isn't in the catalog
         if top_cuisine not in self.cuisine_enc.classes_:
             top_cuisine = self.all_cuisines[0]
-
         skill  = user_profile.get("skill_level", "beginner")
         goal   = user_profile.get("weight_goal", "maintain")
         budget = user_profile.get("budget", "<$50")
 
-        n = len(self.all_dish_ids)
-        cuisine_ids = torch.tensor([self.cuisine_enc.transform([top_cuisine])[0]] * n, dtype=torch.long)
-        skill_ids   = torch.tensor([self.skill_enc.transform([skill])[0]]          * n, dtype=torch.long)
-        goal_ids    = torch.tensor([self.goal_enc.transform([goal])[0]]            * n, dtype=torch.long)
-        budget_ids  = torch.tensor([self.budget_enc.transform([budget])[0]]        * n, dtype=torch.long)
-
-        # Ingredient multi-hot is precomputed once at load (see __init__).
-        ing_matrix = self.ingredient_matrix
-
-        # ── Get user embedding: learned if this user was in training, else
-        # cold-start via nearest synthetic neighbors ──────────────────────────
-        trained_key = f"real_{user_id}" if user_id is not None else None
-        if trained_key is not None and trained_key in self.known_users:
-            idx = self.user_enc.transform([trained_key])[0]
-            user_emb = self.model.user_embedding(
-                torch.tensor([idx], dtype=torch.long)
-            )  # (1, 64)
-        else:
-            user_emb = self._find_nearest_user_embedding(user_profile)  # (1, 64)
-        user_emb_expanded = user_emb.expand(n, -1)                      # (n, 64)
+        cuisine_id = int(self.cuisine_enc.transform([top_cuisine])[0])
+        skill_id   = int(self.skill_enc.transform([skill])[0])
+        goal_id    = int(self.goal_enc.transform([goal])[0])
+        budget_id  = int(self.budget_enc.transform([budget])[0])
 
         # ── Score all dishes ──────────────────────────────────────────────────
-        with torch.no_grad():
-            dish_embs   = self.model.dish_embedding(self.dish_id_tensor)   # (n, 64)
-            interaction = user_emb_expanded * dish_embs                    # (n, 64)
-
-            c_emb = self.model.cuisine_embedding(cuisine_ids)
-            s_emb = self.model.skill_embedding(skill_ids)
-            g_emb = self.model.goal_embedding(goal_ids)
-            b_emb = self.model.budget_embedding(budget_ids)
-            i_proj = torch.relu(self.model.ingredient_proj(ing_matrix))
-
-            combined = torch.cat(
-                [user_emb_expanded, dish_embs, interaction,
-                 c_emb, s_emb, g_emb, b_emb, i_proj], dim=1
-            )
-            scores = self.model.mlp(combined).squeeze()   # (n,)
-            scores = scores + self.model.global_bias
-
-        scores = scores.numpy()
+        user_emb = self._user_embedding(user_profile, user_id)
+        scores = self._score_all_dishes(user_emb, cuisine_id, skill_id, goal_id, budget_id)
 
         # ── Hard filters + preference boosts (one pass over precomputed data) ──
         user_diet = set(user_profile.get("dietary_restrictions", []))
@@ -290,6 +256,7 @@ class RecommendationEngine:
         user_cuisines = user_profile.get("cuisines", []) or []
         available = {ing.strip().lower() for ing in (available_ingredients or [])}
 
+        n = len(self.all_dish_ids)
         for i in range(n):
             name = self._names[i]
             ing_set = self._ingredient_sets[i]

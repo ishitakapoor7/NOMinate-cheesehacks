@@ -238,7 +238,15 @@ def train_model(
         pickle.dump(dish_lookup, f)
     with open(os.path.join(out_dir, "users.pkl"), "wb") as f:
         pickle.dump(user_lookup, f)
-    log(f"Saved model, encoders, and catalogs to {out_dir}/")
+
+    # Export the trained weights to NumPy so the serving engine never needs torch.
+    try:
+        from ml.export_weights import WEIGHTS_NAME, export_weights
+    except ImportError:
+        from export_weights import WEIGHTS_NAME, export_weights
+
+    export_weights(model_path, os.path.join(out_dir, WEIGHTS_NAME))
+    log(f"Saved model, encoders, catalogs, and NumPy weights to {out_dir}/")
 
     return {"best_val_rmse": best_val_rmse, "epochs_run": epochs_run}
 

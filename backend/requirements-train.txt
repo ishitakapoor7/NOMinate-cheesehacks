@@ -1,0 +1,7 @@
+# Training-only dependencies. The deployed API does NOT install these — it runs
+# the model in NumPy from exported weights (see requirements.txt / ml/recommender.py).
+# Install locally to retrain and re-export:
+#     pip install -r requirements-train.txt
+#     python -m ml.train        # writes model.pt + model_weights.npz
+-r requirements.txt
+torch==2.12.0

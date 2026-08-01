@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+tests/
+.env
+.env.*
+venv/
+../venv/
+*.md
+# model.pt is only used to train / re-export; serving uses model_weights.npz
+ml/checkpoints/*/model.pt
+ml/checkpoints/model.pt
+instance/

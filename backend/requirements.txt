@@ -16,10 +16,12 @@ Authlib==1.3.2
 python-dotenv==1.2.2
 
 # Data / ML
+# NOTE: torch is NOT here on purpose — the serving path runs the model in NumPy
+# from exported weights (ml/recommender.py), so the deployed API stays light and
+# cold-starts fast. torch is only needed to train; see requirements-train.txt.
 pandas==3.0.3
 numpy==2.4.6
 scikit-learn==1.8.0
-torch==2.12.0
 
 # Restaurant lookup (legacy scraper / future Places client)
 requests==2.34.2
