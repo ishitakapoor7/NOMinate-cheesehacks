@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../lib/api';
 import { useAuth } from '../context/AuthContext';
 import NavBar from '../components/NavBar';
+import { Avatar, AVATARS } from '../components/Avatar';
 
 // These match the dish catalog's cuisine names exactly so the recommender's
 // cuisine affinity can key off them. Every one has dishes in the catalog.
@@ -126,6 +127,9 @@ export default function ProfileSetupPage({ edit = false }) {
 
   const [name, setName] = useState(user?.username || '');
   const [avatarUrl, setAvatarUrl] = useState(user?.avatar_url || '');
+  // A Google sign-in gives a photo URL; offer it as one of the avatar choices.
+  const googlePhoto =
+    user?.avatar_url && /^https?:\/\//.test(user.avatar_url) ? user.avatar_url : '';
   const [cuisines, setCuisines] = useState([]);
   const [diets, setDiets] = useState([]);
   const [allergies, setAllergies] = useState([]);
@@ -251,38 +255,43 @@ export default function ProfileSetupPage({ edit = false }) {
           <section className="flex flex-col gap-4">
             <SectionLabel>ABOUT YOU</SectionLabel>
             <div className="flex items-center gap-5">
-              <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-full border-2 border-ink bg-wash">
-                {avatarUrl ? (
-                  <img
-                    src={avatarUrl}
-                    alt=""
-                    className="h-full w-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                    }}
-                  />
-                ) : (
-                  <span className="flex h-full w-full items-center justify-center font-display text-2xl uppercase text-gray">
-                    {(name || '?').trim().charAt(0)}
-                  </span>
-                )}
-              </div>
-              <div className="flex flex-grow flex-col gap-3">
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Your name"
-                  className="h-12 w-full border-2 border-ink px-4 text-base placeholder:text-gray/60"
-                />
-                <input
-                  type="url"
-                  value={avatarUrl}
-                  onChange={(e) => setAvatarUrl(e.target.value)}
-                  placeholder="Photo URL (optional)"
-                  className="h-12 w-full border-2 border-ink px-4 text-base placeholder:text-gray/60"
-                />
-              </div>
+              <Avatar value={avatarUrl} name={name} size={80} />
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your name"
+                className="h-12 flex-grow border-2 border-ink px-4 text-base placeholder:text-gray/60"
+              />
+            </div>
+            <p className="font-mono text-xs tracking-caps text-gray">PICK AN AVATAR</p>
+            <div className="flex flex-wrap gap-3">
+              {googlePhoto && (
+                <button
+                  type="button"
+                  onClick={() => setAvatarUrl(googlePhoto)}
+                  aria-label="Use your Google photo"
+                  className={`rounded-full transition-transform hover:scale-105 ${
+                    avatarUrl === googlePhoto ? 'ring-2 ring-ink ring-offset-2' : ''
+                  }`}
+                >
+                  <Avatar value={googlePhoto} name={name} size={52} />
+                </button>
+              )}
+              {AVATARS.map((a) => (
+                <button
+                  type="button"
+                  key={a.id}
+                  onClick={() => setAvatarUrl(a.id)}
+                  aria-label={`Choose ${a.id} avatar`}
+                  aria-pressed={avatarUrl === a.id}
+                  className={`rounded-full transition-transform hover:scale-105 ${
+                    avatarUrl === a.id ? 'ring-2 ring-ink ring-offset-2' : ''
+                  }`}
+                >
+                  <Avatar value={a.id} name={name} size={52} />
+                </button>
+              ))}
             </div>
           </section>
 
