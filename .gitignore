@@ -35,3 +35,6 @@ instance/
 # Retrained model versions (base checkpoints stay committed)
 backend/ml/checkpoints/v*/
 backend/ml/checkpoints/latest
+
+# Raw Food.com dataset (600MB+) — used to build the catalog, never committed
+backend/ml/data/foodcom/

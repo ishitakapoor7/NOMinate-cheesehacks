@@ -17,6 +17,7 @@ class User(db.Model):
     username = db.Column(db.String(120), nullable=False)
     password_hash = db.Column(db.String(255), nullable=True)
     google_sub = db.Column(db.String(255), unique=True, nullable=True, index=True)
+    avatar_url = db.Column(db.String(1024), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     profile = db.relationship(

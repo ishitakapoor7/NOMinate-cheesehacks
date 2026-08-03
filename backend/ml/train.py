@@ -1,12 +1,12 @@
-"""Model training.
+"""Model training on real Food.com ratings.
 
-Callable as a library (``train_model``) so the backend can retrain on real +
-synthetic ratings, or as a script for the original synthetic-only workflow:
+Run as a script after building the data with ml.foodcom_ingest:
 
-    cd backend/ml && python train.py
+    cd backend && ../venv/bin/python -m ml.train
 
-User ids are treated as strings so synthetic ids ("0".."499") and real ids
-("real_<db id>") can share one embedding table without colliding.
+Learns user/dish embeddings from real user–recipe ratings, with the user's top
+cuisine and the dish's ingredients as content features. Writes model.pt,
+encoders.pkl, dishes.pkl, users.pkl, and the NumPy weights the server loads.
 """
 import os
 import pickle
@@ -22,10 +22,6 @@ try:
     from ml.model import DishRecommender
 except ImportError:
     from model import DishRecommender
-
-SKILLS = ["beginner", "intermediate", "advanced"]
-GOALS = ["weight_loss", "maintain", "weight_gain"]
-BUDGETS = ["<$50", "$50-$100", "$100-$200", "$200+"]
 
 
 class RatingsDataset(Dataset):
@@ -47,22 +43,20 @@ def train_model(
     users: pd.DataFrame,
     out_dir: str,
     embedding_dim: int = 64,
-    epochs: int = 50,
+    epochs: int = 40,
     batch_size: int = 512,
     lr: float = 1e-3,
     patience: int = 5,
     seed: int = 42,
     log=print,
 ) -> dict:
-    """Train the recommender and write model.pt / encoders.pkl / dishes.pkl /
-    users.pkl into ``out_dir``. Returns training metrics.
+    """Train and write model.pt / encoders.pkl / dishes.pkl / users.pkl / weights.
 
     Expected columns:
       ratings: user_id, dish_id, rating
       dishes:  dish_id, dish_name, cuisine, category, dietary_tags, difficulty,
                calorie_tier, cost_tier, ingredients
-      users:   user_id, preferred_cuisines, skill, health_goal, budget,
-               dietary_restrictions
+      users:   user_id, preferred_cuisines
     """
     os.makedirs(out_dir, exist_ok=True)
     torch.manual_seed(seed)
@@ -73,32 +67,29 @@ def train_model(
 
     ratings["user_id"] = ratings["user_id"].astype(str)
     users["user_id"] = users["user_id"].astype(str)
-    dishes["dietary_tags"] = dishes["dietary_tags"].fillna("")
-    dishes["ingredients"] = dishes["ingredients"].fillna("")
-    users["dietary_restrictions"] = users["dietary_restrictions"].fillna("")
+    users["preferred_cuisines"] = users["preferred_cuisines"].fillna("")
+    for col in ("dietary_tags", "ingredients", "difficulty", "calorie_tier", "cost_tier", "category"):
+        if col in dishes:
+            dishes[col] = dishes[col].fillna("")
 
     # ── Vocabularies ─────────────────────────────────────────────────────────
     user_enc = LabelEncoder().fit(users["user_id"])
     dish_enc = LabelEncoder().fit(dishes["dish_id"])
-    skill_enc = LabelEncoder().fit(SKILLS)
-    goal_enc = LabelEncoder().fit(GOALS)
-    budget_enc = LabelEncoder().fit(BUDGETS)
-
     all_cuisines = sorted(dishes["cuisine"].dropna().unique().tolist())
     cuisine_enc = LabelEncoder().fit(all_cuisines)
 
     all_ingredients = set()
     for ing_str in dishes["ingredients"]:
-        for ing in ing_str.split("|"):
-            ing = ing.strip()
+        for ing in str(ing_str).split("|"):
+            ing = ing.strip().lower()
             if ing:
-                all_ingredients.add(ing.lower())
+                all_ingredients.add(ing)
     all_ingredients = sorted(all_ingredients)
     ingredient_to_idx = {ing: i for i, ing in enumerate(all_ingredients)}
     num_ingredients = len(all_ingredients)
 
     log(
-        f"Vocab sizes — users: {len(user_enc.classes_)}, dishes: {len(dish_enc.classes_)}, "
+        f"Vocab — users: {len(user_enc.classes_)}, dishes: {len(dish_enc.classes_)}, "
         f"cuisines: {len(cuisine_enc.classes_)}, ingredients: {num_ingredients}"
     )
 
@@ -106,29 +97,18 @@ def train_model(
     user_lookup = users.set_index("user_id").to_dict("index")
     dish_lookup = dishes.set_index("dish_id").to_dict("index")
 
-    # Pre-encode per-id features once; per-sample LabelEncoder.transform calls
-    # are far too slow inside __getitem__.
     cuisine_by_user = {}
-    skill_by_user = {}
-    goal_by_user = {}
-    budget_by_user = {}
     for uid, user in user_lookup.items():
         cuisines = [c for c in str(user.get("preferred_cuisines", "")).split("|") if c]
         top = cuisines[0] if cuisines and cuisines[0] in cuisine_enc.classes_ else all_cuisines[0]
         cuisine_by_user[uid] = int(cuisine_enc.transform([top])[0])
-        skill = user.get("skill") if user.get("skill") in SKILLS else "beginner"
-        goal = user.get("health_goal") if user.get("health_goal") in GOALS else "maintain"
-        budget = user.get("budget") if user.get("budget") in BUDGETS else "<$50"
-        skill_by_user[uid] = int(skill_enc.transform([skill])[0])
-        goal_by_user[uid] = int(goal_enc.transform([goal])[0])
-        budget_by_user[uid] = int(budget_enc.transform([budget])[0])
 
     user_idx = {uid: i for i, uid in enumerate(user_enc.classes_)}
     dish_idx = {did: i for i, did in enumerate(dish_enc.classes_)}
 
     def dish_ingredient_multihot(dish_id):
         vec = np.zeros(num_ingredients, dtype=np.float32)
-        for ing in dish_lookup.get(dish_id, {}).get("ingredients", "").split("|"):
+        for ing in str(dish_lookup.get(dish_id, {}).get("ingredients", "")).split("|"):
             ing = ing.strip().lower()
             if ing in ingredient_to_idx:
                 vec[ingredient_to_idx[ing]] = 1.0
@@ -141,9 +121,6 @@ def train_model(
             "user_id": torch.tensor(user_idx[user_id], dtype=torch.long),
             "dish_id": torch.tensor(dish_idx[dish_id], dtype=torch.long),
             "cuisine_id": torch.tensor(cuisine_by_user[user_id], dtype=torch.long),
-            "skill_id": torch.tensor(skill_by_user[user_id], dtype=torch.long),
-            "goal_id": torch.tensor(goal_by_user[user_id], dtype=torch.long),
-            "budget_id": torch.tensor(budget_by_user[user_id], dtype=torch.long),
             "ingredients": torch.tensor(ingredient_vecs[dish_id], dtype=torch.float),
             "rating": torch.tensor(rating, dtype=torch.float),
         }
@@ -166,9 +143,6 @@ def train_model(
         num_users=len(user_enc.classes_),
         num_dishes=len(dish_enc.classes_),
         num_cuisines=len(cuisine_enc.classes_),
-        num_skills=len(skill_enc.classes_),
-        num_goals=len(goal_enc.classes_),
-        num_budgets=len(budget_enc.classes_),
         num_ingredients=num_ingredients,
         embedding_dim=embedding_dim,
     )
@@ -184,9 +158,6 @@ def train_model(
                     batch["user_id"],
                     batch["dish_id"],
                     batch["cuisine_id"],
-                    batch["skill_id"],
-                    batch["goal_id"],
-                    batch["budget_id"],
                     batch["ingredients"],
                 )
                 loss = criterion(preds, batch["rating"])
@@ -225,9 +196,6 @@ def train_model(
         "user_enc": user_enc,
         "dish_enc": dish_enc,
         "cuisine_enc": cuisine_enc,
-        "skill_enc": skill_enc,
-        "goal_enc": goal_enc,
-        "budget_enc": budget_enc,
         "ingredient_to_idx": ingredient_to_idx,
         "num_ingredients": num_ingredients,
         "all_cuisines": all_cuisines,
@@ -252,9 +220,11 @@ def train_model(
 
 
 if __name__ == "__main__":
+    base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    data = os.path.join(base, "ml", "data")
     train_model(
-        ratings=pd.read_csv("data/ratings.csv"),
-        dishes=pd.read_csv("data/dishes.csv"),
-        users=pd.read_csv("data/users.csv"),
-        out_dir="checkpoints",
+        ratings=pd.read_csv(os.path.join(data, "ratings.csv")),
+        dishes=pd.read_csv(os.path.join(data, "dishes.csv")),
+        users=pd.read_csv(os.path.join(data, "users.csv")),
+        out_dir=os.path.join(base, "ml", "checkpoints"),
     )

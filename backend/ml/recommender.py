@@ -42,6 +42,57 @@ def allergy_conflict(ingredients_str: str, allergies) -> bool:
     )
 
 
+# Catalog categories that aren't a dinner main course — never nominate these as
+# "tonight's dish" (this is what kept guacamole/desserts/sides out of dinner).
+NON_DINNER_CATEGORIES = {
+    "dessert", "side", "side dish", "antipasti", "starter", "fingerfood",
+    "beverage", "drink", "bread", "breakfast", "morning meal",
+}
+
+
+def is_main_dish(category) -> bool:
+    # Missing/unknown category (can be NaN from pandas) → keep, don't over-filter.
+    if not isinstance(category, str):
+        return True
+    return category.strip().lower() not in NON_DINNER_CATEGORIES
+
+
+# Ingredient words that disqualify a dish for a given dietary restriction. This
+# is a safety net for mislabeled catalog tags (e.g. a dish tagged "vegetarian"
+# that actually lists fish), mirroring the allergen filter's eager philosophy.
+_MEAT = {
+    "chicken", "beef", "pork", "lamb", "goat", "veal", "duck", "turkey", "bacon",
+    "ham", "sausage", "prosciutto", "pancetta", "chorizo", "salami", "meat",
+    "meatball", "meatballs", "mince",
+}
+_FISH = {
+    "fish", "salmon", "tuna", "cod", "anchovy", "anchovies", "sardine", "sardines",
+    "mackerel", "trout", "halibut", "shrimp", "prawn", "prawns", "crab", "lobster",
+    "clam", "clams", "mussel", "mussels", "oyster", "oysters", "squid", "octopus",
+    "scallop", "scallops", "seafood",
+}
+_DAIRY = {"milk", "cheese", "butter", "cream", "yogurt", "yoghurt", "ghee", "paneer"}
+_EGG = {"egg", "eggs"}
+
+
+def diet_conflict(ingredient_words: set, user_diet) -> bool:
+    """True if a dish's ingredient words violate any of the user's dietary
+    choices. Complements the tag-based filter to catch bad source data."""
+    diets = {d.strip().lower() for d in (user_diet or [])}
+    if not diets:
+        return False
+    banned: set = set()
+    if "vegetarian" in diets:
+        banned |= _MEAT | _FISH
+    if "vegan" in diets:
+        banned |= _MEAT | _FISH | _DAIRY | _EGG
+    if "pescatarian" in diets:
+        banned |= _MEAT  # fish is allowed for pescatarians
+    if "dairy-free" in diets:
+        banned |= _DAIRY
+    return bool(banned & ingredient_words)
+
+
 def sample_top_k(scores: np.ndarray, k: int = 5, rng: np.random.Generator | None = None) -> int:
     """Pick an index from the k highest-scoring valid entries, weighted by a
     softmax over their scores — variety without recommending bad matches."""
@@ -64,6 +115,18 @@ CUISINE_RANK_DECAY = 0.3    # each lower-ranked cuisine earns a little less
 CUISINE_MIN_BONUS = 0.8     # ...but a listed cuisine never drops below this
 INGREDIENT_MAX_BONUS = 1.5  # full bonus when the user already has every ingredient
 RECIPE_BONUS = 1.0          # nudge toward dishes we can show a real recipe for
+GOAL_CALORIE_BONUS = 0.5    # nudge dishes toward the user's weight goal via calorie tier
+
+
+def goal_calorie_bonus(weight_goal: str, calorie_tier: str) -> float:
+    """Soft nudge from the user's weight goal against a dish's calorie tier —
+    the honest replacement for the old per-user 'goal' model feature."""
+    tier = (calorie_tier or "").strip().lower()
+    if weight_goal == "weight_loss":
+        return GOAL_CALORIE_BONUS if tier == "low" else (-GOAL_CALORIE_BONUS if tier == "high" else 0.0)
+    if weight_goal == "weight_gain":
+        return GOAL_CALORIE_BONUS if tier == "high" else (-GOAL_CALORIE_BONUS if tier == "low" else 0.0)
+    return 0.0
 
 
 def cuisine_affinity(dish_cuisine: str, user_cuisines) -> float:
@@ -89,14 +152,11 @@ class RecommendationEngine:
         self.user_enc         = enc["user_enc"]
         self.dish_enc         = enc["dish_enc"]
         self.cuisine_enc      = enc["cuisine_enc"]
-        self.skill_enc        = enc["skill_enc"]
-        self.goal_enc         = enc["goal_enc"]
-        self.budget_enc       = enc["budget_enc"]
         self.ingredient_to_idx = enc["ingredient_to_idx"]
         self.num_ingredients  = enc["num_ingredients"]
         self.all_cuisines     = enc["all_cuisines"]
 
-        # ── Load dish catalog and synthetic user profiles ─────────────────────
+        # ── Load dish catalog and real user profiles ──────────────────────────
         with open(dishes_path, "rb") as f:
             self.dish_lookup = pickle.load(f)   # dict: dish_id -> dish metadata
         with open(users_path, "rb") as f:
@@ -117,20 +177,28 @@ class RecommendationEngine:
         # latency; now a request only recomputes the user/profile-dependent parts.
         self.all_dish_ids = sorted(self.dish_lookup.keys())
         dish_idx = self.dish_enc.transform(self.all_dish_ids)
-        self.dish_embs = self.w["dish_embedding.weight"][dish_idx]  # (n, 64)
+        self.dish_embs = self.w["dish_embedding.weight"][dish_idx]        # (n, 64)
+        # Per-dish learned bias = how universally liked a dish is (real-rating
+        # popularity). It varies per dish, so it shapes the ranking; include it.
+        self.dish_bias_vec = self.w["dish_bias.weight"][dish_idx].reshape(-1)  # (n,)
 
         skill_rank = {"beginner": 0, "intermediate": 1, "advanced": 2}
         self._names, self._cuisines = [], []
         self._ingredient_sets, self._tag_sets, self._difficulty_ranks = [], [], []
+        self._ingredient_words, self._is_dinner, self._calorie_tiers = [], [], []
         rows = []
         for did in self.all_dish_ids:
             dish = self.dish_lookup[did]
             self._names.append(dish.get("dish_name", ""))
             self._cuisines.append(dish.get("cuisine", ""))
-            ings = [i.strip().lower() for i in dish.get("ingredients", "").split("|") if i.strip()]
+            ings = [i.strip().lower() for i in str(dish.get("ingredients", "")).split("|") if i.strip()]
             self._ingredient_sets.append(set(ings))
-            self._tag_sets.append({t for t in dish.get("dietary_tags", "").split("|") if t})
+            # individual words across all ingredients, for the dietary safety net
+            self._ingredient_words.append({w for ing in ings for w in ing.split()})
+            self._tag_sets.append({t for t in str(dish.get("dietary_tags", "")).split("|") if t})
             self._difficulty_ranks.append(skill_rank.get(dish.get("difficulty", "beginner"), 0))
+            self._is_dinner.append(is_main_dish(dish.get("category", "")))
+            self._calorie_tiers.append(dish.get("calorie_tier", "medium"))
             rows.append(self._dish_ingredient_vec(did))
         ingredient_matrix = np.stack(rows).astype(np.float32)          # (n, num_ingredients)
         # The ingredient projection depends only on the (fixed) catalog, so the
@@ -143,29 +211,19 @@ class RecommendationEngine:
     # ── Cold-start: map a new user to the embedding space ────────────────────
     def _find_nearest_user_embedding(self, user_profile) -> np.ndarray:
         """
-        A real user has no learned embedding because they weren't in the
-        training set. We find the K most similar synthetic users (by profile
-        overlap) and average their learned embeddings as a proxy.
+        A new app user has no learned embedding (they weren't in the Food.com
+        training set). We find the most similar real users by cuisine overlap
+        and average their learned embeddings as a proxy.
         """
-        user_cuisines  = user_profile.get("cuisines", [])
-        user_skill     = user_profile.get("skill_level", "beginner")
-        user_goal      = user_profile.get("weight_goal", "maintain")
-        user_budget    = user_profile.get("budget", "<$50")
-        user_diet      = set(user_profile.get("dietary_restrictions", []))
+        user_cuisines = user_profile.get("cuisines", [])
 
         scores = {}
         for uid, u in self.user_lookup.items():
+            syn_cuisines = str(u.get("preferred_cuisines", "")).split("|")
             score = 0.0
-            syn_cuisines = u.get("preferred_cuisines", "").split("|")
             for rank, cuisine in enumerate(user_cuisines[:5]):
                 if cuisine in syn_cuisines:
                     score += 1.5 - rank * 0.2
-            if u.get("skill")        == user_skill:  score += 1.0
-            if u.get("health_goal")  == user_goal:   score += 1.0
-            if u.get("budget")       == user_budget:  score += 1.0
-            syn_diet = set(u.get("dietary_restrictions", "").split("|")) - {""}
-            if user_diet:
-                score += len(user_diet & syn_diet) / len(user_diet)
             scores[uid] = score
 
         top_k = sorted(scores, key=scores.get, reverse=True)[:5]
@@ -190,25 +248,24 @@ class RecommendationEngine:
             return self.w["user_embedding.weight"][idx]
         return self._find_nearest_user_embedding(user_profile)
 
-    def _score_all_dishes(self, user_emb, cuisine_id, skill_id, goal_id, budget_id) -> np.ndarray:
+    def _score_all_dishes(self, user_emb, cuisine_id) -> np.ndarray:
         """NumPy forward pass over the whole catalog. Mirrors the trained model's
-        serving forward exactly (see module docstring)."""
+        serving forward: mlp([user, dish, user*dish, cuisine, ingredients]) plus
+        the per-dish bias (popularity) and global bias. The per-user bias is a
+        constant across dishes, so it doesn't affect ranking and is omitted."""
         n = len(self.all_dish_ids)
         u = np.broadcast_to(user_emb.astype(np.float32), (n, user_emb.shape[0]))
         interaction = self.dish_embs * user_emb.astype(np.float32)
         c = np.broadcast_to(self.w["cuisine_embedding.weight"][cuisine_id], (n, 16))
-        s = np.broadcast_to(self.w["skill_embedding.weight"][skill_id], (n, 8))
-        g = np.broadcast_to(self.w["goal_embedding.weight"][goal_id], (n, 8))
-        b = np.broadcast_to(self.w["budget_embedding.weight"][budget_id], (n, 8))
 
         combined = np.concatenate(
-            [u, self.dish_embs, interaction, c, s, g, b, self.i_proj], axis=1
-        ).astype(np.float32)                                            # (n, 264)
+            [u, self.dish_embs, interaction, c, self.i_proj], axis=1
+        ).astype(np.float32)                                            # (n, 240)
 
         h = _relu(combined @ self.w["mlp.0.weight"].T + self.w["mlp.0.bias"])
         h = _relu(h @ self.w["mlp.3.weight"].T + self.w["mlp.3.bias"])
         out = (h @ self.w["mlp.6.weight"].T + self.w["mlp.6.bias"]).squeeze(-1)
-        return out + self.global_bias
+        return out + self.dish_bias_vec + self.global_bias
 
     # ── Main recommendation function ──────────────────────────────────────────
     def recommend(
@@ -230,21 +287,18 @@ class RecommendationEngine:
         preferred_dishes = set(preferred_dishes or [])
 
         # ── Encode profile side features ──────────────────────────────────────
-        top_cuisine = user_profile.get("cuisines", [self.all_cuisines[0]])[0]
+        cuisines = user_profile.get("cuisines") or [self.all_cuisines[0]]
+        top_cuisine = cuisines[0]
         if top_cuisine not in self.cuisine_enc.classes_:
             top_cuisine = self.all_cuisines[0]
-        skill  = user_profile.get("skill_level", "beginner")
-        goal   = user_profile.get("weight_goal", "maintain")
-        budget = user_profile.get("budget", "<$50")
+        skill = user_profile.get("skill_level", "beginner")
+        goal = user_profile.get("weight_goal", "maintain")
 
         cuisine_id = int(self.cuisine_enc.transform([top_cuisine])[0])
-        skill_id   = int(self.skill_enc.transform([skill])[0])
-        goal_id    = int(self.goal_enc.transform([goal])[0])
-        budget_id  = int(self.budget_enc.transform([budget])[0])
 
         # ── Score all dishes ──────────────────────────────────────────────────
         user_emb = self._user_embedding(user_profile, user_id)
-        scores = self._score_all_dishes(user_emb, cuisine_id, skill_id, goal_id, budget_id)
+        scores = self._score_all_dishes(user_emb, cuisine_id)
 
         # ── Hard filters + preference boosts (one pass over precomputed data) ──
         user_diet = set(user_profile.get("dietary_restrictions", []))
@@ -272,8 +326,16 @@ class RecommendationEngine:
             if name in excluded_dishes:
                 scores[i] = -np.inf
                 continue
-            # Remove dishes that violate dietary restrictions
-            if user_diet and any(r and r not in self._tag_sets[i] for r in user_diet):
+            # Only nominate dinner mains — no desserts, sides, appetizers, drinks
+            if not self._is_dinner[i]:
+                scores[i] = -np.inf
+                continue
+            # Remove dishes that violate dietary restrictions (tags + an
+            # ingredient-level safety net for mislabeled catalog data)
+            if user_diet and (
+                any(r and r not in self._tag_sets[i] for r in user_diet)
+                or diet_conflict(self._ingredient_words[i], user_diet)
+            ):
                 scores[i] = -np.inf
                 continue
             # Remove dishes too advanced for the user's skill level
@@ -283,6 +345,7 @@ class RecommendationEngine:
 
             # ── Preference boosts (make the pick feel personal pre-ratings) ───
             scores[i] += cuisine_affinity(self._cuisines[i], user_cuisines)
+            scores[i] += goal_calorie_bonus(goal, self._calorie_tiers[i])
             if available and ing_set:
                 scores[i] += INGREDIENT_MAX_BONUS * (len(available & ing_set) / len(ing_set))
             # Favor dishes we can show a real recipe for (better than a fallback)

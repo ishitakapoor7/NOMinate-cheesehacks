@@ -23,6 +23,7 @@ def _user_payload(user: User) -> dict:
         "id": user.id,
         "email": user.email,
         "username": user.username,
+        "avatar_url": user.avatar_url or "",
         "has_profile": user.profile is not None,
     }
 
@@ -95,6 +96,8 @@ def google_sign_in():
     sub = claims["sub"]
     email = (claims.get("email") or "").lower()
 
+    picture = claims.get("picture")
+
     user = User.query.filter_by(google_sub=sub).first()
     if not user and email:
         # Existing email/password account signing in with Google: link it.
@@ -108,9 +111,14 @@ def google_sign_in():
             email=email,
             username=claims.get("name") or email.split("@")[0],
             google_sub=sub,
+            avatar_url=picture,
             password_hash=None,
         )
         db.session.add(user)
+    elif picture and not user.avatar_url:
+        # Backfill the Google photo for a linked/returning user who has none,
+        # without clobbering an avatar they set themselves.
+        user.avatar_url = picture
     db.session.commit()
     return _auth_response(user)
 

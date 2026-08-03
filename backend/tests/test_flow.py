@@ -208,6 +208,31 @@ def test_comment_card_loved_it_is_strong_positive(client, auth_headers, fake_eng
     assert rating.source == "explicit_feedback" and rating.value == 5.0
 
 
+def test_only_dinner_mains_are_nominatable():
+    from ml.recommender import is_main_dish
+
+    assert is_main_dish("Beef") is True
+    assert is_main_dish("Vegetarian") is True
+    assert is_main_dish(float("nan")) is True  # unknown category isn't excluded
+    for junk in ("Dessert", "antipasti", "Side", "side dish", "Beverage", "Breakfast"):
+        assert is_main_dish(junk) is False
+
+
+def test_diet_conflict_catches_mislabeled_ingredients():
+    from ml.recommender import diet_conflict
+
+    # a "vegetarian" dish whose ingredients include fish must be rejected
+    assert diet_conflict({"rice", "noodles", "fish", "sauce"}, ["vegetarian"]) is True
+    assert diet_conflict({"tofu", "rice", "soy"}, ["vegetarian"]) is False
+    # pescatarians can have fish but not meat
+    assert diet_conflict({"salmon", "rice"}, ["pescatarian"]) is False
+    assert diet_conflict({"chicken", "rice"}, ["pescatarian"]) is True
+    # vegans exclude dairy and egg too
+    assert diet_conflict({"flour", "butter", "sugar"}, ["vegan"]) is True
+    assert diet_conflict({"lentils", "tomato"}, ["vegan"]) is False
+    assert diet_conflict({"anything"}, []) is False
+
+
 def test_pantry_match_is_whole_word_not_substring():
     from app.api.cooking import _is_available
 

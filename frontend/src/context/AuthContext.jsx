@@ -84,9 +84,18 @@ export function AuthProvider({ children }) {
     });
   }, []);
 
+  const patchUser = useCallback((fields) => {
+    setUser((current) => {
+      if (!current) return current;
+      const updated = { ...current, ...fields };
+      localStorage.setItem(USER_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
+
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, signup, googleSignIn, logout, markProfileComplete }}
+      value={{ user, loading, login, signup, googleSignIn, logout, markProfileComplete, patchUser }}
     >
       {children}
     </AuthContext.Provider>

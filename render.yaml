@@ -1,13 +1,7 @@
 # Render blueprint — https://render.com/docs/blueprint-spec
-# Deploys the Postgres database, Flask API, and React static frontend.
-# After the first deploy, set the two cross-service URLs in the dashboard
-# (see the notes marked "set after first deploy" below).
-
-databases:
-  - name: nominate-db
-    databaseName: nominate
-    user: nominate
-    plan: free
+# Deploys the Flask API and React static frontend. The database is an external
+# Neon Postgres (durable free tier — Render's free DB is deleted after ~30 days),
+# so DATABASE_URL is set manually in the dashboard (see below).
 
 services:
   # ── Flask API ──────────────────────────────────────────────────────────────
@@ -27,10 +21,11 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: "3.13.4"
+      # set in the dashboard → the Neon connection string
+      # (postgresql://…neon.tech/…?sslmode=require). config.py rewrites it to
+      # the psycopg driver automatically.
       - key: DATABASE_URL
-        fromDatabase:
-          name: nominate-db
-          property: connectionString
+        sync: false
       - key: SECRET_KEY
         generateValue: true
       - key: JWT_SECRET_KEY

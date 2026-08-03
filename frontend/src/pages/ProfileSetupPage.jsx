@@ -7,9 +7,9 @@ import NavBar from '../components/NavBar';
 // These match the dish catalog's cuisine names exactly so the recommender's
 // cuisine affinity can key off them. Every one has dishes in the catalog.
 const CUISINES = [
-  'Indian', 'Thai', 'Chinese', 'Japanese', 'Vietnamese', 'Filipino', 'Malaysian',
-  'Mexican', 'Jamaican', 'American', 'Italian', 'French', 'Spanish', 'Greek',
-  'Portuguese', 'Turkish', 'Moroccan', 'British', 'Irish',
+  'Italian', 'Mexican', 'American', 'Chinese', 'Indian', 'Thai', 'Japanese',
+  'Korean', 'Vietnamese', 'Greek', 'French', 'Spanish', 'Middle Eastern',
+  'Moroccan', 'Caribbean', 'British', 'Irish', 'German', 'Portuguese', 'Turkish',
 ];
 const DIETS = [
   { label: 'Vegetarian', value: 'vegetarian' },
@@ -122,8 +122,10 @@ function TagInput({ tags, onChange, placeholder }) {
 
 export default function ProfileSetupPage({ edit = false }) {
   const navigate = useNavigate();
-  const { markProfileComplete } = useAuth();
+  const { user, markProfileComplete, patchUser } = useAuth();
 
+  const [name, setName] = useState(user?.username || '');
+  const [avatarUrl, setAvatarUrl] = useState(user?.avatar_url || '');
   const [cuisines, setCuisines] = useState([]);
   const [diets, setDiets] = useState([]);
   const [allergies, setAllergies] = useState([]);
@@ -142,6 +144,8 @@ export default function ProfileSetupPage({ edit = false }) {
       .get('/api/profile')
       .then(({ data }) => {
         const p = data.profile;
+        if (p.name) setName(p.name);
+        setAvatarUrl(p.avatar_url || '');
         setCuisines(p.cuisines || []);
         setDiets(p.dietary_restrictions || []);
         setAllergies(p.allergies || []);
@@ -197,7 +201,9 @@ export default function ProfileSetupPage({ edit = false }) {
     setError('');
     setBusy(true);
     try {
-      await api.put('/api/profile', {
+      const { data } = await api.put('/api/profile', {
+        name,
+        avatar_url: avatarUrl,
         cuisines,
         dietary_restrictions: diets,
         allergies,
@@ -208,6 +214,7 @@ export default function ProfileSetupPage({ edit = false }) {
         location,
       });
       markProfileComplete();
+      patchUser({ username: data.profile.name, avatar_url: data.profile.avatar_url });
       navigate('/nominate');
     } catch (err) {
       setError(err.response?.data?.error || 'Could not save your profile. Try again.');
@@ -241,6 +248,44 @@ export default function ProfileSetupPage({ edit = false }) {
         )}
 
         <form onSubmit={handleSubmit} className="mt-12 flex flex-col gap-10">
+          <section className="flex flex-col gap-4">
+            <SectionLabel>ABOUT YOU</SectionLabel>
+            <div className="flex items-center gap-5">
+              <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-full border-2 border-ink bg-wash">
+                {avatarUrl ? (
+                  <img
+                    src={avatarUrl}
+                    alt=""
+                    className="h-full w-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                ) : (
+                  <span className="flex h-full w-full items-center justify-center font-display text-2xl uppercase text-gray">
+                    {(name || '?').trim().charAt(0)}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-grow flex-col gap-3">
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Your name"
+                  className="h-12 w-full border-2 border-ink px-4 text-base placeholder:text-gray/60"
+                />
+                <input
+                  type="url"
+                  value={avatarUrl}
+                  onChange={(e) => setAvatarUrl(e.target.value)}
+                  placeholder="Photo URL (optional)"
+                  className="h-12 w-full border-2 border-ink px-4 text-base placeholder:text-gray/60"
+                />
+              </div>
+            </div>
+          </section>
+
           <section className="flex flex-col gap-4">
             <SectionLabel>CUISINES YOU CRAVE</SectionLabel>
             <div className="flex flex-wrap gap-3">

@@ -15,7 +15,7 @@ export function Wordmark({ dark = false }) {
 }
 
 export default function NavBar() {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -24,8 +24,20 @@ export default function NavBar() {
         <Wordmark />
       </Link>
       <nav className="flex items-center gap-8 font-mono text-sm tracking-caps">
-        <Link to="/profile" className="text-ink hover:underline underline-offset-4">
-          MY PROFILE
+        <Link
+          to="/profile"
+          className="flex items-center gap-2.5 text-ink hover:underline underline-offset-4"
+        >
+          <span className="h-7 w-7 flex-shrink-0 overflow-hidden rounded-full border-2 border-ink bg-wash">
+            {user?.avatar_url ? (
+              <img src={user.avatar_url} alt="" className="h-full w-full object-cover" />
+            ) : (
+              <span className="flex h-full w-full items-center justify-center text-xs font-bold uppercase text-gray">
+                {(user?.username || '?').trim().charAt(0)}
+              </span>
+            )}
+          </span>
+          {user?.username ? user.username.toUpperCase() : 'MY PROFILE'}
         </Link>
         <button
           type="button"
