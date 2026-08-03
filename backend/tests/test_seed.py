@@ -11,7 +11,9 @@ def test_seed_is_idempotent(db):
     seed_dishes()
     assert Dish.query.count() == count_first
 
-    # Spot-check a known dish loaded with its fields.
-    dish = db.session.get(Dish, 0)
+    # Spot-check that dishes load with their fields (ids are assigned by the
+    # catalog build, so don't assume a specific one).
+    dish = Dish.query.order_by(Dish.id).first()
     assert dish is not None
     assert dish.dish_name
+    assert dish.cuisine
