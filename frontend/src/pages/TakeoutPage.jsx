@@ -100,7 +100,7 @@ export default function TakeoutPage() {
     <div className="flex min-h-screen flex-col">
       <NavBar />
 
-      <main className="flex-grow px-12 pb-16">
+      <main className="flex-grow px-5 pb-16 sm:px-8 lg:px-12">
         <div className="flex flex-wrap items-end justify-between gap-6 pt-10">
           <div>
             <p className="font-mono text-sm tracking-caps text-gray">
@@ -268,7 +268,7 @@ export default function TakeoutPage() {
         )}
       </main>
 
-      <footer className="flex items-center justify-between border-t-2 border-ink px-12 py-5 font-mono text-sm tracking-caps">
+      <footer className="flex items-center justify-between gap-4 border-t-2 border-ink px-5 py-5 font-mono text-xs tracking-caps sm:px-8 sm:text-sm lg:px-12">
         <Link to="/nominate" className="text-ink hover:underline underline-offset-4">
           ← BACK TO NOMINATION
         </Link>

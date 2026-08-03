@@ -80,7 +80,7 @@ export default function RecommendationPage() {
             <p className="font-mono text-sm tracking-caps text-ink">
               ★&ensp;TODAY&rsquo;S NOMINATION&ensp;★
             </p>
-            <h1 className="mt-6 max-w-[1200px] font-display uppercase leading-[0.95] text-ink text-[clamp(56px,9vw,140px)]">
+            <h1 className="mt-6 max-w-[1200px] break-words font-display uppercase leading-[0.95] text-ink text-[clamp(40px,9vw,140px)]">
               {dish.recommendation}
             </h1>
 
@@ -129,8 +129,8 @@ export default function RecommendationPage() {
         )}
       </main>
 
-      <footer className="flex items-center justify-between bg-ink px-12 py-4 font-mono text-sm tracking-caps text-paper">
-        <span>DAILY MEAL NOMINATIONS</span>
+      <footer className="flex items-center justify-between bg-ink px-5 py-4 font-mono text-xs tracking-caps text-paper sm:px-12 sm:text-sm">
+        <span className="hidden sm:inline">DAILY MEAL NOMINATIONS</span>
         <span>{todayLabel()}</span>
       </footer>
     </div>

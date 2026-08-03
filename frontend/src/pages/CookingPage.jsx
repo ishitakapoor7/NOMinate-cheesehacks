@@ -55,20 +55,20 @@ export default function CookingPage() {
     <div className="flex min-h-screen flex-col">
       <NavBar />
 
-      {error && <p className="px-12 py-10 text-red">{error}</p>}
+      {error && <p className="px-5 py-10 text-red sm:px-8 lg:px-12">{error}</p>}
 
       {!data && !error && (
-        <p className="px-12 py-10 font-mono text-sm tracking-caps text-gray">
+        <p className="px-5 py-10 font-mono text-sm tracking-caps text-gray sm:px-8 lg:px-12">
           SETTING THE TABLE…
         </p>
       )}
 
       {data && (
         <>
-          <section className="flex flex-wrap items-end justify-between gap-6 border-b-2 border-ink px-12 py-8">
+          <section className="flex flex-wrap items-end justify-between gap-6 border-b-2 border-ink px-5 py-8 sm:px-8 lg:px-12">
             <div>
               <p className="font-mono text-sm tracking-caps text-gray">COOKING TONIGHT</p>
-              <h1 className="mt-2 font-display text-[clamp(36px,4.5vw,60px)] uppercase leading-none text-ink">
+              <h1 className="mt-2 break-words font-display text-[clamp(30px,4.5vw,60px)] uppercase leading-none text-ink">
                 {data.dish}
               </h1>
             </div>
@@ -83,7 +83,7 @@ export default function CookingPage() {
           </section>
 
           <div className="flex flex-grow flex-col lg:flex-row">
-            <section className="flex flex-col gap-5 border-b-2 border-ink px-12 py-10 lg:w-[470px] lg:flex-shrink-0 lg:border-b-0 lg:border-r-2">
+            <section className="flex flex-col gap-5 border-b-2 border-ink px-5 py-10 sm:px-8 lg:w-[470px] lg:flex-shrink-0 lg:border-b-0 lg:border-r-2 lg:px-12">
               <p className="font-mono text-sm tracking-caps text-ink">
                 INGREDIENTS — {data.ingredients.length}
               </p>
@@ -111,7 +111,7 @@ export default function CookingPage() {
               )}
             </section>
 
-            <section className="flex flex-grow flex-col gap-8 px-12 py-10">
+            <section className="flex flex-grow flex-col gap-8 px-5 py-10 sm:px-8 lg:px-12">
               <p className="font-mono text-sm tracking-caps text-ink">
                 METHOD{recipe ? ` — ${recipe.steps.length} STEPS` : ''}
               </p>
@@ -157,7 +157,7 @@ export default function CookingPage() {
             </section>
           </div>
 
-          <footer className="flex items-center gap-8 border-t-2 border-ink px-12 py-7">
+          <footer className="flex flex-wrap items-center gap-4 border-t-2 border-ink px-5 py-7 sm:gap-8 sm:px-8 lg:px-12">
             <button
               type="button"
               onClick={() => navigate('/feedback')}
