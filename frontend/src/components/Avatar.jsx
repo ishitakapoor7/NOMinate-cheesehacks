@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 // Preset "pick an avatar" tiles, Netflix-style. The chosen avatar is stored as
 // its emoji (e.g. "taco"); Google sign-ins may instead store a photo URL, which
 // renders as an image. Anything else falls back to the person's initial.
@@ -19,15 +21,22 @@ export const AVATARS = [
 const isUrl = (v) => typeof v === 'string' && /^https?:\/\//.test(v);
 
 export function Avatar({ value, name, size = 28, className = '' }) {
+  // Track load failures so a broken photo URL (e.g. a Google DP that won't load)
+  // falls back to the initial instead of showing the browser's broken-image icon.
+  const [imgFailed, setImgFailed] = useState(false);
+  useEffect(() => setImgFailed(false), [value]);
+
   const px = `${size}px`;
   const base =
     'inline-flex flex-shrink-0 items-center justify-center rounded-full border-2 border-ink overflow-hidden';
 
-  if (isUrl(value)) {
+  if (isUrl(value) && !imgFailed) {
     return (
       <img
         src={value}
         alt=""
+        referrerPolicy="no-referrer"
+        onError={() => setImgFailed(true)}
         style={{ width: px, height: px }}
         className={`${base} object-cover ${className}`}
       />
