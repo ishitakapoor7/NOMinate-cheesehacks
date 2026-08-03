@@ -41,10 +41,13 @@ def profile_payload(profile: Profile, user: User) -> dict:
 @jwt_required()
 def get_profile():
     user_id = int(get_jwt_identity())
+    user = db.session.get(User, user_id)
+    if user is None:
+        return jsonify({"error": "Account not found. Please sign in again."}), 401
     profile = Profile.query.filter_by(user_id=user_id).first()
     if not profile:
         return jsonify({"error": "No profile found. Please complete profile setup."}), 404
-    return jsonify({"profile": profile_payload(profile, db.session.get(User, user_id))}), 200
+    return jsonify({"profile": profile_payload(profile, user)}), 200
 
 
 @bp.route("/profile", methods=["PUT", "POST"])
@@ -53,6 +56,10 @@ def upsert_profile():
     user_id = int(get_jwt_identity())
     data = request.get_json(silent=True) or {}
     user = db.session.get(User, user_id)
+    # The token can outlive its user (e.g. the database was reset/swapped) —
+    # don't 500, tell the client to re-authenticate.
+    if user is None:
+        return jsonify({"error": "Account not found. Please sign in again."}), 401
 
     profile = Profile.query.filter_by(user_id=user_id).first()
     created = profile is None

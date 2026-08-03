@@ -47,8 +47,13 @@ export function AuthProvider({ children }) {
         localStorage.setItem(USER_KEY, JSON.stringify(data.user));
         setUser(data.user);
       })
-      .catch(() => {})
+      .catch((err) => {
+        // The stored token references a user that no longer exists (e.g. the
+        // database was reset) — clear the dead session instead of trusting it.
+        if ([401, 404].includes(err.response?.status)) logout();
+      })
       .finally(() => setLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = useCallback(
