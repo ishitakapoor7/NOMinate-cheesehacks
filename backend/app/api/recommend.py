@@ -15,6 +15,7 @@ from sqlalchemy import func
 from app.extensions import db
 from app.models import Dish, Profile, Rating, Recipe, Recommendation
 from app.services import recommender
+from app.services.personalization import learned_affinity
 
 bp = Blueprint("recommend", __name__, url_prefix="/api")
 
@@ -73,6 +74,7 @@ def recommend():
             available_ingredients=profile.available_ingredients,
             excluded_dishes=_excluded_dish_names(user_id),
             preferred_dishes=_dishes_with_recipes(),
+            learned_affinity=learned_affinity(user_id),
             user_id=user_id,
         )
     except Exception:  # engine can fail on unseen categories, missing files

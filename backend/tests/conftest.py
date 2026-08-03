@@ -58,6 +58,7 @@ class FakeEngine:
             "available_ingredients": available_ingredients,
             "excluded_dishes": list(excluded_dishes or []),
             "preferred_dishes": list(kwargs.get("preferred_dishes") or []),
+            "learned_affinity": kwargs.get("learned_affinity"),
             "user_id": user_id,
         }
         excluded = set(excluded_dishes or [])

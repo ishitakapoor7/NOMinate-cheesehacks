@@ -11,6 +11,7 @@ against torch to ~1e-6): mlp([user, dish, user*dish, cuisine, skill, goal, budge
 ingredient_proj]) + global_bias. The per-user/per-dish bias terms are intentionally
 not added at serving time, mirroring the original engine.
 """
+import difflib
 import pickle
 
 import numpy as np
@@ -18,6 +19,38 @@ import numpy as np
 
 def _relu(x: np.ndarray) -> np.ndarray:
     return np.maximum(x, 0.0)
+
+
+# Canonical allergen vocabulary (FDA "big 9" plus the specific tree nuts and
+# shellfish people actually type). Free-text allergy entries are snapped to the
+# nearest of these before filtering, so a typo like "penut" still blocks peanuts.
+KNOWN_ALLERGENS = {
+    "peanut", "almond", "cashew", "walnut", "pecan", "hazelnut", "pistachio",
+    "macadamia", "tree nut", "shellfish", "shrimp", "prawn", "crab", "lobster",
+    "clam", "mussel", "oyster", "scallop", "fish", "egg", "milk", "dairy",
+    "soy", "wheat", "gluten", "sesame", "mustard", "coconut", "corn",
+}
+
+
+def normalize_allergens(terms) -> list[str]:
+    """Snap free-text allergy entries to the canonical vocabulary so typos still
+    trigger the (deliberately eager) allergen filter. Unknown terms with no close
+    match pass through unchanged — we never silently drop a user's allergen."""
+    if isinstance(terms, str):
+        terms = [t.strip() for t in terms.split(",")]
+    out: list[str] = []
+    for term in terms or []:
+        cleaned = str(term).strip().lower()
+        if not cleaned:
+            continue
+        if cleaned in KNOWN_ALLERGENS:
+            match = cleaned
+        else:
+            close = difflib.get_close_matches(cleaned, KNOWN_ALLERGENS, n=1, cutoff=0.8)
+            match = close[0] if close else cleaned
+        if match not in out:
+            out.append(match)
+    return out
 
 
 def matches_allergen(ingredient: str, allergen: str) -> bool:
@@ -116,6 +149,10 @@ CUISINE_MIN_BONUS = 0.8     # ...but a listed cuisine never drops below this
 INGREDIENT_MAX_BONUS = 1.5  # full bonus when the user already has every ingredient
 RECIPE_BONUS = 1.0          # nudge toward dishes we can show a real recipe for
 GOAL_CALORIE_BONUS = 0.5    # nudge dishes toward the user's weight goal via calorie tier
+# Online learning: how hard a user's own rating history steers tonight's pick.
+# Affinities are in [-1, 1], so these are the max swing from learned taste.
+LEARNED_CUISINE_WEIGHT = 1.2
+LEARNED_INGREDIENT_WEIGHT = 0.6
 
 
 def goal_calorie_bonus(weight_goal: str, calorie_tier: str) -> float:
@@ -275,6 +312,7 @@ class RecommendationEngine:
         excluded_dishes=None,
         user_id=None,
         preferred_dishes=None,
+        learned_affinity=None,
         top_k=5,
         rng=None,
     ):
@@ -302,13 +340,15 @@ class RecommendationEngine:
 
         # ── Hard filters + preference boosts (one pass over precomputed data) ──
         user_diet = set(user_profile.get("dietary_restrictions", []))
-        allergies = user_profile.get("allergies") or []
-        if isinstance(allergies, str):
-            allergies = [a.strip() for a in allergies.split(",") if a.strip()]
+        # Normalize here too, so any pre-existing un-normalized data is still caught.
+        allergies = normalize_allergens(user_profile.get("allergies") or [])
         skill_rank = {"beginner": 0, "intermediate": 1, "advanced": 2}
         user_skill_rank = skill_rank.get(skill, 0)
         user_cuisines = user_profile.get("cuisines", []) or []
         available = {ing.strip().lower() for ing in (available_ingredients or [])}
+        learned = learned_affinity or {}
+        learned_cuisines = learned.get("cuisines") or {}
+        learned_ingredients = learned.get("ingredients") or {}
 
         n = len(self.all_dish_ids)
         for i in range(n):
@@ -351,6 +391,17 @@ class RecommendationEngine:
             # Favor dishes we can show a real recipe for (better than a fallback)
             if name in preferred_dishes:
                 scores[i] += RECIPE_BONUS
+            # Online learning: nudge toward cuisines/ingredients this user's own
+            # rating history (including implicit cook/takeout signals) favors.
+            if learned_cuisines:
+                scores[i] += LEARNED_CUISINE_WEIGHT * learned_cuisines.get(
+                    self._cuisines[i].strip().lower(), 0.0
+                )
+            if learned_ingredients:
+                words = self._ingredient_words[i]
+                hits = [learned_ingredients[w] for w in words if w in learned_ingredients]
+                if hits:
+                    scores[i] += LEARNED_INGREDIENT_WEIGHT * (sum(hits) / len(hits))
 
         # ── Sample from the top K so repeat requests feel fresh ──────────────
         best_idx  = sample_top_k(scores, k=top_k, rng=rng)
