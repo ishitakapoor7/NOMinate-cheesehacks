@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../lib/api';
 import NavBar from '../components/NavBar';
+import TweakDrawer from '../components/TweakDrawer';
 
 function todayLabel() {
   return new Date()
@@ -15,6 +16,7 @@ export default function RecommendationPage() {
   const [dish, setDish] = useState(null);
   const [status, setStatus] = useState('loading'); // loading | ready | error
   const [error, setError] = useState('');
+  const [tweaking, setTweaking] = useState(false);
 
   const fetchNomination = useCallback(async () => {
     setStatus('loading');
@@ -109,25 +111,48 @@ export default function RecommendationPage() {
               </button>
             </div>
 
-            <button
-              type="button"
-              onClick={somethingElse}
-              className="mt-8 flex items-center gap-2 font-medium text-ink underline underline-offset-4 hover:text-gray"
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path
-                  d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 1.5v3h-3"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              Show me something else
-            </button>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+              <button
+                type="button"
+                onClick={somethingElse}
+                className="flex items-center gap-2 font-medium text-ink underline underline-offset-4 hover:text-gray"
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path
+                    d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 1.5v3h-3"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                Show me something else
+              </button>
+              <button
+                type="button"
+                onClick={() => setTweaking(true)}
+                className="flex items-center gap-2 font-medium text-ink underline underline-offset-4 hover:text-gray"
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path
+                    d="M2 4h9M2 8h5M2 12h9M13 3v3M9 7v3M13 11v3"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                Edit preferences
+              </button>
+            </div>
           </>
         )}
       </main>
+
+      <TweakDrawer
+        open={tweaking}
+        onClose={() => setTweaking(false)}
+        onApplied={fetchNomination}
+      />
 
       <footer className="flex items-center justify-between bg-ink px-5 py-4 font-mono text-xs tracking-caps text-paper sm:px-12 sm:text-sm">
         <span className="hidden sm:inline">DAILY MEAL NOMINATIONS</span>
