@@ -94,8 +94,8 @@ def test_takeout_returns_restaurants(app, client, auth_headers, fake_engine, db,
 
     seen = {}
 
-    def fake_search(dish, location, budget):
-        seen.update(dish=dish, location=location, budget=budget)
+    def fake_search(dish, location, budget, cuisine=None):
+        seen.update(dish=dish, location=location, budget=budget, cuisine=cuisine)
         return [{"name": "Curry House", "rating": 4.5, "price": "$$", "address": "123 State St"}]
 
     app.config["GOOGLE_PLACES_API_KEY"] = "test-key"
@@ -104,10 +104,12 @@ def test_takeout_returns_restaurants(app, client, auth_headers, fake_engine, db,
     resp = client.post("/api/takeout", headers=auth_headers)
     assert resp.status_code == 200
     assert resp.get_json()["restaurants"][0]["name"] == "Curry House"
+    # the dish's cuisine is what steers the search, not the quirky dish name
     assert seen == {
         "dish": "Chicken Tikka Masala",
         "location": "Madison, WI",
         "budget": "<$50",
+        "cuisine": "Indian",
     }
     assert Recommendation.query.one().action == "takeout"
     assert Rating.query.one().source == "takeout"
@@ -252,3 +254,61 @@ def test_feedback_after_cooking_keeps_cooked_action(client, auth_headers, fake_e
 
     client.post("/api/feedback", json={"feedback_reason": "Loved it"}, headers=auth_headers)
     assert Recommendation.query.one().action == "cooked"
+
+
+def test_normalize_allergens_fixes_typos():
+    from ml.recommender import matches_allergen, normalize_allergens
+
+    # typos snap to the canonical allergen so the eager filter still fires
+    assert normalize_allergens(["penut"]) == ["peanut"]
+    assert normalize_allergens(["Shellfsh", "glutn"]) == ["shellfish", "gluten"]
+    # already-clean and unknown-custom entries pass through, deduped/lowered
+    assert normalize_allergens(["Peanut", "peanut", "durian"]) == ["peanut", "durian"]
+    # the corrected value actually matches a real ingredient
+    corrected = normalize_allergens(["penut"])[0]
+    assert matches_allergen("peanut butter", corrected) is True
+
+
+def test_profile_save_normalizes_allergy_typos(client, auth_headers, db):
+    profile = {**PROFILE, "allergies": ["penut", "shellfsh"]}
+    resp = client.put("/api/profile", json=profile, headers=auth_headers)
+    assert resp.status_code == 201
+    # what's stored (and echoed back to the chips) is the corrected spelling
+    stored = client.get("/api/profile", headers=auth_headers).get_json()["profile"]
+    assert stored["allergies"] == ["peanut", "shellfish"]
+
+
+def test_learned_affinity_reflects_rating_history(client, auth_headers, fake_engine, db):
+    from app.models import Dish, User
+    from app.services.personalization import learned_affinity
+
+    user = User.query.first()
+    tikka = Dish.query.filter_by(dish_name="Chicken Tikka Masala").one()  # Indian
+    pizza = Dish.query.filter_by(dish_name="Margherita Pizza").one()  # Italian
+    db.session.add_all(
+        [
+            Rating(user_id=user.id, dish_id=tikka.id, value=5.0, source="cooked"),
+            Rating(user_id=user.id, dish_id=pizza.id, value=1.0, source="disliked"),
+        ]
+    )
+    db.session.commit()
+
+    aff = learned_affinity(user.id)
+    assert aff["cuisines"]["indian"] > 0  # cooked → liked
+    assert aff["cuisines"]["italian"] < 0  # disliked
+    assert aff["ingredients"]["chicken"] > 0  # ingredient-level signal too
+    # a user with no ratings behaves exactly as before (pure cold start)
+    assert learned_affinity(999999) == {"cuisines": {}, "ingredients": {}}
+
+
+def test_recommend_passes_learned_affinity_from_history(client, auth_headers, fake_engine, db):
+    _setup(client, auth_headers)
+    # first recommendation: no history yet, so nothing learned
+    client.get("/api/recommend", headers=auth_headers)
+    assert not fake_engine.last_call["learned_affinity"]["cuisines"]
+
+    # cooking writes an implicit 5.0 rating for the Indian dish...
+    client.post("/api/cooking", headers=auth_headers)
+    # ...which the next recommendation feeds back into the engine as learned taste
+    client.get("/api/recommend", headers=auth_headers)
+    assert fake_engine.last_call["learned_affinity"]["cuisines"]["indian"] > 0

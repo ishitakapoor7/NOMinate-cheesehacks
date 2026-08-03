@@ -70,6 +70,25 @@ def test_maps_places_fields_to_cards(app, monkeypatch):
     assert second["open_now"] is None
 
 
+def test_cuisine_anchors_the_query(app, monkeypatch):
+    app.config["GOOGLE_PLACES_API_KEY"] = "test-key"
+    captured = {}
+
+    def fake_post(url, json=None, headers=None, timeout=None):
+        captured.update(body=json)
+        return FakeResponse({"places": []})
+
+    monkeypatch.setattr(places_service.requests, "post", fake_post)
+
+    with app.test_request_context():
+        # a quirky dish name shouldn't leak into the search — cuisine anchors it
+        search_restaurants("Spicy Sprouts Pilaf Pressure Cooker", "Madison, WI",
+                           "<$50", cuisine="Indian")
+
+    assert captured["body"]["textQuery"] == "Indian restaurant in Madison, WI"
+    assert captured["body"]["includedType"] == "restaurant"
+
+
 def test_unknown_budget_sends_no_price_filter(app, monkeypatch):
     app.config["GOOGLE_PLACES_API_KEY"] = "test-key"
     captured = {}
