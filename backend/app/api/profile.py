@@ -4,6 +4,7 @@ from flask_jwt_extended import get_jwt_identity, jwt_required
 
 from app.extensions import db
 from app.models import Profile, User
+from ml.recommender import normalize_allergens
 
 bp = Blueprint("profile", __name__, url_prefix="/api")
 
@@ -69,7 +70,11 @@ def upsert_profile():
 
     for field in LIST_FIELDS:
         if field in data:
-            setattr(profile, field, _as_list(data[field]))
+            values = _as_list(data[field])
+            # Snap allergy typos to known allergens so the eager filter still fires.
+            if field == "allergies":
+                values = normalize_allergens(values)
+            setattr(profile, field, values)
     for field in SCALAR_FIELDS:
         if field in data:
             setattr(profile, field, str(data[field] or "").strip())

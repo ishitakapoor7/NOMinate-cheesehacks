@@ -4,35 +4,16 @@ import api from '../lib/api';
 import { useAuth } from '../context/AuthContext';
 import NavBar from '../components/NavBar';
 import { Avatar, AVATARS } from '../components/Avatar';
-
-// These match the dish catalog's cuisine names exactly so the recommender's
-// cuisine affinity can key off them. Every one has dishes in the catalog.
-const CUISINES = [
-  'Italian', 'Mexican', 'American', 'Chinese', 'Indian', 'Thai', 'Japanese',
-  'Korean', 'Vietnamese', 'Greek', 'French', 'Spanish', 'Middle Eastern',
-  'Moroccan', 'Caribbean', 'British', 'Irish', 'German', 'Portuguese', 'Turkish',
-];
-const DIETS = [
-  { label: 'Vegetarian', value: 'vegetarian' },
-  { label: 'Vegan', value: 'vegan' },
-  { label: 'Pescatarian', value: 'pescatarian' },
-  { label: 'Dairy-free', value: 'dairy-free' },
-];
-const SKILLS = [
-  { label: 'Beginner', value: 'beginner' },
-  { label: 'Home cook', value: 'intermediate' },
-  { label: 'Chef', value: 'advanced' },
-];
-const GOALS = [
-  { label: 'Comfort', value: 'weight_gain' },
-  { label: 'Balanced', value: 'maintain' },
-  { label: 'Light', value: 'weight_loss' },
-];
-const BUDGETS = [
-  { label: '$', value: '<$50' },
-  { label: '$$', value: '$50-$100' },
-  { label: '$$$', value: '$100-$200' },
-];
+import {
+  ALLERGEN_SUGGESTIONS,
+  CuisineRanker,
+  Chip,
+  DIETS,
+  GOALS,
+  SKILLS,
+  BUDGETS,
+  Segmented,
+} from '../components/tasteControls';
 
 function SectionLabel({ children, note, noteColor = 'text-gray' }) {
   return (
@@ -43,80 +24,99 @@ function SectionLabel({ children, note, noteColor = 'text-gray' }) {
   );
 }
 
-function Chip({ selected, onClick, children }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`rounded-full border-2 border-ink px-5 py-2.5 font-medium transition-colors ${
-        selected ? 'bg-ink text-paper' : 'bg-paper text-ink hover:bg-wash'
-      }`}
-    >
-      {children}
-    </button>
-  );
-}
-
-function Segmented({ options, value, onChange }) {
-  return (
-    <div className="flex w-fit border-2 border-ink">
-      {options.map((opt) => (
-        <button
-          key={opt.value}
-          type="button"
-          onClick={() => onChange(opt.value)}
-          className={`px-5 py-2.5 font-medium ${
-            value === opt.value ? 'bg-ink text-paper' : 'bg-paper text-ink hover:bg-wash'
-          }`}
-        >
-          {opt.label}
-        </button>
-      ))}
-    </div>
-  );
-}
-
-function TagInput({ tags, onChange, placeholder }) {
+function TagInput({ tags, onChange, placeholder, suggestions }) {
   const [draft, setDraft] = useState('');
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(-1);
 
-  function addDraft() {
-    const value = draft.trim().replace(/,$/, '');
-    if (value && !tags.includes(value)) onChange([...tags, value]);
+  const query = draft.trim().toLowerCase();
+  const filtered = suggestions
+    ? suggestions.filter((s) => !tags.includes(s) && s.toLowerCase().includes(query)).slice(0, 8)
+    : [];
+  const showList = Boolean(suggestions) && open && filtered.length > 0;
+
+  function add(value) {
+    const v = String(value ?? draft).trim().replace(/,$/, '');
+    if (v && !tags.includes(v)) onChange([...tags, v]);
     setDraft('');
+    setActive(-1);
+  }
+
+  function handleKeyDown(e) {
+    if (showList && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+      e.preventDefault();
+      const n = filtered.length;
+      setActive((i) => (e.key === 'ArrowDown' ? (i + 1) % n : (i - 1 + n) % n));
+      return;
+    }
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      add(showList && active >= 0 ? filtered[active] : draft);
+    } else if (e.key === 'Escape') {
+      setOpen(false);
+    }
   }
 
   return (
-    <div className="flex min-h-[64px] flex-wrap items-center gap-2 border-2 border-ink px-3 py-3">
-      {tags.map((tag) => (
-        <span
-          key={tag}
-          className="flex items-center gap-2 rounded-full border-2 border-ink px-3 py-1 text-sm font-medium"
-        >
-          {tag}
-          <button
-            type="button"
-            aria-label={`Remove ${tag}`}
-            onClick={() => onChange(tags.filter((t) => t !== tag))}
-            className="text-gray hover:text-ink"
+    <div className="relative">
+      <div className="flex min-h-[64px] flex-wrap items-center gap-2 border-2 border-ink px-3 py-3">
+        {tags.map((tag) => (
+          <span
+            key={tag}
+            className="flex items-center gap-2 rounded-full border-2 border-ink px-3 py-1 text-sm font-medium"
           >
-            ×
-          </button>
-        </span>
-      ))}
-      <input
-        type="text"
-        value={draft}
-        onChange={(e) => setDraft(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ',') {
-            e.preventDefault();
-            addDraft();
-          }
-        }}
-        onBlur={addDraft}
-        placeholder={tags.length ? '' : placeholder}
-        className="min-w-[200px] flex-grow px-1 py-1 text-base placeholder:text-gray/60 focus:outline-none"
-      />
+            {tag}
+            <button
+              type="button"
+              aria-label={`Remove ${tag}`}
+              onClick={() => onChange(tags.filter((t) => t !== tag))}
+              className="text-gray hover:text-ink"
+            >
+              ×
+            </button>
+          </span>
+        ))}
+        <input
+          type="text"
+          value={draft}
+          onChange={(e) => {
+            setDraft(e.target.value);
+            setOpen(true);
+            setActive(-1);
+          }}
+          onFocus={() => setOpen(true)}
+          onKeyDown={handleKeyDown}
+          onBlur={() => {
+            add(draft);
+            setOpen(false);
+          }}
+          placeholder={tags.length ? '' : placeholder}
+          className="min-w-[200px] flex-grow px-1 py-1 text-base placeholder:text-gray/60 focus:outline-none"
+        />
+      </div>
+
+      {showList && (
+        <ul className="absolute left-0 right-0 top-full z-20 mt-1 max-h-64 overflow-auto border-2 border-ink bg-paper shadow-sticker">
+          {filtered.map((s, i) => (
+            <li key={s}>
+              <button
+                type="button"
+                // preventDefault keeps the input from blurring before the click lands
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  add(s);
+                }}
+                onMouseEnter={() => setActive(i)}
+                className={`block w-full px-4 py-2.5 text-left capitalize ${
+                  i === active ? 'bg-ink text-paper' : 'text-ink hover:bg-wash'
+                }`}
+              >
+                {s}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
@@ -297,17 +297,7 @@ export default function ProfileSetupPage({ edit = false }) {
 
           <section className="flex flex-col gap-4">
             <SectionLabel>CUISINES YOU CRAVE</SectionLabel>
-            <div className="flex flex-wrap gap-3">
-              {CUISINES.map((cuisine) => (
-                <Chip
-                  key={cuisine}
-                  selected={cuisines.includes(cuisine)}
-                  onClick={() => toggle(cuisines, setCuisines, cuisine)}
-                >
-                  {cuisine}
-                </Chip>
-              ))}
-            </div>
+            <CuisineRanker value={cuisines} onChange={setCuisines} />
           </section>
 
           <section className="flex flex-col gap-4">
@@ -333,6 +323,7 @@ export default function ProfileSetupPage({ edit = false }) {
             <TagInput
               tags={allergies}
               onChange={setAllergies}
+              suggestions={ALLERGEN_SUGGESTIONS}
               placeholder="Type an allergy and press enter…"
             />
           </section>

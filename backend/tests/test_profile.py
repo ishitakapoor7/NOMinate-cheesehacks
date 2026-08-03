@@ -48,16 +48,18 @@ def test_get_returns_saved_profile(client, auth_headers):
     client.put("/api/profile", json=PROFILE, headers=auth_headers)
     resp = client.get("/api/profile", headers=auth_headers)
     assert resp.status_code == 200
-    assert resp.get_json()["profile"]["allergies"] == ["peanuts"]
+    # allergies are normalized to the canonical vocabulary ("peanuts" -> "peanut")
+    assert resp.get_json()["profile"]["allergies"] == ["peanut"]
 
 
 def test_comma_separated_strings_become_lists(client, auth_headers):
     resp = client.put(
         "/api/profile",
-        json={**PROFILE, "allergies": "peanuts, shellfish"},
+        json={**PROFILE, "available_ingredients": "rice, tomato"},
         headers=auth_headers,
     )
-    assert resp.get_json()["profile"]["allergies"] == ["peanuts", "shellfish"]
+    # non-allergy list fields split on commas without normalization
+    assert resp.get_json()["profile"]["available_ingredients"] == ["rice", "tomato"]
 
 
 def test_profile_persists_after_signup_flag(client, auth_headers):
