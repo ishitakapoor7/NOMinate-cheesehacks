@@ -39,7 +39,8 @@ def takeout():
 
     try:
         restaurants = search_restaurants(
-            rec.dish.dish_name, profile.location, profile.budget
+            rec.dish.dish_name, profile.location, profile.budget,
+            cuisine=rec.dish.cuisine,
         )
     except Exception:
         restaurants = []

@@ -60,16 +60,26 @@ def _to_card(place: dict) -> dict:
     }
 
 
+def _text_query(dish_name: str, cuisine: str | None, location: str) -> str:
+    """What to ask Google for. Quirky catalog dish names ("Spicy Sprouts Pilaf
+    Pressure Cooker") match restaurants loosely and pull in the wrong cuisine, so
+    we anchor the search on the dish's cuisine — that's what "order it out" means
+    for the diner. Falls back to the dish name when a cuisine isn't known."""
+    anchor = (cuisine or "").strip() or (dish_name or "").strip()
+    return f"{anchor} restaurant in {location}"
+
+
 def search_restaurants(dish_name: str, location: str, budget: str | None = None,
-                       max_results: int = 6) -> list[dict]:
-    """Restaurants serving ``dish_name`` near ``location``, best matches first.
+                       cuisine: str | None = None, max_results: int = 6) -> list[dict]:
+    """Restaurants near ``location`` matching the dish's cuisine, best first.
 
     Raises requests.RequestException / ValueError upward — the route decides
     how to degrade.
     """
     api_key = current_app.config["GOOGLE_PLACES_API_KEY"]
     body = {
-        "textQuery": f"{dish_name} restaurant in {location}",
+        "textQuery": _text_query(dish_name, cuisine, location),
+        "includedType": "restaurant",
         "pageSize": max_results,
     }
     price_levels = BUDGET_PRICE_LEVELS.get(budget or "")
