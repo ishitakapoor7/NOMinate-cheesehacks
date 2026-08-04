@@ -57,7 +57,7 @@ export default function RecommendationPage() {
     <div className="flex min-h-screen flex-col">
       <NavBar />
 
-      <main className="flex flex-grow flex-col items-center justify-center px-6 text-center">
+      <main className="flex flex-grow flex-col items-center justify-center px-6 py-12 text-center sm:py-16">
         {status === 'loading' && (
           <p className="font-mono text-sm tracking-caps text-gray">
             PICKING TONIGHT&rsquo;S DISH…
@@ -82,7 +82,7 @@ export default function RecommendationPage() {
             <p className="font-mono text-sm tracking-caps text-ink">
               ★&ensp;TODAY&rsquo;S NOMINATION&ensp;★
             </p>
-            <h1 className="mt-6 max-w-[1200px] break-words font-display uppercase leading-[0.95] text-ink text-[clamp(40px,9vw,140px)]">
+            <h1 className="mt-6 max-w-[1100px] break-words font-display uppercase leading-[0.95] text-ink text-[clamp(36px,7vw,104px)]">
               {dish.recommendation}
             </h1>
 
