@@ -2,22 +2,35 @@
 
 [![CI](https://github.com/ishitakapoor7/NOMinate-cheesehacks/actions/workflows/ci.yml/badge.svg)](https://github.com/ishitakapoor7/NOMinate-cheesehacks/actions/workflows/ci.yml)
 
-**One dish a day, nominated for you.** NOMinate learns what you like to eat, nominates a single dish each day, and then helps you follow through — pull up a real recipe to cook it, or find restaurants nearby that serve it. No endless scrolling, no decision fatigue: one good idea, then the resources to act on it.
+![NOMinate — one dish a day, nominated for you](frontend/public/og-image.png)
 
-Originally a CheeseHacks project, since rebuilt into a full-stack app with persistent accounts, a trained recommender, and live recipe and restaurant data.
+**One dish a day, nominated for you.** NOMinate ends the nightly "what's for dinner?" spiral: it learns your taste, nominates a single dish each day, and then helps you follow through — pull up a real recipe to cook it, or find restaurants nearby that serve it. No endless scrolling, no decision fatigue. One good idea, then the resources to act on it.
+
+### ▶︎ [Try it live → nominate-web.onrender.com](https://nominate-web.onrender.com)
+
+*Sign up with an email or Google, set your taste profile, and get tonight's nomination. (Hosted on a free tier — the first request after it's been idle takes a few seconds to wake.)*
 
 ---
 
 ## How it works
 
-1. **Tell it how you eat** — cuisines you crave, dietary needs, allergies, kitchen skill, budget, what's in your pantry, and your location.
-2. **Get your nomination** — a hybrid PyTorch recommender scores the dish catalog against your taste, hard-filters anything unsafe or off-diet, and picks one dish (with enough variety that repeat visits stay fresh).
-3. **Cook it or order it** — "Cook it tonight" shows a real recipe (steps + quantities, fetched from Spoonacular and cached), with a checklist that highlights what you already have. "Order it out" surfaces nearby restaurants from Google Places with ratings, price, hours, and directions.
-4. **Rate it** — your feedback (loved it → never again) feeds back into the model, so tomorrow's nomination gets smarter.
+1. **Tell it how you eat** — rank the cuisines you crave, set dietary needs and allergies, your kitchen skill, an eating goal, and what's already in your pantry.
+2. **Get tonight's nomination** — a hybrid recommender scores the whole catalog against your taste, hard-filters anything unsafe or off-diet, and picks one dish — with enough variety that repeat visits stay fresh.
+3. **Cook it or order it** — **Cook it tonight** shows a real recipe with steps and quantities, plus a checklist that highlights what you already have. **Order it out** surfaces nearby restaurants matched to the dish's cuisine, with ratings, price, hours, and directions.
+4. **It learns you** — every signal (loved it → never again, and implicit ones like cooking or ordering a dish) sharpens the next nomination.
 
-### A note on the recommender
+---
 
-The recommender is a hybrid model: learned user/dish embeddings (collaborative filtering) combined with content features — cuisine, skill, goal, budget, and an ingredient multi-hot. It's trained on a synthetic ratings dataset so it works from a cold start, and real ratings blend in on retrain as users accumulate them. Cuisine preference and pantry availability are applied as scoring boosts at inference time, while allergens, diets, and skill are enforced as hard filters. The dish catalog is a bounded set — a deliberate choice, since learning taste over time needs a fixed item vocabulary — seeded from TheMealDB and deepened per-cuisine from Spoonacular.
+## Inside the recommender
+
+The heart of NOMinate is a **hybrid recommendation model** trained in PyTorch: collaborative-filtering user/dish embeddings fused with content features (cuisine + an ingredient multi-hot). It's trained on **~42,000 real ratings across a 3,370-dish catalog** (20+ cuisines) drawn from the [Food.com](https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactions) dataset — every dish is a real recipe with real steps and ingredients.
+
+A few design decisions worth calling out:
+
+- **Torch-free serving.** The model trains in PyTorch offline, but the trained weights are exported and inference runs in **pure NumPy** (verified to match PyTorch within ~1e-6). That keeps the production server small and cold-starts fast — no multi-hundred-MB torch dependency in the request path.
+- **Safety is a hard filter, not a suggestion.** Allergens, dietary restrictions, skill level, and "is this actually a dinner main" are enforced as hard filters that remove a dish entirely — with **typo-tolerant allergen matching** (type "penut", it still blocks peanuts). Taste preferences (ranked cuisines, pantry overlap, calorie goal) are applied as scoring boosts on top.
+- **It learns over time — two ways.** A live per-user affinity layer turns your in-app behavior (cooked / ordered / skipped) into cuisine and ingredient boosts on every request, so it adapts immediately. Separately, those accumulated ratings fold back into a full retrain, so returning users get a genuinely learned embedding instead of a cold-start average.
+- **Honest heuristics for the rest.** Skill is derived from a recipe's step count, budget from restaurant price tiers, and eating goal from a dish's calorie tier — real signals from the data rather than features faked onto the user.
 
 ---
 
@@ -29,130 +42,38 @@ The recommender is a hybrid model: learned user/dish embeddings (collaborative f
 | Backend | Flask (app factory + blueprints), SQLAlchemy, Alembic |
 | Auth | JWT (access + refresh) with Google Sign-In |
 | Database | PostgreSQL |
-| ML | PyTorch, pandas, scikit-learn |
-| External APIs | Spoonacular (recipes), Google Places (restaurants), Google OAuth |
+| ML | PyTorch (training), NumPy (serving), pandas, scikit-learn |
+| External APIs | Google Places (restaurants), Google OAuth |
 
 ---
 
-## Repository layout
+## Architecture
 
 ```
 backend/
-  app/            Flask application (app factory, config, extensions)
+  app/
     auth/         signup / login / Google / JWT refresh
     api/          profile, recommend, cooking, takeout, feedback
     models/       SQLAlchemy models
-    services/     recommender engine, retraining, recipes, places
-  ml/             training pipeline, dataset generation, checkpoints
+    services/     recommender engine, personalization, retraining, recipes, places
+  ml/             training pipeline, Food.com ingest, model, NumPy inference, checkpoints
   migrations/     Alembic migrations
   tests/          pytest suite
-  seed.py         load the dish catalog into Postgres
-  wsgi.py         app entrypoint
 frontend/
   src/
-    pages/        the seven screens
-    components/   nav, brand panel, route guards, Google button
+    pages/        the seven screens (auth, profile, nomination, cooking, takeout, feedback)
+    components/   nav, avatar, taste controls, route guards, Google button
     context/      AuthContext (session + tokens)
-    lib/          axios client with token refresh
-docker-compose.yml   Postgres for local dev
+    lib/          axios client with automatic token refresh
 ```
+
+The Flask API and the React app are deployed as separate services, backed by managed Postgres. Trained model checkpoints are committed, so the app serves recommendations out of the box.
 
 ---
 
-## Getting started
+## Quality
 
-### Prerequisites
-
-- Python 3.11+
-- Node 18+
-- Docker (for Postgres), or a local Postgres you point `DATABASE_URL` at
-
-### 1. Database
-
-```bash
-docker compose up -d db
-```
-
-### 2. Backend
-
-```bash
-python -m venv venv && source venv/bin/activate
-pip install -r backend/requirements.txt
-
-# configure — copy the example and fill in secrets/keys
-cp backend/.env.example backend/.env
-
-cd backend
-flask --app wsgi db upgrade    # create the schema
-python seed.py                 # load the dish catalog
-flask --app wsgi run --port 5001
-```
-
-### 3. Frontend
-
-```bash
-cd frontend
-npm install
-cp .env.example .env.local     # set VITE_API_URL and (optionally) VITE_GOOGLE_CLIENT_ID
-npm run dev                     # http://localhost:5173
-```
-
-Email/password signup works with no external keys. Google Sign-In, recipes, and restaurant search each light up once their key is set (see below); until then those features degrade gracefully.
-
-### Environment variables
-
-Backend (`backend/.env`):
-
-| Variable | Purpose |
-|----------|---------|
-| `SECRET_KEY`, `JWT_SECRET_KEY` | Flask / JWT signing secrets |
-| `DATABASE_URL`, `TEST_DATABASE_URL` | Postgres connection strings |
-| `CORS_ORIGINS` | Allowed frontend origins |
-| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Google OAuth |
-| `GOOGLE_PLACES_API_KEY` | Restaurant search (Places API New, billing enabled) |
-| `SPOONACULAR_API_KEY` | Recipes ([free tier](https://spoonacular.com/food-api)) |
-
-Frontend (`frontend/.env.local`): `VITE_API_URL`, `VITE_GOOGLE_CLIENT_ID`.
-
----
-
-## Testing
-
-```bash
-cd backend
-pytest
-```
-
-CI (GitHub Actions, `.github/workflows/ci.yml`) runs the backend test suite against a Postgres service and builds the frontend on every push and pull request to `main`.
-
----
-
-## Deployment
-
-`render.yaml` is a [Render blueprint](https://render.com/docs/blueprint-spec) that provisions the Postgres database, the Flask API (gunicorn), and the React static site in one go. Point a new Render Blueprint at this repo, then after the first deploy set the cross-service URLs and API keys in the dashboard:
-
-- **API** (`nominate-api`): `CORS_ORIGINS` → the frontend URL, plus `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`, `GOOGLE_PLACES_API_KEY`, and `SPOONACULAR_API_KEY`. `SECRET_KEY` and `JWT_SECRET_KEY` are generated automatically; `DATABASE_URL` is wired from the database.
-- **Web** (`nominate-web`): `VITE_API_URL` → the API URL, and `VITE_GOOGLE_CLIENT_ID` if using Google Sign-In.
-
-Database migrations and catalog seeding run automatically on each deploy (both are idempotent). Note that the API pulls in PyTorch, so it needs an instance with enough memory to load the model.
-
----
-
-## Working with the model
-
-The trained checkpoints are committed, so the app runs out of the box. To rebuild or extend:
-
-```bash
-cd backend
-
-# deepen underserved cuisines from Spoonacular, then regenerate ratings
-python -m ml.expand_catalog
-
-# retrain the base model over ml/data/
-cd ml && python train.py
-```
-
-`ml/generate_dataset.py` builds the synthetic users/dishes/ratings from scratch; `ml/expand_catalog.py` adds per-cuisine depth from Spoonacular. After changing the catalog, re-run `python seed.py` and restart the backend so it loads the new checkpoints.
+The backend suite (80+ tests) and a production frontend build run in **CI on every push and pull request** to `main` (badge above). Tests cover the full flow — auth, profile, recommendation filtering and boosts, the allergen/diet safety nets, the learning layer, and the recipe/restaurant integrations (external APIs mocked).
 
 ---
 
@@ -167,3 +88,7 @@ cd ml && python train.py
 | `POST` | `/api/cooking` | Recipe + ingredient checklist |
 | `POST` / `GET` | `/api/takeout`, `/api/takeout/photo` | Nearby restaurants |
 | `POST` | `/api/feedback` | Rate the nomination |
+
+---
+
+<sub>Started at CheeseHacks, since rebuilt into a full-stack product with persistent accounts, a recommender trained on real data, and live restaurant search.</sub>
